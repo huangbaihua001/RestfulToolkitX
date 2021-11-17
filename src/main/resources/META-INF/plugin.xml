@@ -1,18 +1,201 @@
 <!-- Plugin Configuration File. Read more: https://plugins.jetbrains.com/docs/intellij/plugin-configuration-file.html -->
 <idea-plugin>
-    <id>com.github.huangbaihua001.restfultoolkit</id>
-    <name>restful-toolkit</name>
-    <vendor>huangbaihua001</vendor>
+    <id>jiux.net.plugin.restful.toolkit</id>
+    <name>RestfulToolkit</name>
+    <vendor>jiux.net</vendor>
+
+    <description><![CDATA[
+  <h3>A toolkit for RESTful services development.</h3>
+  <ul>
+   <li>1.ONE STEP to navigate to service declaration. ( use: Ctrl + \ or Ctrl + Alt + N ) </li>
+   <li>2.Show RESTful services structure.</li>
+   <li>3.A simple http request tool.</li>
+   <li>4.Add some useful functions at request method, Generate&amp;Copy Query Param, Generate&amp;Copy URL, etc. </li>
+   <li>5.Other functions: Convert to JSON; to java class，format json data <em>( Windows: Ctrl + Enter; Mac: Command + Enter ) .</li>
+ </ul>
+   <p> support Spring framework (Spring MVC / Spring Boot)
+   <p> support JAX-RS
+   <p> support Java and Kotlin languages
+
+  <hr />
+  <h3>一套 RESTful 服务开发辅助工具集。</h3>
+  <ul>
+   <li>1.根据 URL 直接跳转到对应的方法定义 ( Ctrl \ or Ctrl Alt N ); </li>
+   <li>2.提供了一个 Services tree 的显示窗口; </li>
+   <li>3.一个简单的 http 请求工具;</li>
+   <li>4.在请求方法上添加了有用功能: <em>复制生成 URL</em>;,<em>复制方法参数</em>... </li>
+   <li>5.其他功能: java 类上添加 <em>Convert to JSON</em> 功能，<em>格式化 json 数据</em> ( <em>Windows: Ctrl + Enter; Mac: Command + Enter</em> )。</li>
+</ul>
+   <p>支持 Spring 体系 (Spring MVC / Spring Boot)
+   <p>支持 JAX-RS
+   <p>支持 Java 和 Kotlin 语言。
+    ]]></description>
+
+    <change-notes><![CDATA[
+     <li>1.0.0 从 https://github.com/mrmanzhaow/RestfulToolkit fork 而来 </li>
+    ]]>
+    </change-notes>
 
     <depends>com.intellij.modules.platform</depends>
+    <depends>com.intellij.java</depends>
+    <depends>com.intellij.modules.lang</depends>
+    <depends>com.intellij.properties</depends>
+    <depends>org.jetbrains.plugins.yaml</depends>
+    <depends>org.jetbrains.kotlin</depends>
 
     <extensions defaultExtensionNs="com.intellij">
-        <applicationService serviceImplementation="com.github.huangbaihua001.restfultoolkit.services.MyApplicationService"/>
-        <projectService serviceImplementation="com.github.huangbaihua001.restfultoolkit.services.MyProjectService"/>
+        <applicationService
+                serviceImplementation="jiux.net.services.MyApplicationService"/>
+        <projectService serviceImplementation="jiux.net.services.MyProjectService"/>
     </extensions>
 
     <applicationListeners>
-        <listener class="com.github.huangbaihua001.restfultoolkit.listeners.MyProjectManagerListener"
+        <listener class="jiux.net.listeners.MyProjectManagerListener"
                   topic="com.intellij.openapi.project.ProjectManagerListener"/>
     </applicationListeners>
+
+
+    <project-components>
+        <component>
+            <implementation-class>jiux.net.plugin.restful.navigator.RestServicesNavigator</implementation-class>
+        </component>
+        <component>
+            <implementation-class>jiux.net.plugin.restful.navigator.RestServiceProjectsManager</implementation-class>
+        </component>
+        <!--        <component>
+                    <implementation-class>com.zhaow.restful.navigation.action.GotoRequestMappingConfiguration</implementation-class>
+                </component>-->
+        <component>
+            <implementation-class>jiux.net.plugin.restful.navigator.RestServiceDetail</implementation-class>
+        </component>
+    </project-components>
+    <extensions defaultExtensionNs="com.intellij">
+        <projectService
+                serviceImplementation="jiux.net.plugin.restful.navigation.action.GotoRequestMappingConfiguration"/>
+        <!-- Add your extensions here -->
+        <productivityFeaturesProvider
+                implementation="jiux.net.plugin.restful.statistics.RestfulToolkitFeaturesProvider"/>
+        <tipAndTrick feature-id="navigation.popup.service" file="GotoService.html"/>
+    </extensions>
+
+    <application-components>
+        <!-- Add your application components here -->
+    </application-components>
+    <actions>
+        <action id="Popup.PopupChoiceAction"
+                class="jiux.net.plugin.restful.popup.action.PopupChoiceAction"
+                text="Popup RESTful Toolkit ..."
+                description="Popup RESTful Toolkit ...">
+            <add-to-group group-id="EditMenu" anchor="last"/>
+            <keyboard-shortcut keymap="$default" first-keystroke="alt shift R"/>
+        </action>
+
+        <!--在controller method 中添加 RestfulToolkit 弹出操作，generate rest url、generate rest url with Possibly params （添加可能的参数，解析实体，@RequestBody）、gen json、
+        gen key value for postman(postman 参数bulk edit)、 gen key value for apiview submit -->
+        <!--rest 方法中添加-->
+        <group id="RestfulToolkitGroup" text="RestfulToolkit"
+               description="RESTful Toolkit actions for rest method group"
+        >
+            <!--<add-to-group group-id="EditorPopupMenu" anchor="first"/>-->
+            <action class="jiux.net.plugin.restful.method.action.GenerateFullUrlAction" id="GenerateFullRestUrl"
+                    text="Generate &amp;&amp; Copy Full URL">
+                <add-to-group group-id="EditorPopupMenu" anchor="first"/>
+            </action>
+            <action class="jiux.net.plugin.restful.method.action.GenerateUrlAction" id="GenerateRestUrl"
+                    text="Generate &amp;&amp; Copy Relation URL">
+                <add-to-group group-id="EditorPopupMenu" anchor="first"/>
+            </action>
+            <action class="jiux.net.plugin.restful.method.action.GenerateQueryParamJsonAction"
+                    id="GenerateRequestBodyJson"
+                    text="Generate &amp;&amp; Copy RequestBody (JSON)">
+                <add-to-group group-id="EditorPopupMenu" anchor="first"/>
+            </action>
+            <action class="jiux.net.plugin.restful.method.action.GenerateQueryParamAction" id="BuildQueryParam"
+                    text="Generate &amp;&amp; Copy Query Param (Key Value)">
+                <add-to-group group-id="EditorPopupMenu" anchor="first"/>
+            </action>
+            <!--jaxrs-->
+
+        </group>
+
+
+        <group id="RestfulToolkit.RestMethod.EditorPopupMenu" text="RESTful Toolkit"
+               description="RESTful Toolkit"
+               popup="false">
+            <!--<add-to-group group-id="EditorPopupMenu" anchor="last" relative-to-action="EditorToggleColumnMode"/>-->
+            <add-to-group group-id="EditorPopupMenu" anchor="first"/>
+            <!--<reference ref="GenerateRestUrl"/>-->
+        </group>
+
+
+        <!--实体中添加 gen json、
+        gen key value for postman( postman 参数 bulk edit )-->
+
+
+        <!--跳转导航： 根据rest url 导航 参考 request mapper  ( Enter mapping url ) 快捷键用 ctl alt n -->
+
+        <!-- show services -->
+        <action id="ConvertClassToJSONAction" class="jiux.net.plugin.restful.action.ConvertClassToJSONAction"
+                text="Convert to JSON" description="Convert to JSON">
+            <add-to-group group-id="EditorPopupMenu" anchor="first"/>
+        </action>
+        <action id="ConvertClassToJSONCompressedAction"
+                class="jiux.net.plugin.restful.action.ConvertClassToJSONCompressedAction"
+                text="Convert to JSON (Compressed)"
+                description="Convert to JSON (Compressed)">
+            <add-to-group group-id="EditorPopupMenu" anchor="first"/>
+        </action>
+
+        <!-- url 导航 -->
+        <action id="Toolkit.GotoService" class="jiux.net.plugin.restful.navigation.action.GotoRequestMappingAction"
+                text="_Service" description="Go to Service"
+                icon="AllIcons.Actions.Search">
+            <add-to-group group-id="GoToTargetEx" anchor="first"/>
+            <keyboard-shortcut keymap="$default" first-keystroke="ctrl BACK_SLASH"/>
+            <keyboard-shortcut keymap="$default" first-keystroke="ctrl alt N"/>
+        </action>
+
+        <!--code gen-->
+        <!--
+              <action class="com.zhaow.restful.codegen.SpringBootGenerator" id="CodeGen"
+                      text="SpringBoot Generator"
+                      description="SpringBoot Generator">
+                  <add-to-group group-id="GenerateGroup" anchor="first"/>
+              </action>
+        -->
+
+        <!--刷新-->
+        <action id="Toolkit.RefreshServices" class="jiux.net.plugin.restful.navigator.RefreshProjectAction"
+                text="Refresh Services in Project"
+                icon="AllIcons.Actions.Refresh">
+        </action>
+
+        <group id="Toolkit.NavigatorActionsToolbar">
+            <reference id="Toolkit.RefreshServices"/>
+            <separator/>
+            <reference id="Toolkit.GotoService"/>
+            <separator/>
+        </group>
+
+        <group id="Toolkit.NavigatorServiceMenu">
+            <action id="Menu.CopyFullUrlAction" class="jiux.net.plugin.restful.navigator.CopyFullUrlAction"
+                    text="Copy Full Url"
+                    icon="AllIcons.Actions.Copy">
+            </action>
+            <action id="Menu.EditSourceAction" class="jiux.net.plugin.restful.navigator.EditSourceAction"
+                    text="Jump to Source"
+                    icon="AllIcons.Actions.EditSource">
+            </action>
+            <separator/>
+        </group>
+
+        <!--      <action id="SpringBootAppRunnerAction" class="com.zhaow.restful.runner.SpringBootAppRunnerAction" text="SpringBootAppRunnerAction"
+                      description="SpringBootAppRunnerAction">
+                  &lt;!&ndash;<add-to-group group-id="RunnerActions" anchor="after" relative-to-action=""/>&ndash;&gt;
+                  <add-to-group group-id="NewGroup" anchor="after" relative-to-action="NewDir"/>
+              </action>
+              -->
+
+    </actions>
+
 </idea-plugin>
