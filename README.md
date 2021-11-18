@@ -1,26 +1,19 @@
 # Restful Toolkit For Intellij IDEA
 
 ![Build](https://github.com/huangbaihua001/restful-toolkit/workflows/Build/badge.svg)
-[![Version](https://img.shields.io/jetbrains/plugin/v/PLUGIN_ID.svg)](https://plugins.jetbrains.com/plugin/PLUGIN_ID)
-[![Downloads](https://img.shields.io/jetbrains/plugin/d/PLUGIN_ID.svg)](https://plugins.jetbrains.com/plugin/PLUGIN_ID)
+[![Version](https://img.shields.io/jetbrains/plugin/v/PLUGIN_ID.svg)](https://plugins.jetbrains.com/plugin/jiux.net.plugin.restful.toolkit)
+[![Downloads](https://img.shields.io/jetbrains/plugin/d/PLUGIN_ID.svg)](https://plugins.jetbrains.com/plugin/jiux.net.plugin.restful.toolkit)
 
-## Template ToDo list
-- [x] Create a new [IntelliJ Platform Plugin Template][template] project.
-- [ ] Get known with the [template documentation][template].
-- [ ] Verify the [pluginGroup](/gradle.properties), [plugin ID](/src/main/resources/META-INF/plugin.xml) and [sources package](/src/main/kotlin).
-- [ ] Review the [Legal Agreements](https://plugins.jetbrains.com/docs/marketplace/legal-agreements.html).
-- [ ] [Publish a plugin manually](https://plugins.jetbrains.com/docs/intellij/publishing-plugin.html?from=IJPluginTemplate) for the first time.
-- [ ] Set the Plugin ID in the above README badges.
-- [ ] Set the [Deployment Token](https://plugins.jetbrains.com/docs/marketplace/plugin-upload.html).
-- [ ] Click the <kbd>Watch</kbd> button on the top of the [IntelliJ Platform Plugin Template][template] to be notified about releases containing new features and fixes.
+## Feature list
+- [x] Base on [IntelliJ Platform Plugin Template][template], support Java 8+, IDEA 2020.2+.
+- [x] Enter the URL to navigate to service declaration. ( use: Ctrl + \ or Ctrl + Alt + N ) .
+- [x] Show Restful services structure.
+- [x] A simple http request tool.
+- [x] Generate&Copy Query Param, Generate&Copy URL on the request method.
+- [x] Adding functionality to a java class: Convert to JSON; format json data <em>( Windows: Ctrl + Enter; Mac: Command + Enter ) .
+- [ ] Other useful features, Stay tuned... ^_^
 
-<!-- Plugin description -->
-This Fancy IntelliJ Platform Plugin is going to be your implementation of the brilliant ideas that you have.
 
-This specific section is a source for the [plugin.xml](/src/main/resources/META-INF/plugin.xml) file which will be extracted by the [Gradle](/build.gradle.kts) during the build process.
-
-To keep everything working, do not remove `<!-- ... -->` sections. 
-<!-- Plugin description end -->
 
 ## Installation
 
@@ -36,6 +29,7 @@ To keep everything working, do not remove `<!-- ... -->` sections.
 
 
 ---
-Plugin based on the [IntelliJ Platform Plugin Template][template].
+Plugin based on the [IntelliJ Platform Plugin Template][template], [RestfulToolkit][RestfulToolkit]
 
 [template]: https://github.com/JetBrains/intellij-platform-plugin-template
+[RestfulToolkit]: https://github.com/mrmanzhaow/RestfulToolkit
