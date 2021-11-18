@@ -1,1 +1,1 @@
-rootProject.name = "restful-toolkit"
+rootProject.name = "RestfulToolkit"
