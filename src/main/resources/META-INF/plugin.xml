@@ -30,7 +30,7 @@
             <implementation-class>jiux.net.plugin.restful.navigator.RestServiceProjectsManager</implementation-class>
         </component>
         <!--        <component>
-                    <implementation-class>com.zhaow.restful.navigation.action.GotoRequestMappingConfiguration</implementation-class>
+                    <implementation-class>jiux.net.plugin.restful.navigation.action.GotoRequestMappingConfiguration</implementation-class>
                 </component>-->
         <component>
             <implementation-class>jiux.net.plugin.restful.navigator.RestServiceDetail</implementation-class>
@@ -122,14 +122,6 @@
             <keyboard-shortcut keymap="$default" first-keystroke="ctrl alt N"/>
         </action>
 
-        <!--code gen-->
-        <!--
-              <action class="com.zhaow.restful.codegen.SpringBootGenerator" id="CodeGen"
-                      text="SpringBoot Generator"
-                      description="SpringBoot Generator">
-                  <add-to-group group-id="GenerateGroup" anchor="first"/>
-              </action>
-        -->
 
         <!--刷新-->
         <action id="Toolkit.RefreshServices" class="jiux.net.plugin.restful.navigator.RefreshProjectAction"
@@ -156,12 +148,6 @@
             <separator/>
         </group>
 
-        <!--      <action id="SpringBootAppRunnerAction" class="com.zhaow.restful.runner.SpringBootAppRunnerAction" text="SpringBootAppRunnerAction"
-                      description="SpringBootAppRunnerAction">
-                  &lt;!&ndash;<add-to-group group-id="RunnerActions" anchor="after" relative-to-action=""/>&ndash;&gt;
-                  <add-to-group group-id="NewGroup" anchor="after" relative-to-action="NewDir"/>
-              </action>
-              -->
 
     </actions>
 

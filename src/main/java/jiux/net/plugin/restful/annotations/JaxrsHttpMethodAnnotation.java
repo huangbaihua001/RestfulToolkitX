@@ -11,6 +11,7 @@ public enum JaxrsHttpMethodAnnotation {
 
     private String qualifiedName;
     private String methodName;
+
     JaxrsHttpMethodAnnotation(String qualifiedName, String methodName) {
         this.qualifiedName = qualifiedName;
         this.methodName = methodName;

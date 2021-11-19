@@ -7,6 +7,7 @@ public enum JaxrsPathAnnotation implements PathMappingAnnotation {
 
     private String shortName;
     private String qualifiedName;
+
     JaxrsPathAnnotation(String shortName, String qualifiedName) {
         this.shortName = shortName;
         this.qualifiedName = qualifiedName;

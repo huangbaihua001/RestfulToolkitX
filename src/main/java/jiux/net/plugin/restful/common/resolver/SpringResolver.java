@@ -6,13 +6,13 @@ import com.intellij.openapi.project.Project;
 import com.intellij.psi.*;
 import com.intellij.psi.impl.java.stubs.index.JavaAnnotationIndex;
 import com.intellij.psi.search.GlobalSearchScope;
-import jiux.net.plugin.restful.method.RequestPath;
-import jiux.net.plugin.restful.method.action.PropertiesHandler;
-import jiux.net.plugin.restful.navigation.action.RestServiceItem;
 import jiux.net.plugin.restful.annotations.PathMappingAnnotation;
 import jiux.net.plugin.restful.annotations.SpringControllerAnnotation;
 import jiux.net.plugin.restful.annotations.SpringRequestMethodAnnotation;
 import jiux.net.plugin.restful.common.spring.RequestMappingAnnotationHelper;
+import jiux.net.plugin.restful.method.RequestPath;
+import jiux.net.plugin.restful.method.action.PropertiesHandler;
+import jiux.net.plugin.restful.navigation.action.RestServiceItem;
 import org.jetbrains.kotlin.idea.stubindex.KotlinAnnotationsIndex;
 import org.jetbrains.kotlin.psi.*;
 

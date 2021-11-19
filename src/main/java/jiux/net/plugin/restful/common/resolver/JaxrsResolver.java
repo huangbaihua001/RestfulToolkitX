@@ -6,10 +6,10 @@ import com.intellij.openapi.project.Project;
 import com.intellij.psi.*;
 import com.intellij.psi.impl.java.stubs.index.JavaAnnotationIndex;
 import com.intellij.psi.search.GlobalSearchScope;
-import jiux.net.plugin.restful.method.RequestPath;
-import jiux.net.plugin.restful.navigation.action.RestServiceItem;
 import jiux.net.plugin.restful.annotations.JaxrsPathAnnotation;
 import jiux.net.plugin.restful.common.jaxrs.JaxrsAnnotationHelper;
+import jiux.net.plugin.restful.method.RequestPath;
+import jiux.net.plugin.restful.navigation.action.RestServiceItem;
 
 import java.util.ArrayList;
 import java.util.Collection;

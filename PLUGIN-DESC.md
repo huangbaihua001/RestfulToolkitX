@@ -1,13 +1,14 @@
 <!-- Plugin description -->
 
-# Restful Toolkit For Intellij IDEA 
+# Restful Toolkit For Intellij IDEA
+
 <br/>
 
 https://github.com/huangbaihua001/restful-toolkit
 
 <br/>
 
-with this plugin, you can  
+with this plugin, you can
 
 <br/>
 <ul>
@@ -32,7 +33,7 @@ with this plugin, you can
 
 <br/>
 
-有了这个插件，你可以  
+有了这个插件，你可以
 
 <br/>
 <ul>

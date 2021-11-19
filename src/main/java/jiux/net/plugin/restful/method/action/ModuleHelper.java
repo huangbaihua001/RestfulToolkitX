@@ -13,7 +13,7 @@ public class ModuleHelper {
     private static final String PORT = "8080"; // int
     public static String DEFAULT_URI = "http://localhost" + ":" + PORT;
     Module module;
-//    private static final String PATH = "http://localhost"+":"+PORT; // PATH or FILE
+    //    private static final String PATH = "http://localhost"+":"+PORT; // PATH or FILE
     PropertiesHandler propertiesHandler;
 
     public ModuleHelper(Module module) {

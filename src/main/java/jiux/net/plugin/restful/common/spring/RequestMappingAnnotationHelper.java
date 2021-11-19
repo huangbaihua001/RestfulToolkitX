@@ -2,10 +2,10 @@ package jiux.net.plugin.restful.common.spring;
 
 
 import com.intellij.psi.*;
-import jiux.net.plugin.restful.method.RequestPath;
 import jiux.net.plugin.restful.annotations.SpringRequestMethodAnnotation;
 import jiux.net.plugin.restful.common.PsiAnnotationHelper;
 import jiux.net.plugin.restful.common.RestSupportedAnnotationHelper;
+import jiux.net.plugin.restful.method.RequestPath;
 import org.apache.commons.lang.StringUtils;
 
 import java.util.ArrayList;

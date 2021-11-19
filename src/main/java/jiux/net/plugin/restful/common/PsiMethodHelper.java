@@ -4,12 +4,12 @@ package jiux.net.plugin.restful.common;
 import com.intellij.openapi.module.Module;
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.*;
+import jiux.net.plugin.restful.annotations.JaxrsRequestAnnotation;
+import jiux.net.plugin.restful.annotations.SpringControllerAnnotation;
 import jiux.net.plugin.restful.common.jaxrs.JaxrsAnnotationHelper;
 import jiux.net.plugin.restful.common.spring.RequestMappingAnnotationHelper;
 import jiux.net.plugin.restful.method.Parameter;
 import jiux.net.plugin.restful.method.action.ModuleHelper;
-import jiux.net.plugin.restful.annotations.JaxrsRequestAnnotation;
-import jiux.net.plugin.restful.annotations.SpringControllerAnnotation;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 

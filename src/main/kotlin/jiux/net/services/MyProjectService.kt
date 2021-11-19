@@ -1,7 +1,7 @@
 package jiux.net.services
 
-import jiux.net.MyBundle
 import com.intellij.openapi.project.Project
+import jiux.net.MyBundle
 
 class MyProjectService(project: Project) {
 

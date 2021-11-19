@@ -8,6 +8,7 @@ public enum SpringControllerAnnotation implements PathMappingAnnotation {
 
     private String shortName;
     private String qualifiedName;
+
     SpringControllerAnnotation(String shortName, String qualifiedName) {
         this.shortName = shortName;
         this.qualifiedName = qualifiedName;

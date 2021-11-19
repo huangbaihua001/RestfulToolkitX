@@ -4,10 +4,10 @@ package jiux.net.plugin.restful.common.jaxrs;
 import com.intellij.psi.PsiAnnotation;
 import com.intellij.psi.PsiClass;
 import com.intellij.psi.PsiMethod;
-import jiux.net.plugin.restful.method.RequestPath;
 import jiux.net.plugin.restful.annotations.JaxrsHttpMethodAnnotation;
 import jiux.net.plugin.restful.annotations.JaxrsPathAnnotation;
 import jiux.net.plugin.restful.common.PsiAnnotationHelper;
+import jiux.net.plugin.restful.method.RequestPath;
 import org.apache.commons.lang.StringUtils;
 
 import java.util.ArrayList;

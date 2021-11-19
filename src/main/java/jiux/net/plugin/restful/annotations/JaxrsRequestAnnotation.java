@@ -8,6 +8,7 @@ public enum JaxrsRequestAnnotation {
     private String shortName;
     private String qualifiedName;
     private String methodName;
+
     JaxrsRequestAnnotation(String shortName, String qualifiedName, String methodName) {
         this.shortName = shortName;
         this.qualifiedName = qualifiedName;
