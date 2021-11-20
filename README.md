@@ -10,8 +10,8 @@ Spring framework (Spring Boot / Spring MVC),JAX-RS.
 
 ## Features
 
-- [x] Based on [IntelliJ Platform Plugin Template][template], support Java 8+, IDEA 2020.2+.
-- [x] Enter the URL to navigate to service declaration. ( use: Ctrl + \ or Ctrl + Alt + N ) .
+- [x] Based on [IntelliJ Platform Plugin Template][template], support for Java 8+, IDEA 2020.2+.
+- [x] Quick search url to navigate to service declaration. ( use: Ctrl + \ or Ctrl + Alt + N ) .
 - [x] Show Restful services structure.
 - [x] A simple http request tool.
 - [x] Generate&Copy Query Param, Generate&Copy URL on the request method.
@@ -19,11 +19,11 @@ Spring framework (Spring Boot / Spring MVC),JAX-RS.
 - [ ] Other useful features, Stay tuned... ^_^
 
 
-Quick Search Service Preview
+Quick Search URL Preview
 
 ![searchService.png](img/searchService.png)
 
-RestServices Window Preview
+Restful Services Window Preview
 
 ![restServiceWindow.png](img/restServiceWindow.png)
 
