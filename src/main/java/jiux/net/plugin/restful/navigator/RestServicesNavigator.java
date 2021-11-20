@@ -8,6 +8,7 @@ import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.WriteExternalException;
 import com.intellij.openapi.wm.ToolWindowAnchor;
+import com.intellij.openapi.wm.ToolWindowManager;
 import com.intellij.openapi.wm.ex.ToolWindowEx;
 import com.intellij.openapi.wm.ex.ToolWindowManagerAdapter;
 import com.intellij.openapi.wm.ex.ToolWindowManagerEx;
@@ -93,15 +94,15 @@ public class RestServicesNavigator extends AbstractProjectComponent implements P
     @Override
     public void initComponent() {
         listenForProjectsChanges();
-//        ToolkitUtil.runWhenInitialized(myProject, (DumbAwareRunnable)() -> {
         ToolkitUtil.runWhenInitialized(myProject, () -> {
-            if (myProject.isDisposed()) return;
+            if (myProject.isDisposed()) {
+                return;
+            }
             initToolWindow();
         });
     }
 
     private void initToolWindow() {
-
         final ToolWindowManagerEx manager = ToolWindowManagerEx.getInstanceEx(myProject);
         myToolWindow = (ToolWindowEx) manager.getToolWindow(TOOL_WINDOW_ID);
         if (myToolWindow != null) {
@@ -125,7 +126,9 @@ public class RestServicesNavigator extends AbstractProjectComponent implements P
 
             @Override
             public void stateChanged() {
-                if (myToolWindow.isDisposed()) return;
+                if (myToolWindow.isDisposed()) {
+                    return;
+                }
                 boolean visible = myToolWindow.isVisible();
                 if (!visible || wasVisible) {
                     return;
@@ -136,7 +139,7 @@ public class RestServicesNavigator extends AbstractProjectComponent implements P
         };
         manager.addToolWindowManagerListener(listener, myProject);
 
-        //todo: 扩展 toolWindows 右键
+        //todo: extend toolWindows right click
 /*        ActionManager actionManager = ActionManager.getInstance();
         DefaultActionGroup group = new DefaultActionGroup();
         group.add(actionManager.getAction("Maven.GroupProjects"));
@@ -156,12 +159,16 @@ public class RestServicesNavigator extends AbstractProjectComponent implements P
 
     private void scheduleStructureRequest(final Runnable r) {
 
-        if (myToolWindow == null) return;
+        if (myToolWindow == null) {
+            return;
+        }
 
 //        ToolkitUtil.invokeLater(myProject, () -> {
 //        ToolkitUtil.runWhenInitialized(myProject, () -> {
         ToolkitUtil.runWhenProjectIsReady(myProject, () -> {
-            if (!myToolWindow.isVisible()) return;
+            if (!myToolWindow.isVisible()) {
+                return;
+            }
 
             boolean shouldCreate = myStructure == null;
             if (shouldCreate) {

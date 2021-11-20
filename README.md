@@ -4,9 +4,9 @@
 [![Version](https://img.shields.io/jetbrains/plugin/v/PLUGIN_ID.svg)](https://plugins.jetbrains.com/plugin/jiux.net.plugin.restful.toolkit)
 [![Downloads](https://img.shields.io/jetbrains/plugin/d/PLUGIN_ID.svg)](https://plugins.jetbrains.com/plugin/jiux.net.plugin.restful.toolkit)
 
-## Feature list
+## Feature
 
-- [x] Base on [IntelliJ Platform Plugin Template][template], support Java 8+, IDEA 2020.2+.
+- [x] Based on [IntelliJ Platform Plugin Template][template], support Java 8+, IDEA 2020.2+.
 - [x] Enter the URL to navigate to service declaration. ( use: Ctrl + \ or Ctrl + Alt + N ) .
 - [x] Show Restful services structure.
 - [x] A simple http request tool.
@@ -19,7 +19,7 @@ Quick Search Service Preview
 
 ![searchService.png](img/searchService.png)
 
-RestService Window Preview
+RestServices Window Preview
 
 ![restServiceWindow.png](img/restServiceWindow.png)
 

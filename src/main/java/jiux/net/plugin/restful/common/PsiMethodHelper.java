@@ -20,9 +20,7 @@ import java.util.Map;
 
 import static jiux.net.plugin.restful.annotations.SpringRequestParamAnnotations.*;
 
-/**
- * PsiMethod处理类
- */
+
 public class PsiMethodHelper {
     PsiMethod psiMethod;
     Project myProject;
@@ -67,16 +65,8 @@ public class PsiMethodHelper {
         return myProject;
     }
 
-    /**
-     * 构建URL参数 key value
-     *
-     * @return
-     */
+
     public String buildParamString() {
-
-//        boolean matchedGet = matchGetMethod();
-        // 没指定method 标示支持所有method
-
         StringBuilder param = new StringBuilder("");
         Map<String, Object> baseTypeParamMap = getBaseTypeParameterMap();
 
@@ -87,26 +77,22 @@ public class PsiMethodHelper {
         return param.length() > 0 ? param.deleteCharAt(param.length() - 1).toString() : "";
     }
 
-    /*获取方法中基础类型（primitive和string、date等以及这些类型数组）*/
+
     @NotNull
     public Map<String, Object> getBaseTypeParameterMap() {
         List<Parameter> parameterList = getParameterList();
 
         Map<String, Object> baseTypeParamMap = new LinkedHashMap();
-
-        // 拼接参数
         for (Parameter parameter : parameterList) {
-//跳过标注 RequestBody 注解的参数
             if (parameter.isRequestBodyFound()) {
                 continue;
             }
 
-            // todo 判断类型
+            // todo type check
             // 8 PsiPrimitiveType
             // 8 boxed types; String,Date:PsiClassReferenceType == field.getType().getPresentableText()
             String shortTypeName = parameter.getShortTypeName();
             Object defaultValue = PsiClassHelper.getJavaBaseTypeDefaultValue(shortTypeName);
-            //简单常用类型
             if (defaultValue != null) {
                 baseTypeParamMap.put(parameter.getParamName(), (defaultValue));
                 continue;
@@ -119,25 +105,16 @@ public class PsiMethodHelper {
                 PsiField[] fields = psiClass.getFields();
                 for (PsiField field : fields) {
                     Object fieldDefaultValue = PsiClassHelper.getJavaBaseTypeDefaultValue(field.getType().getPresentableText());
-                    if (fieldDefaultValue != null)
+                    if (fieldDefaultValue != null) {
                         baseTypeParamMap.put(field.getName(), fieldDefaultValue);
+                    }
                 }
             }
-
-          /*  PsiClass psiClass2 = psiClassHelper.findOnePsiClassByClassName2(parameter.getParamType(), getProject());
-            if (psiClass2 != null) {
-                PsiField[] fields = psiClass2.getFields();
-                for (PsiField field : fields) {
-                    Object fieldDefaultValue  = PsiClassHelper.getJavaBaseTypeDefaultValue(field.getType().getPresentableText());
-                    if(fieldDefaultValue != null)
-                        baseTypeParamMap.put(field.getName(), fieldDefaultValue);
-                }
-            }*/
         }
         return baseTypeParamMap;
     }
 
-    /* 基础类型默认值 */
+
     @Nullable
     public Map<String, Object> getJavaBaseTypeDefaultValue(String paramName, String paramType) {
         Map<String, Object> paramMap = new LinkedHashMap<>();
@@ -156,19 +133,17 @@ public class PsiMethodHelper {
         PsiParameterList psiParameterList = psiMethod.getParameterList();
         PsiParameter[] psiParameters = psiParameterList.getParameters();
         for (PsiParameter psiParameter : psiParameters) {
-            //忽略 request response
 
             String paramType = psiParameter.getType().getCanonicalText();
             if (paramType.equals("javax.servlet.http.HttpServletRequest")
-                    || paramType.equals("javax.servlet.http.HttpServletResponse"))
+                    || paramType.equals("javax.servlet.http.HttpServletResponse")) {
                 continue;
-            //必传参数 @RequestParam
+            }
+            // @RequestParam
             PsiModifierList modifierList = psiParameter.getModifierList();
             boolean requestBodyFound = modifierList.findAnnotation(REQUEST_BODY.getQualifiedName()) != null;
-            // 没有 RequestParam 注解, 有注解使用注解value
             String paramName = psiParameter.getName();
             String requestName = null;
-
 
             PsiAnnotation pathVariableAnno = modifierList.findAnnotation(PATH_VARIABLE.getQualifiedName());
             if (pathVariableAnno != null) {
@@ -202,15 +177,8 @@ public class PsiMethodHelper {
         return paramName;
     }
 
-    /**
-     * 构建RequestBody json 参数
-     *
-     * @param parameter
-     * @return
-     */
-    public String buildRequestBodyJson(Parameter parameter) {
-//        JavaFullClassNameIndex.getInstance();
 
+    public String buildRequestBodyJson(Parameter parameter) {
         Project project = psiMethod.getProject();
         final String className = parameter.getParamType();
 
@@ -232,8 +200,6 @@ public class PsiMethodHelper {
     public String buildServiceUriPath() {
         String ctrlPath = null;
         String methodPath = null;
-
-        //判断rest服务提供方式 spring or jaxrs
         PsiClass containingClass = psiMethod.getContainingClass();
         RestSupportedAnnotationHelper annotationHelper;
         if (isSpringRestSupported(containingClass)) {
@@ -248,9 +214,15 @@ public class PsiMethodHelper {
             return null;
         }
 
-        if (!ctrlPath.startsWith("/")) ctrlPath = "/".concat(ctrlPath);
-        if (!ctrlPath.endsWith("/")) ctrlPath = ctrlPath.concat("/");
-        if (methodPath.startsWith("/")) methodPath = methodPath.substring(1, methodPath.length());
+        if (!ctrlPath.startsWith("/")) {
+            ctrlPath = "/".concat(ctrlPath);
+        }
+        if (!ctrlPath.endsWith("/")) {
+            ctrlPath = ctrlPath.concat("/");
+        }
+        if (methodPath.startsWith("/")) {
+            methodPath = methodPath.substring(1, methodPath.length());
+        }
 
         return ctrlPath + methodPath;
     }
@@ -258,9 +230,7 @@ public class PsiMethodHelper {
     @NotNull
     public String buildServiceUriPathWithParams() {
         String serviceUriPath = buildServiceUriPath();
-
         String params = PsiMethodHelper.create(psiMethod).buildParamString();
-        // RequestMapping 注解设置了 param
         if (!params.isEmpty()) {
             StringBuilder urlBuilder = new StringBuilder(serviceUriPath);
             return urlBuilder.append(serviceUriPath.contains("?") ? "&" : "?").append(params).toString();
@@ -268,15 +238,12 @@ public class PsiMethodHelper {
         return serviceUriPath;
     }
 
-    /* 生成完整 URL , 附带参数 */
+
     @NotNull
     public String buildFullUrlWithParams() {
-
         String fullUrl = buildFullUrl();
 
         String params = buildParamString();
-
-        // RequestMapping 注解设置了 param
         if (!params.isEmpty()) {
             StringBuilder urlBuilder = new StringBuilder(fullUrl);
             return urlBuilder.append(fullUrl.contains("?") ? "&" : "?").append(params).toString();
@@ -286,7 +253,6 @@ public class PsiMethodHelper {
 
     @NotNull
     public String buildFullUrl() {
-
         String hostUri = myModule != null ? ModuleHelper.create(myModule).getServiceHostPrefix() : ModuleHelper.DEFAULT_URI;
 
         String servicePath = buildServiceUriPath();

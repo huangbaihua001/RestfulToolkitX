@@ -19,7 +19,9 @@ import java.util.Map;
 public class ToolkitUtil {
     public static void runWhenInitialized(final Project project, final Runnable r) {
 
-        if (project.isDisposed()) return;
+        if (project.isDisposed()) {
+            return;
+        }
 
         if (isNoBackgroundMode()) {
             r.run();
@@ -30,23 +32,12 @@ public class ToolkitUtil {
             StartupManager.getInstance(project).registerPostStartupActivity(DisposeAwareRunnable.create(r, project));
             return;
         }
-
-/*        System.out.println((DumbService.getInstance(project).isDumb()));
-        if (DumbService.getInstance(project).isDumb()) {
-//            return;
-            runWhenInitialized(project,r);
-        }*/
-//        runDumbAware(project, r);
         invokeLater(project, r);
-//        ApplicationManager.getApplication().invokeAndWait(r);
     }
 
 
     public static void runWhenProjectIsReady(final Project project, final Runnable runnable) {
-
-//        DumbService.getInstance(project).runWhenSmart(runnable);
         DumbService.getInstance(project).smartInvokeLater(runnable);
-//        DumbService.getInstance(project).runReadActionInSmartMode(runnable);
     }
 
 
@@ -104,7 +95,6 @@ public class ToolkitUtil {
 
     @NotNull
     public static String removeRedundancyMarkup(String pattern) {
-
         String localhostRegex = "(http(s?)://)?(localhost)(:\\d+)?";
         String hostAndPortRegex = "(http(s?)://)?" +
                 "( " +
@@ -122,41 +112,35 @@ public class ToolkitUtil {
         }
 
         //TODO : resolve RequestMapping(params="method=someMethod")
-        // 包含参数
-        if (pattern.contains("?")) {
-            pattern = pattern.substring(0, pattern.indexOf("?"));
+        if (!pattern.contains("?")) {
+            return pattern;
         }
+        pattern = pattern.substring(0, pattern.indexOf("?"));
         return pattern;
     }
 
-    /* 将文本转为 Param */
+
     @NotNull
     public static String textToRequestParam(String text) {
-        //拼装param参数
         StringBuilder param = new StringBuilder();
 
         Map<String, String> paramMap = textToParamMap(text);
 
-        if (paramMap != null && paramMap.size() > 0) {
+        if (paramMap.size() > 0) {
             paramMap.forEach((s, o) -> param.append(s).append("=").append(o).append("&"));
         }
 
-        String params = param.length() == 0 ? "" : param.deleteCharAt(param.length() - 1).toString();
-
-        return params;
+        return param.length() == 0 ? "" : param.deleteCharAt(param.length() - 1).toString();
     }
 
 
-    /* 将文本转为 Param Map*/
     @NotNull
     public static Map<String, String> textToParamMap(String text) {
         Map<String, String> paramMap = new HashMap<>();
-        //拼装param参数
-        String paramText = text;//serviceInfo.getText();
+        String paramText = text;
         String[] lines = paramText.split("\n");
 
         for (String line : lines) {
-            //合法参数键值对 （非//开头，且包含 : ）
             if (!line.startsWith("//") && line.contains(":")) {
 
                 String[] prop = line.split(":");
@@ -164,7 +148,6 @@ public class ToolkitUtil {
                 if (prop.length > 1) {
                     String key = prop[0].trim();
                     String value = prop[1].trim();
-//                        value = line.substring()
                     paramMap.put(key, value);
                 }
             }

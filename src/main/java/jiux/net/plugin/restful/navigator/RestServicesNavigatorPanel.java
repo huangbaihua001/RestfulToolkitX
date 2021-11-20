@@ -21,7 +21,6 @@ import java.util.List;
 
 
 public class RestServicesNavigatorPanel extends SimpleToolWindowPanel implements DataProvider {
-
     private final Project myProject;
     private final SimpleTree myTree;
     private final JTextArea defaultUnderView = new JTextArea(" json format textarea ");
@@ -32,7 +31,6 @@ public class RestServicesNavigatorPanel extends SimpleToolWindowPanel implements
 
     public RestServicesNavigatorPanel(Project project, SimpleTree tree) {
         super(true, true);
-
         myProject = project;
         myTree = tree;
         myRestServiceDetail = project.getComponent(RestServiceDetail.class);
@@ -43,44 +41,28 @@ public class RestServicesNavigatorPanel extends SimpleToolWindowPanel implements
                         .getAction("Toolkit.NavigatorActionsToolbar"),
                 true);
         setToolbar(actionToolbar.getComponent());
-
         Color gray = new Color(36, 38, 39);
-//        setContent(ScrollPaneFactory.createScrollPane(myTree));
-
         myTree.setBorder(BorderFactory.createLineBorder(gray));
         JScrollPane scrollPane = ScrollPaneFactory.createScrollPane(myTree);
         scrollPane.setBorder(BorderFactory.createLineBorder(Color.RED));
-
 
         servicesContentPaneSplitter = new Splitter(true, .5f);
         servicesContentPaneSplitter.setShowDividerControls(true);
         servicesContentPaneSplitter.setDividerWidth(10);
         servicesContentPaneSplitter.setBorder(BorderFactory.createLineBorder(Color.RED));
-
         servicesContentPaneSplitter.setFirstComponent(scrollPane);
-
-//        servicesContentPaneSplitter.setSecondComponent(defaultUnderView);
 
         servicesContentPaneSplitter.setSecondComponent(myRestServiceDetail);
 
         setContent(servicesContentPaneSplitter);
-
-        /*servicesContentPaneJSplitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
-        servicesContentPaneJSplitPane.setDividerLocation(0.5);
-        servicesContentPaneJSplitPane.setOneTouchExpandable(true);//让分割线显示出箭头
-        servicesContentPaneJSplitPane.setLeftComponent(ScrollPaneFactory.createScrollPane(myTree));
-        servicesContentPaneJSplitPane.setRightComponent(new JTextArea("fdasfdsafdsafdsafdssdf"));
-        this.setContent(servicesContentPaneJSplitPane);*/
-//        actionToolbar.setTargetComponent(servicesContentPaneSplitter);
-
         // popup
         myTree.addMouseListener(new PopupHandler() {
+            @Override
             public void invokePopup(final Component comp, final int x, final int y) {
                 final String id = getMenuId(getSelectedNodes(RestServiceStructure.BaseSimpleNode.class));
                 if (id != null) {
                     final ActionGroup actionGroup = (ActionGroup) actionManager.getAction(id);
                     if (actionGroup != null) {
-//                        actionManager.createActionPopupMenu("", actionGroup).getComponent().show(comp, x, y);
                         JPopupMenu component = actionManager.createActionPopupMenu("", actionGroup).getComponent();
 
                         component.show(comp, x, y);
@@ -112,6 +94,7 @@ public class RestServicesNavigatorPanel extends SimpleToolWindowPanel implements
         return RestServiceStructure.getSelectedNodes(myTree, aClass);
     }
 
+    @Override
     @Nullable
     public Object getData(@NonNls String dataId) {
 
@@ -124,7 +107,6 @@ public class RestServicesNavigatorPanel extends SimpleToolWindowPanel implements
 
     private List<RestServiceItem> extractServices() {
         List<RestServiceItem> result = new ArrayList<>();
-
         Collection<? extends RestServiceStructure.BaseSimpleNode> selectedNodes = getSelectedNodes(RestServiceStructure.BaseSimpleNode.class);
         for (RestServiceStructure.BaseSimpleNode selectedNode : selectedNodes) {
             if (selectedNode instanceof RestServiceStructure.ServiceNode) {
@@ -133,9 +115,7 @@ public class RestServicesNavigatorPanel extends SimpleToolWindowPanel implements
         }
 
         return result;
-
     }
-
 }
 
 
