@@ -11,9 +11,17 @@
 - [x] Show Restful services structure.
 - [x] A simple http request tool.
 - [x] Generate&Copy Query Param, Generate&Copy URL on the request method.
-- [x] Adding functionality to a java class: Convert to JSON; format json data <em>( Windows: Ctrl + Enter; Mac: Command
-  + Enter ) .
+- [x] Convert java class to JSON; format json data <em>( Windows: Ctrl + Enter; Mac: Command + Enter ) .
 - [ ] Other useful features, Stay tuned... ^_^
+
+
+Quick Search Service Preview
+
+![searchService.png](searchService.png)
+
+RestService Window Preview
+
+![restServiceWindow.png](restServiceWindow.png)
 
 ## Installation
 

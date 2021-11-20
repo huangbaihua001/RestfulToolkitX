@@ -76,9 +76,9 @@ public class KtClassHelper {
         return psiClass;
     }
 
-    //PsiShortNamesCache : PsiClass:Demo    KtLightClassImpl:data class Greeting(val id: Long, val content: String) { 代码体 }
+
     public Collection<KtClassOrObject> tryDetectPsiClassByShortClassName(Project project, String shortClassName) {
-        PsiClass[] psiClasses = PsiShortNamesCache.getInstance(project).getClassesByName(shortClassName, GlobalSearchScope.allScope(project));// 所有的
+        PsiClass[] psiClasses = PsiShortNamesCache.getInstance(project).getClassesByName(shortClassName, GlobalSearchScope.allScope(project));
         PsiClass[] classesByName = KotlinShortNamesCache.getInstance(project).getClassesByName(shortClassName, GlobalSearchScope.allScope(project));
 //        Collection<PsiClass> psiClassCollection = JavaShortClassNameIndex.getInstance().get(shortClassName, project, GlobalSearchScope.projectScope(project));
         Collection<KtClassOrObject> ktClassOrObjects = KotlinClassShortNameIndex.getInstance().get(shortClassName, project, GlobalSearchScope.allScope(project));
