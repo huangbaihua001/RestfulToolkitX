@@ -12,12 +12,12 @@
 
     <extensions defaultExtensionNs="com.intellij">
         <applicationService
-                serviceImplementation="jiux.net.services.MyApplicationService"/>
-        <projectService serviceImplementation="jiux.net.services.MyProjectService"/>
+                serviceImplementation="jiux.net.services.RestfulToolkitApplicationService"/>
+        <projectService serviceImplementation="jiux.net.services.RestfulToolkitProjectService"/>
     </extensions>
 
     <applicationListeners>
-        <listener class="jiux.net.listeners.MyProjectManagerListener"
+        <listener class="jiux.net.listeners.RestfulToolkitProjectManagerListener"
                   topic="com.intellij.openapi.project.ProjectManagerListener"/>
     </applicationListeners>
 

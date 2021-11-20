@@ -76,8 +76,6 @@ public class SpringBootGenerator extends AnAction {
     }
 
 
-    // 首先判断要生成的目录和文件和目录是否存在，如果任何一个存在，则退出
-    // 创建目录，文件
     private void createController(String basePackage, String path, String modelName) {
 
         createFile(modelName + "Controller", genFromTemplate("controller", new HashMap<>()));
