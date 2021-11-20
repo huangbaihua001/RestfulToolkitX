@@ -1,8 +1,6 @@
 # Restful Toolkit For Intellij IDEA
 
-![Build](https://github.com/huangbaihua001/restful-toolkit/workflows/Build/badge.svg)
-[![Version](https://img.shields.io/jetbrains/plugin/v/jiux.net.plugin.restful.toolkit.svg)](https://plugins.jetbrains.com/plugin/jiux.net.plugin.restful.toolkit)
-[![Downloads](https://img.shields.io/jetbrains/plugin/d/jiux.net.plugin.restful.toolkit.svg)](https://plugins.jetbrains.com/plugin/jiux.net.plugin.restful.toolkit)
+![Build](https://github.com/huangbaihua001/RestfulToolkitX/workflows/Build/badge.svg)
 
 ## What is RestfulToolkitX?
 RestfulToolkitX is an awesome restful development toolkit for Intellij IDEA. This toolkit supports Java and Kotlin languages,
