@@ -17,11 +17,11 @@
 
 Quick Search Service Preview
 
-![searchService.png](searchService.png)
+![searchService.png](img/searchService.png)
 
 RestService Window Preview
 
-![restServiceWindow.png](restServiceWindow.png)
+![restServiceWindow.png](img/restServiceWindow.png)
 
 ## Installation
 
