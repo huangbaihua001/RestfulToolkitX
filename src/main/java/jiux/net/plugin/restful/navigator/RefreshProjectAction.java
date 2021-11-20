@@ -21,11 +21,7 @@ public class RefreshProjectAction extends AnAction {
 
     @Override
     public void actionPerformed(AnActionEvent e) {
-
         final Project project = getProject(e.getDataContext());
-      /*if(project == null) return ;
-      RestServiceProjectsManager manager = RestServiceProjectsManager.getInstance(project);
-      perform(manager);*/
 
         RestServicesNavigator servicesNavigator = RestServicesNavigator.getInstance(project);
 

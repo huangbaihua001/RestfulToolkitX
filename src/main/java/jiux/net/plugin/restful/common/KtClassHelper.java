@@ -15,11 +15,11 @@ import org.jetbrains.kotlin.psi.KtClassOrObject;
 
 import java.util.Collection;
 
-// 处理 实体自关联，第二层自关联字段
+
 public class KtClassHelper {
-    private static int autoCorrelationCount = 0; //标记实体递归
+    private static int autoCorrelationCount = 0;
     KtClass psiClass;
-    private int listIterateCount = 0; //标记List递归
+    private int listIterateCount = 0;
     private Module myModule;
 
     protected KtClassHelper(@NotNull KtClass psiClass) {
@@ -59,7 +59,7 @@ public class KtClassHelper {
         psiClass.getFqName(); // class fullQualifiedName :org.jetbrains.kotlin.demo.Greeting
 
         if (ktClassOrObjects.size() > 1) {
-            //找import中对应的class
+            //
 //            psiClass = psiClassCollection.stream().filter(tempKtClass -> tempPsiClass.getQualifiedName().equals(className)).findFirst().get();
 
             /*Optional<PsiClass> any = psiClassCollection.stream().filter(tempPsiClass -> tempPsiClass.getQualifiedName().equals(className)).findAny();

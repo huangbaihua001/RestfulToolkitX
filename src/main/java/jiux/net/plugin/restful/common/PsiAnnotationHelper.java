@@ -12,9 +12,8 @@ public class PsiAnnotationHelper {
         PsiAnnotationMemberValue value = annotation.findDeclaredAttributeValue(attr);
 
         List<String> values = new ArrayList<>();
-        //只有注解
-        //一个值 class com.intellij.psi.impl.source.tree.java.PsiLiteralExpressionImpl
-        //多个值  class com.intellij.psi.impl.source.tree.java.PsiArrayInitializerMemberValueImpl
+        // class com.intellij.psi.impl.source.tree.java.PsiLiteralExpressionImpl
+        // class com.intellij.psi.impl.source.tree.java.PsiArrayInitializerMemberValueImpl
         if (value instanceof PsiReferenceExpression) {
             PsiReferenceExpression expression = (PsiReferenceExpression) value;
             values.add(expression.getText());

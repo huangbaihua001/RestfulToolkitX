@@ -8,8 +8,6 @@ import jiux.net.plugin.restful.method.HttpMethod;
 import javax.swing.*;
 
 public class ToolkitIcons {
-
-    //FIXME 这里
     public static final Icon MODULE = AllIcons.Modules.UnloadedModule; // 16x16
     public static final Icon Refresh = AllIcons.Actions.Refresh; // 16x16
     //    public static final Icon SERVICE = IconLoader.getIcon("/icons/s1.png"); // 16x16

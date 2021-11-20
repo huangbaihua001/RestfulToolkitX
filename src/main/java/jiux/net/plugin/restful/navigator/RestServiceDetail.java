@@ -60,14 +60,12 @@ public class RestServiceDetail extends JBPanel {
     }
 
     private void initActions() {
-//        bindMouseEvent(servicesTree);
         bindSendButtonActionListener();
 
         bindUrlTextActionListener();
     }
 
     public void initTab() {
-//        jTextArea.setAutoscrolls(true);
         String jsonFormat = "Try press 'Ctrl(Cmd) Enter'";
         JTextArea textArea = createTextArea("{'key':'value'}");
 

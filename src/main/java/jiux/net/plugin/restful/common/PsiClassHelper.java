@@ -16,11 +16,11 @@ import org.jetbrains.annotations.Nullable;
 import java.math.BigDecimal;
 import java.util.*;
 
-// 处理 实体自关联，第二层自关联字段
+
 public class PsiClassHelper {
-    private static int autoCorrelationCount = 0; //标记实体递归
+    private static int autoCorrelationCount = 0;
     PsiClass psiClass;
-    private int listIterateCount = 0; //标记List递归
+    private int listIterateCount = 0;
     private Module myModule;
 
     protected PsiClassHelper(@NotNull PsiClass psiClass) {
@@ -79,7 +79,7 @@ public class PsiClassHelper {
         return paramValue;
     }
 
-    /* 字段是否为List 类型*/
+
     private static boolean isListFieldType(PsiType psiFieldType) {
         if (!(psiFieldType instanceof PsiClassReferenceType)) {
             return false;
@@ -89,10 +89,6 @@ public class PsiClassHelper {
         if (resolvePsiClass.getQualifiedName().equals("java.util.List")) {
             return true;
         }
-
-        /*if (resolvePsiClass.getSuperClass().getQualifiedName().equals("java.util.List")) {
-            return true ;
-        }*/
 
         for (PsiType psiType : ((PsiClassReferenceType) psiFieldType).rawType().getSuperTypes()) {
             if (psiType.getCanonicalText().equals("java.util.List")) {
@@ -109,7 +105,7 @@ public class PsiClassHelper {
 //        rawType().getSuperTypes()/*
     }
 
-    /* 字段是否为List 类型*/
+
     private static boolean isEnum(PsiType psiFieldType) {
         if (!(psiFieldType instanceof PsiClassReferenceType)) {
             return false;
@@ -155,7 +151,9 @@ public class PsiClassHelper {
 
     public String convertClassToJSON(Project project, boolean prettyFormat) {
         GsonBuilder gsonBuilder = new GsonBuilder();
-        if (prettyFormat) gsonBuilder.setPrettyPrinting();
+        if (prettyFormat) {
+            gsonBuilder.setPrettyPrinting();
+        }
         Gson gson = gsonBuilder.create();
         Map<String, Object> jsonMap = new HashMap<>();
 
@@ -171,12 +169,7 @@ public class PsiClassHelper {
     }
 
     private Object setFieldDefaultValue(PsiType psiFieldType, Project project) {
-
-        // 八种类型和包装类
         String typeName = psiFieldType.getPresentableText();
-        /*if (isJavaBaseType(typeName)) {
-            return getJavaBaseTypeDefaultValue(typeName);
-        }*/
         Object baseTypeDefaultValue = getJavaBaseTypeDefaultValue(typeName);
         if (baseTypeDefaultValue != null) {
             return baseTypeDefaultValue;
@@ -202,10 +195,12 @@ public class PsiClassHelper {
             String fullName = psiFieldType.getCanonicalText();
             PsiClass fieldClass = findOnePsiClassByClassName(fullName, project);
 
-            // 处理递归
+
             if (fieldClass != null) {
-//                todo: 处理递归问题 autoCorrelationCount
-                if (autoCorrelationCount > 0) return new HashMap();
+//                todo:  autoCorrelationCount
+                if (autoCorrelationCount > 0) {
+                    return new HashMap();
+                }
                 if (fullName.equals(fieldClass.getQualifiedName())) {
                     autoCorrelationCount++;
                 }
@@ -214,17 +209,13 @@ public class PsiClassHelper {
             }
         }
 
-        // 处理自关联 List<T> = T 两级，只处理一次, break
 
         return typeName;
     }
 
     @Nullable
     public PsiClass findOnePsiClassByClassName(String qualifiedClassName, Project project) {
-//        return findOnePsiClassByClassName_deprecated(className, project);
-//        return findOnePsiClassByClassName2(className, project);
-        PsiClass psiClass = JavaPsiFacade.getInstance(project).findClass(qualifiedClassName, GlobalSearchScope.allScope(project));
-        return psiClass;
+        return JavaPsiFacade.getInstance(project).findClass(qualifiedClassName, GlobalSearchScope.allScope(project));
     }
 
     @Nullable
@@ -272,11 +263,7 @@ public class PsiClassHelper {
     @Nullable
     public PsiClass findOnePsiClassByClassName2(String className, Project project) {
         PsiClass psiClass = null;
-
         String shortClassName = className.substring(className.lastIndexOf(".") + 1, className.length());
-
-//        psiClass.getPrimaryConstructor().getText(); // (val id: Long, val content: String)
-//        psiClass.getFqName(); // class fullQualifiedName :org.jetbrains.kotlin.demo.Greeting
 
         PsiClass[] psiClasses = tryDetectPsiClassByShortClassName2(shortClassName, project);
         if (psiClasses.length == 0) {
@@ -298,35 +285,20 @@ public class PsiClassHelper {
 
             }
 
-
-            //找import中对应的class
-//            psiClass = psiClassCollection.stream().filter(tempKtClass -> tempPsiClass.getQualifiedName().equals(className)).findFirst().get();
-
-            /*Optional<PsiClass> any = psiClassCollection.stream().filter(tempPsiClass -> tempPsiClass.getQualifiedName().equals(className)).findAny();
-
-            if (any.isPresent()) {
-                psiClass = any.get();
-            }*/
-
-           /* for (KtClassOrObject ktClassOrObject : ktClassOrObjects) {
-//                ktClassOrObject.
-            }*/
-
         }
         return psiClass;
     }
 
     public PsiClass[] tryDetectPsiClassByShortClassName2(String shortClassName, Project project) {
-
         PsiClass[] psiClasses = PsiShortNamesCache.getInstance(project).getClassesByName(shortClassName, GlobalSearchScope.allScope(project));// 所有的
 
-        if (psiClasses != null && psiClasses.length > 0) {
+        if (psiClasses.length > 0) {
             return psiClasses;
         }
 
         if (myModule != null) {
             psiClasses = PsiShortNamesCache.getInstance(project).getClassesByName(shortClassName, GlobalSearchScope.allScope(project));// 所有的
-            if (psiClasses != null && psiClasses.length > 0) {
+            if (psiClasses.length > 0) {
                 return psiClasses;
             }
         }
@@ -394,13 +366,10 @@ public class PsiClassHelper {
                 }
             }
 
-//            recursive
-
             if (isListFieldType(psiFieldType)) {
                 PsiType[] parameters = ((PsiClassReferenceType) psiFieldType).getParameters();
                 if (parameters != null && parameters.length > 0) {
                     PsiType parameter = parameters[0];
-// 自关联
                     if (recursiveCount <= 0) {
                         continue;
                     }
@@ -444,25 +413,7 @@ public class PsiClassHelper {
         PsiType[] subTypes = classType.getParameters();
         if (subTypes.length > 0) {
             PsiType subType = subTypes[0];
-//            listIterateCount++;
-
             list.add(setFieldDefaultValue(subType, project));
-
-//            String subTypeName = subType.getCanonicalText();
-//            if (subTypeName.startsWith("List")) {
-//                list.add(handleListParam(subType, project));
-//            } else {
-//                PsiClass targetClass = findOnePsiClassByClassName(subTypeName, project);
-//                if (targetClass != null) {
-//                    list.add(assembleClassToMap(targetClass, project));
-//                } else if (subTypeName.equals("String")) {
-//                    list.add("str");
-//                } else if (subTypeName.equals("Date")) {
-//                    list.add(Long.valueOf(new Date().getTime()));
-//                } else {
-//                    list.add(subTypeName);
-//                }
-//            }
         }
         return list;
     }

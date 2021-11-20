@@ -158,13 +158,9 @@ public class RestServicesNavigator extends AbstractProjectComponent implements P
     }
 
     private void scheduleStructureRequest(final Runnable r) {
-
         if (myToolWindow == null) {
             return;
         }
-
-//        ToolkitUtil.invokeLater(myProject, () -> {
-//        ToolkitUtil.runWhenInitialized(myProject, () -> {
         ToolkitUtil.runWhenProjectIsReady(myProject, () -> {
             if (!myToolWindow.isVisible()) {
                 return;
@@ -182,13 +178,7 @@ public class RestServicesNavigator extends AbstractProjectComponent implements P
 //            }
         });
 
-        //        if (isUnitTestMode()) {
-        /*        if (myProject.isInitialized()  *//* myProject.isDisposed() *//*) {
-            if (myStructure != null) {
-                r.run();
-            }
-            return;
-        }*/
+
     }
 
     private void initStructure() {
@@ -196,7 +186,7 @@ public class RestServicesNavigator extends AbstractProjectComponent implements P
 
     }
 
-    // 监听项目controller 方法变化
+
     private void listenForProjectsChanges() {
         //todo :
     }

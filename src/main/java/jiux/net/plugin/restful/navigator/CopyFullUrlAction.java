@@ -24,6 +24,7 @@ public class CopyFullUrlAction extends AnAction implements DumbAware {
     public void actionPerformed(AnActionEvent e) {
         List<RestServiceItem> serviceItems = RestServiceDataKeys.SERVICE_ITEMS.getData(e.getDataContext());
         StringBuilder sb = new StringBuilder();
+        assert serviceItems != null;
         for (RestServiceItem serviceItem : serviceItems) {
             if (sb.length() > 1) {
                 sb.append("\n\n");
@@ -32,12 +33,8 @@ public class CopyFullUrlAction extends AnAction implements DumbAware {
         }
 
         CopyPasteManager.getInstance().setContents(new StringSelection(sb.toString()));
-
-//    RestServiceProjectsManager.getInstance(getEventProject(e)).
-        /* CopyPasteManager.getInstance().setContents(...);*/
     }
 
-    /* getSelectRestServiceNodes */
 
     protected boolean isAvailable(AnActionEvent e) {
         return true;

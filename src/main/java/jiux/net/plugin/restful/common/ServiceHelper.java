@@ -15,9 +15,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * 服务相关工具类
- */
+
 public class ServiceHelper {
     public static final Logger LOG = Logger.getInstance(ServiceHelper.class);
     PsiMethod psiMethod;

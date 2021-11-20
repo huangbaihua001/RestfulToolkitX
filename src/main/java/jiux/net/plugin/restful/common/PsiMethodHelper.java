@@ -36,7 +36,7 @@ public class PsiMethodHelper {
         return new PsiMethodHelper(psiMethod);
     }
 
-    //包含 "RestController" "Controller"
+    //contains "RestController" "Controller"
     public static boolean isSpringRestSupported(PsiClass containingClass) {
         PsiModifierList modifierList = containingClass.getModifierList();
 
@@ -47,7 +47,7 @@ public class PsiMethodHelper {
                 modifierList.findAnnotation(SpringControllerAnnotation.CONTROLLER.getQualifiedName()) != null;
     }
 
-    //包含 "RestController" "Controller"
+    //contains "RestController" "Controller"
     public static boolean isJaxrsRestSupported(PsiClass containingClass) {
         PsiModifierList modifierList = containingClass.getModifierList();
 

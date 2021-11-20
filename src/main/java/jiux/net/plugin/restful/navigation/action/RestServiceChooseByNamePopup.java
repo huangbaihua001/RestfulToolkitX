@@ -71,6 +71,7 @@ public class RestServiceChooseByNamePopup extends ChooseByNamePopup {
         return getTransformedPattern(pattern, model);
     }
 
+    @Override
     @Nullable
     public String getMemberPattern() {
         final String enteredText = getTrimmedText();
@@ -82,15 +83,4 @@ public class RestServiceChooseByNamePopup extends ChooseByNamePopup {
         String name = enteredText.substring(index + 1).trim();
         return StringUtil.isEmptyOrSpaces(name) ? null : name;
     }
-
-/*  public void repaintList() {
-    myRepaintQueue.cancelAllUpdates();
-    myRepaintQueue.queue(new Update(this) {
-      @Override
-      public void run() {
-        RestServiceChooseByNamePopup.this.repaintListImmediate();
-      }
-    });
-  }*/
-
 }
