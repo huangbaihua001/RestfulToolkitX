@@ -4,6 +4,9 @@
 [![Version](https://img.shields.io/jetbrains/plugin/v/PLUGIN_ID.svg)](https://plugins.jetbrains.com/plugin/jiux.net.plugin.restful.toolkit)
 [![Downloads](https://img.shields.io/jetbrains/plugin/d/PLUGIN_ID.svg)](https://plugins.jetbrains.com/plugin/jiux.net.plugin.restful.toolkit)
 
+An awesome restful development toolkit for Intellij IDEA. Support Java and Kotlin languages,
+Spring framework (Spring Boot / Spring MVC),JAX-RS.
+
 ## Feature
 
 - [x] Based on [IntelliJ Platform Plugin Template][template], support Java 8+, IDEA 2020.2+.
