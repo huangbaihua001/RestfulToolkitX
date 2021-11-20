@@ -4,8 +4,8 @@
 [![Version](https://img.shields.io/jetbrains/plugin/v/jiux.net.plugin.restful.toolkit.svg)](https://plugins.jetbrains.com/plugin/jiux.net.plugin.restful.toolkit)
 [![Downloads](https://img.shields.io/jetbrains/plugin/d/jiux.net.plugin.restful.toolkit.svg)](https://plugins.jetbrains.com/plugin/jiux.net.plugin.restful.toolkit)
 
-## What is RestfulToolkit?
-RestfulToolkit is an awesome restful development toolkit for Intellij IDEA. This toolkit support Java and Kotlin languages,
+## What is RestfulToolkitX?
+RestfulToolkitX is an awesome restful development toolkit for Intellij IDEA. This toolkit support Java and Kotlin languages,
 Spring framework (Spring Boot / Spring MVC),JAX-RS.
 
 ## Features
@@ -41,13 +41,15 @@ RestServices Window Preview
   manually using
   <kbd>Settings/Preferences</kbd> > <kbd>Plugins</kbd> > <kbd>⚙️</kbd> > <kbd>Install plugin from disk...</kbd>
 
+
+
+## License
+
+RestfulToolkitX is under the Apache 2.0 license. See the [Apache License 2.0](http://www.apache.org/licenses/LICENSE-2.0) file for details.
+
 ---
 Plugin based on the [IntelliJ Platform Plugin Template][template], [RestfulToolkit][RestfulToolkit]
 
 [template]: https://github.com/JetBrains/intellij-platform-plugin-template
 
 [RestfulToolkit]: https://github.com/mrmanzhaow/RestfulToolkit
-
-## License
-
-RestfulToolkit is under the Apache 2.0 license. See the [Apache License 2.0](http://www.apache.org/licenses/LICENSE-2.0) file for details.
