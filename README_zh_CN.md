@@ -17,10 +17,10 @@ RestfulToolkitX 的由来：
 ## 功能
 
 - [x] 基于 [IntelliJ Platform Plugin Template][template] 构建, 支持 Java 8+, IDEA 2020.2+。
-- [x] 快捷键搜索 URL 并直接定位至服务. ( use: Ctrl + \ or Ctrl + Alt + N ) 。
+- [x] 快捷键搜索 URL 并直接定位至服务. ( 使用: Ctrl + \ 或 Ctrl + Alt + N ) 。
 - [x] 导航窗显示 Restful 服务结构。
 - [x] 简单的 HttpClient 工具。
-- [x] 在请求方法上 生成并复制参数，URL。
+- [x] 在请求方法上生成并复制参数，URL。
 - [x] 将 Java类 转成 JSON; 格式化 JSON 数据 <em>( Windows: Ctrl + Enter; Mac: Command + Enter ) 。
 - [ ] 其它有用的功能，敬请期待... ^_^
 
