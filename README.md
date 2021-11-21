@@ -2,6 +2,8 @@
 
 ![Build](https://github.com/huangbaihua001/RestfulToolkitX/workflows/Build/badge.svg)
 
+[中文](README_zh_CN.md)
+
 ## What is RestfulToolkitX?
 RestfulToolkitX is an awesome restful development toolkit for Intellij IDEA. This toolkit supports Java and Kotlin languages,
 Spring framework (Spring Boot / Spring MVC),JAX-RS.
@@ -30,7 +32,7 @@ Restful Services Window Preview
 - Using IDE built-in plugin system:
 
   <kbd>Settings/Preferences</kbd> > <kbd>Plugins</kbd> > <kbd>Marketplace</kbd> > <kbd>Search for "
-  RestfulToolkit"</kbd> >
+  RestfulToolkitX"</kbd> >
   <kbd>Install Plugin</kbd>
 
 - Manually:
