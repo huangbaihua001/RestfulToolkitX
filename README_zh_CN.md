@@ -10,7 +10,7 @@ RestfulToolkitX 是运行在Intellij IDEA 之上的一个非常棒的 RESTful �
 RestfulToolkitX 的由来： 
 
 原项目 [RestfulToolkit][RestfulToolkit] 之前个人也在使用。 但目前的版本，不兼容 IDEA 最新版本。 也用过基于该作者的其它版本，不是很理想。
-所以个人决定在 RestfulToolkit 基础之上维护并完善 RestfulToolkitX。
+所以个人决定在 RestfulToolkit 基础之上维护并完善 RestfulToolkitX,增加一些实用的功能并会始终兼容 IDEA 最新版本。
 
 ## 功能
 
