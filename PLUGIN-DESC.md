@@ -1,15 +1,10 @@
 <!-- Plugin description -->
-
-# Restful Toolkit For Intellij IDEA
-
+RestfulToolkitX is an awesome restful development toolkit for Intellij IDEA. This toolkit supports Java and Kotlin languages,
+Spring framework (Spring Boot / Spring MVC),JAX-RS.
 <br/>
-
 https://github.com/huangbaihua001/RestfulToolkitX
-
 <br/>
-
 with this plugin, you can
-
 <br/>
 <ul>
 <li>Running on the latest IDEA version. </li>
@@ -29,7 +24,8 @@ with this plugin, you can
 
 <br/>
 
-# Intellij IDEA Restful 开发工具包。
+RestfulToolkitX 是运行在Intellij IDEA 之上的一个非常棒的 RESTful 开发工具包。支持 Java 和 Kotlin 语言，Spring 生态(Spring Boot / Spring MVC),JAX-RS.
+兼容 IDEA 2020.2及以上版本。
 
 <br/>
 

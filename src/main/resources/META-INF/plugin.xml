@@ -10,6 +10,13 @@
     <depends>org.jetbrains.plugins.yaml</depends>
     <depends>org.jetbrains.kotlin</depends>
 
+    <description>
+        <![CDATA[
+        RestfulToolkitX is an awesome restful development toolkit for Intellij IDEA. This toolkit supports Java and Kotlin languages,
+        Spring framework (Spring Boot / Spring MVC),JAX-RS.<br/>
+    ]]>
+    </description>
+
     <extensions defaultExtensionNs="com.intellij">
         <applicationService
                 serviceImplementation="jiux.net.services.RestfulToolkitApplicationService"/>
