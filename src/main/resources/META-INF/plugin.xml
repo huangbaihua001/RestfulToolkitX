@@ -64,12 +64,16 @@
             <keyboard-shortcut keymap="$default" first-keystroke="alt shift R"/>
         </action>
 
-        <!--在controller method 中添加 RestfulToolkit 弹出操作，generate rest url、generate rest url with Possibly params （添加可能的参数，解析实体，@RequestBody）、gen json、
-        gen key value for postman(postman 参数bulk edit)、 gen key value for apiview submit -->
-        <!--rest 方法中添加-->
+        <!--
+        add RestfulToolkit popup action in controller method，
+        generate rest url、
+        generate rest url with Possibly params （add params，parse entity，@RequestBody）、gen json、
+        gen key value for postman (postman params bulk edit)、
+        gen key value for apiview submit
+        -->
+        <!-- rest method added -->
         <group id="RestfulToolkitGroup" text="RestfulToolkit"
-               description="RESTful Toolkit actions for rest method group"
-        >
+               description="RESTful Toolkit actions for rest method group">
             <!--<add-to-group group-id="EditorPopupMenu" anchor="first"/>-->
             <action class="jiux.net.plugin.restful.method.action.GenerateFullUrlAction" id="GenerateFullRestUrl"
                     text="Generate &amp;&amp; Copy Full URL">
@@ -102,11 +106,13 @@
         </group>
 
 
-        <!--实体中添加 gen json、
-        gen key value for postman( postman 参数 bulk edit )-->
+        <!--
+        add gen json for entity.
+        gen key value for postman( postman param bulk edit )
+        -->
 
 
-        <!--跳转导航： 根据rest url 导航 参考 request mapper  ( Enter mapping url ) 快捷键用 ctl alt n -->
+        <!--jump navigation： navigation by rest url, ref: request mapper  ( Enter mapping url ) shortcut: ctl alt n -->
 
         <!-- show services -->
         <action id="ConvertClassToJSONAction" class="jiux.net.plugin.restful.action.ConvertClassToJSONAction"
@@ -120,7 +126,7 @@
             <add-to-group group-id="EditorPopupMenu" anchor="first"/>
         </action>
 
-        <!-- url 导航 -->
+        <!-- url navigation -->
         <action id="Toolkit.GotoService" class="jiux.net.plugin.restful.navigation.action.GotoRequestMappingAction"
                 text="_Service" description="Go to Service"
                 icon="AllIcons.Actions.Search">
@@ -130,7 +136,7 @@
         </action>
 
 
-        <!--刷新-->
+        <!--refresh-->
         <action id="Toolkit.RefreshServices" class="jiux.net.plugin.restful.navigator.RefreshProjectAction"
                 text="Refresh Services in Project"
                 icon="AllIcons.Actions.Refresh">
@@ -154,8 +160,5 @@
             </action>
             <separator/>
         </group>
-
-
     </actions>
-
 </idea-plugin>
