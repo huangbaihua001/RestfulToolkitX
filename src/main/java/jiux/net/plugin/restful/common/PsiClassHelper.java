@@ -123,10 +123,10 @@ public class PsiClassHelper {
         Gson gson = gsonBuilder.create();
 
         String queryJson;
-        if (className.contains("List<")) { //参数为 List
+        if (className.contains("List<")) { //list params
             List<Map<String, Object>> jsonList = new ArrayList<>();
 
-            // 没处理泛型嵌套，
+            // didn't handle generic nesting.
             String entityName = className.substring(className.indexOf("<") + 1, className.lastIndexOf(">"));
 
             // build RequestBody Json
@@ -290,14 +290,16 @@ public class PsiClassHelper {
     }
 
     public PsiClass[] tryDetectPsiClassByShortClassName2(String shortClassName, Project project) {
-        PsiClass[] psiClasses = PsiShortNamesCache.getInstance(project).getClassesByName(shortClassName, GlobalSearchScope.allScope(project));// 所有的
+        // all
+        PsiClass[] psiClasses = PsiShortNamesCache.getInstance(project).getClassesByName(shortClassName, GlobalSearchScope.allScope(project));
 
         if (psiClasses.length > 0) {
             return psiClasses;
         }
 
         if (myModule != null) {
-            psiClasses = PsiShortNamesCache.getInstance(project).getClassesByName(shortClassName, GlobalSearchScope.allScope(project));// 所有的
+            // all
+            psiClasses = PsiShortNamesCache.getInstance(project).getClassesByName(shortClassName, GlobalSearchScope.allScope(project));
             if (psiClasses.length > 0) {
                 return psiClasses;
             }

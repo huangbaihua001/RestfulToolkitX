@@ -12,18 +12,7 @@ import org.yaml.snakeyaml.Yaml;
 import java.io.IOException;
 import java.io.StringReader;
 import java.util.*;
-// profile.active != null  // YamlPropertySourceLoader extends PropertySourceLoader .load
 
-// PropertySourcesLoader.load 配置文件加载类
-// 路径location：[file:./config/, file:./, classpath:/config/, classpath:/]
-//文件name：bootstrap，application
-//后缀：[properties, xml, yml, yaml]
-//applicationConfig: [classpath:/application.yml]#prod
-
-// 如果存在 activeProfile spring.profiles.active 存在，判断是否存在 application-activeProfile. 文件，
-// 如果存在，判断是否存在设置，不存在则忽略
-//最终可能优先级 application.properties>application.yml>bootstrap.propertis>bootstrap.yml
-//路径：classpath:/(resource)>classpath:/config/
 public class PropertiesHandler {
 
     public List<String> CONFIG_FILES = Arrays.asList("application", "bootstrap");
@@ -39,11 +28,11 @@ public class PropertiesHandler {
         this.module = module;
     }
 
-    public String[] getFileExtensions() { //优先级
+    public String[] getFileExtensions() {
         return new String[]{"properties", "yml"};
     }
 
-    public String[] getConfigFiles() { // 优先级
+    public String[] getConfigFiles() {
         return new String[]{"application", "bootstrap"};
     }
 
@@ -87,7 +76,7 @@ public class PropertiesHandler {
         return activeProfile;
     }
 
-    /* 暂时不考虑路径问题，默认找到的第一文件 */
+    /* Disregarding the path issue for now, the first file found by default  */
     private String findPropertyValue(String propertyKey, String activeProfile) {
         String value = null;
         String profile = activeProfile != null ? "-" + activeProfile : "";
@@ -165,15 +154,11 @@ public class PropertiesHandler {
     }
 
     private String cleanPlaceholderIfExist(String value) {
-        // server.port=${PORT:8080}
         if (value != null && value.contains(placeholderPrefix) && value.contains(valueSeparator)) {
             String[] split = value.split(valueSeparator);
-
-
             if (split.length > 1) {
                 value = split[1].replace(placeholderSuffix, "");
             }
-//            value = value.replace(placeholderPrefix,"").replace(placeholderSuffix,"");
         }
         return value;
     }
@@ -188,12 +173,10 @@ public class PropertiesHandler {
             try {
                 Map<String, Object> ymlPropertiesMap = (Map<String, Object>) yaml.load(yamlText);
                 return getFlattenedMap(ymlPropertiesMap);
-            } catch (Exception e) { // FIXME: spring 同一个文件中配置多个环境时； yaml 格式不规范，比如包含 “---“
-
+            } catch (Exception e) { // FIXME: spring When configuring multiple environments in the same file; yaml formatting is not standardized, e.g., contains "--"
+                e.printStackTrace();
                 return null;
             }
-
-//        Object yamlProperty = getYamlProperty(key, ymlPropertiesMap);
         }
         return null;
     }

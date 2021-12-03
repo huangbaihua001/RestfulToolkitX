@@ -14,10 +14,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class RequestMappingAnnotationHelper implements RestSupportedAnnotationHelper {
-
-
     /**
-     * 过滤所有注解
+     * Filter all annotations
      *
      * @param psiClass
      * @return
@@ -44,7 +42,7 @@ public class RequestMappingAnnotationHelper implements RestSupportedAnnotationHe
                 list.addAll(requestMappings);
             }
         } else {
-            // TODO : 继承 RequestMapping
+            // TODO : Inheritance RequestMapping
             PsiClass superClass = psiClass.getSuperClass();
             if (superClass != null && !superClass.getQualifiedName().equals("java.lang.Object")) {
                 list = getRequestPaths(superClass);
@@ -67,7 +65,7 @@ public class RequestMappingAnnotationHelper implements RestSupportedAnnotationHe
             if (annotation.getQualifiedName().equals(SpringRequestMethodAnnotation.REQUEST_MAPPING.getQualifiedName())) {
                 return getRequestMappingValues(annotation);
             }
-/*            //fixme: mac 下 annotation.getQualifiedName() 不是完整路径 ?
+/*            //fixme: annotation.getQualifiedName() under mac is not the full path ?
             if (annotation.getQualifiedName().equals(requestMapping.getShortName())) {
                 return getRequestMappingValues(annotation);
             }*/
@@ -105,10 +103,7 @@ public class RequestMappingAnnotationHelper implements RestSupportedAnnotationHe
             pathList.add(defaultValue);
         }
 
-        // todo: 处理没有设置 value 或 path 的 RequestMapping
-
-//        List<String> finalPathList = pathList;
-//        methodList.forEach(method-> finalPathList.forEach(path->mappingList.add(new RequestMapping(path,method))));
+        // todo: Handle RequestMapping without setting value or path
 
         if (methodList.size() > 0) {
             for (String method : methodList) {
@@ -125,26 +120,15 @@ public class RequestMappingAnnotationHelper implements RestSupportedAnnotationHe
         return mappingList;
     }
 
-    /**
-     * 过滤所有注解
-     *
-     * @param psiMethod
-     * @return
-     */
+
     public static RequestPath[] getRequestPaths(PsiMethod psiMethod) {
         PsiAnnotation[] annotations = psiMethod.getModifierList().getAnnotations();
 
-        if (annotations == null) {
-            return null;
-        }
         List<RequestPath> list = new ArrayList<>();
 
         for (PsiAnnotation annotation : annotations) {
             for (SpringRequestMethodAnnotation mappingAnnotation : SpringRequestMethodAnnotation.values()) {
-//            for (PathMappingAnnotation mappingAnnotation : PathMappingAnnotation.allPathMappingAnnotations) {
                 if (mappingAnnotation.getQualifiedName().equals(annotation.getQualifiedName())) {
-
-//                    String defaultValue = psiMethod.getName();
                     String defaultValue = "/";
                     List<RequestPath> requestMappings = getRequestMappings(annotation, defaultValue);
                     if (requestMappings.size() > 0) {
@@ -154,16 +138,12 @@ public class RequestMappingAnnotationHelper implements RestSupportedAnnotationHe
             }
         }
 
-        return list.toArray(new RequestPath[list.size()]);
+        return list.toArray(new RequestPath[0]);
     }
 
 
     private static String getRequestMappingValue(PsiAnnotation annotation) {
         String value = PsiAnnotationHelper.getAnnotationAttributeValue(annotation, "value");
-
-//        String value = psiAnnotationMemberValue.getText().replace("\"","");
-//        if(psiAnnotationMemberValue.)
-
         if (StringUtils.isEmpty(value)) {
             value = PsiAnnotationHelper.getAnnotationAttributeValue(annotation, "path");
         }
@@ -172,33 +152,28 @@ public class RequestMappingAnnotationHelper implements RestSupportedAnnotationHe
 
     public static String[] getRequestMappingValues(PsiAnnotation annotation) {
         String[] values;
-        //一个value class com.intellij.psi.impl.source.tree.java.PsiLiteralExpressionImpl
-        //多个value  class com.intellij.psi.impl.source.tree.java.PsiArrayInitializerMemberValueImpl
+        //one value class com.intellij.psi.impl.source.tree.java.PsiLiteralExpressionImpl
+        //many value class com.intellij.psi.impl.source.tree.java.PsiArrayInitializerMemberValueImpl
         PsiAnnotationMemberValue attributeValue = annotation.findDeclaredAttributeValue("value");
-
         if (attributeValue instanceof PsiLiteralExpression) {
-
             return new String[]{((PsiLiteralExpression) attributeValue).getValue().toString()};
         }
         if (attributeValue instanceof PsiArrayInitializerMemberValue) {
             PsiAnnotationMemberValue[] initializers = ((PsiArrayInitializerMemberValue) attributeValue).getInitializers();
             values = new String[initializers.length];
-
             for (PsiAnnotationMemberValue initializer : initializers) {
 
             }
-
             for (int i = 0; i < initializers.length; i++) {
                 values[i] = ((PsiLiteralExpression) (initializers[i])).getValue().toString();
             }
         }
-
         return new String[]{};
     }
 
 
     public static String getOneRequestMappingPath(PsiClass psiClass) {
-        // todo: 有必要 处理 PostMapping,GetMapping 么？
+        // todo: Is it necessary to handle PostMapping,GetMapping?
         PsiAnnotation annotation = psiClass.getModifierList().findAnnotation(SpringRequestMethodAnnotation.REQUEST_MAPPING.getQualifiedName());
 
         String path = null;
@@ -211,16 +186,11 @@ public class RequestMappingAnnotationHelper implements RestSupportedAnnotationHe
 
 
     public static String getOneRequestMappingPath(PsiMethod psiMethod) {
-//        System.out.println("psiMethod:::::::" + psiMethod);
         SpringRequestMethodAnnotation requestAnnotation = null;
-
-        List<SpringRequestMethodAnnotation> springRequestAnnotations = Arrays.stream(SpringRequestMethodAnnotation.values()).filter(annotation ->
-                psiMethod.getModifierList().findAnnotation(annotation.getQualifiedName()) != null
-        ).collect(Collectors.toList());
-
-       /* if (springRequestAnnotations.size() == 0) {
-            requestAnnotation = null;
-        }*/
+        List<SpringRequestMethodAnnotation> springRequestAnnotations =
+                Arrays.stream(SpringRequestMethodAnnotation.values()).filter(annotation ->
+                        psiMethod.getModifierList().findAnnotation(annotation.getQualifiedName()) != null
+                ).collect(Collectors.toList());
 
         if (springRequestAnnotations.size() > 0) {
             requestAnnotation = springRequestAnnotations.get(0);
@@ -234,9 +204,6 @@ public class RequestMappingAnnotationHelper implements RestSupportedAnnotationHe
             String methodName = psiMethod.getName();
             mappingPath = StringUtils.uncapitalize(methodName);
         }
-
         return mappingPath;
     }
-
-
 }

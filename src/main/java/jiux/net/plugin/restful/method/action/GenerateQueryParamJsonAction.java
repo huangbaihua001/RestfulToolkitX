@@ -15,14 +15,14 @@ import java.awt.datatransfer.StringSelection;
 import java.util.List;
 
 /**
- * 生成Request Body JSON 字符串
+ * Generate Request Body JSON string
  */
 public class GenerateQueryParamJsonAction extends SpringAnnotatedMethodAction {
 
     @Override
     public void actionPerformed(AnActionEvent e) {
 
-        //  @RequestBody entity 生成 json
+        //   @RequestBody entity generates json
 
         PsiMethod psiMethod = null;
         PsiElement psiElement = e.getData(CommonDataKeys.PSI_ELEMENT);
@@ -41,18 +41,14 @@ public class GenerateQueryParamJsonAction extends SpringAnnotatedMethodAction {
 
         PsiMethodHelper psiMethodHelper = PsiMethodHelper.create(psiMethod);
         List<Parameter> parameterList = psiMethodHelper.getParameterList();
-//JavaShortClassNameIndex.getInstance().get("Product",myProject(e), GlobalSearchScope.projectScope(myProject(e)))
         for (Parameter parameter : parameterList) {
             if (parameter.isRequestBodyFound()) {
                 String queryJson = psiMethodHelper.buildRequestBodyJson(parameter);
-
                 CopyPasteManager.getInstance().setContents(new StringSelection(queryJson));
-
                 break;
             }
         }
     }
-
     @Override
     public boolean displayTextInToolbar() {
         return true;
