@@ -9,6 +9,7 @@ import jiux.net.plugin.restful.common.PsiClassHelper;
 
 import java.awt.datatransfer.StringSelection;
 
+
 public class ConvertClassToJSONCompressedAction extends ConvertClassToJSONAction {
     @Override
     public void actionPerformed(AnActionEvent e) {

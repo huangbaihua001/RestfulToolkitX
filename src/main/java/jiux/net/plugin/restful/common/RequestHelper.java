@@ -22,7 +22,7 @@ import java.util.List;
 public class RequestHelper {
 
 
-    public static String request(String url, String method) {
+    public static String request(String url, String method) throws ClientProtocolException {
         if (method == null) {
             return "method is null";
         }
@@ -56,46 +56,7 @@ public class RequestHelper {
 
             result = toString(entity);
             // System.out.println(response.getStatusLine().getStatusCode());
-        } catch (UnsupportedEncodingException e) {
-            result = "There was an error accessing to URL: " + url + "\n\n" + e.toString();
-            e.printStackTrace();
-        } catch (ClientProtocolException e) {
-            result = "There was an error accessing to URL: " + url + "\n\n" + e.toString();
-            e.printStackTrace();
-        } catch (IOException e) {
-            result = "There was an error accessing to URL: " + url + "\n\n" + e.toString();
-            e.printStackTrace();
-        } finally {
-            release(response, httpClient);
-        }
-
-        return result != null ? result : "";
-    }
-
-    public static String post(String url) {
-        List<BasicNameValuePair> params = new ArrayList<>();
-        // params.add(new BasicNameValuePair("parameter2", "23456"));
-
-        String result = null;
-
-        CloseableHttpResponse response = null;
-        CloseableHttpClient httpClient = HttpClients.createDefault();
-        try {
-            HttpEntity httpEntity;
-            httpEntity = new UrlEncodedFormEntity(params);
-            ////////////////////////////////////
-
-            HttpPost httpMethod = new HttpPost(completed(url));
-            httpMethod.setEntity(httpEntity);
-            response = httpClient.execute(httpMethod);
-
-            HttpEntity entity = response.getEntity();
-            result = toString(entity);
-            // System.out.println(response.getStatusLine().getStatusCode());
-        } catch (UnsupportedEncodingException e) {
-            result = "There was an error accessing to URL: " + url + "\n\n" + e.toString();
-            e.printStackTrace();
-        } catch (ClientProtocolException e) {
+        } catch (UnsupportedEncodingException | ClientProtocolException e) {
             result = "There was an error accessing to URL: " + url + "\n\n" + e.toString();
             e.printStackTrace();
         } catch (IOException e) {
@@ -108,8 +69,34 @@ public class RequestHelper {
         return result;
     }
 
+    public static String post(String url) {
+        List<BasicNameValuePair> params = new ArrayList<>();
 
-    public static String put(String url) {
+        String result = null;
+
+        CloseableHttpResponse response = null;
+        CloseableHttpClient httpClient = HttpClients.createDefault();
+        try {
+            HttpEntity httpEntity;
+            httpEntity = new UrlEncodedFormEntity(params);
+            HttpPost httpMethod = new HttpPost(completed(url));
+            httpMethod.setEntity(httpEntity);
+            response = httpClient.execute(httpMethod);
+
+            HttpEntity entity = response.getEntity();
+            result = toString(entity);
+        } catch (IOException e) {
+            result = "There was an error accessing to URL: " + url + "\n\n" + e.toString();
+            e.printStackTrace();
+        } finally {
+            release(response, httpClient);
+        }
+
+        return result;
+    }
+
+
+    public static String put(String url) throws ClientProtocolException {
         String result;
 
         CloseableHttpResponse response = null;
@@ -121,12 +108,6 @@ public class RequestHelper {
             HttpEntity entity = response.getEntity();
             result = toString(entity);
             // System.out.println(response.getStatusLine().getStatusCode());
-        } catch (UnsupportedEncodingException e) {
-            result = "There was an error accessing to URL: " + url + "\n\n" + e.toString();
-            e.printStackTrace();
-        } catch (ClientProtocolException e) {
-            result = "There was an error accessing to URL: " + url + "\n\n" + e.toString();
-            e.printStackTrace();
         } catch (IOException e) {
             result = "There was an error accessing to URL: " + url + "\n\n" + e.toString();
             e.printStackTrace();
@@ -138,7 +119,7 @@ public class RequestHelper {
     }
 
 
-    public static String delete(String url) {
+    public static String delete(String url) throws ClientProtocolException {
         if (!url.startsWith("http://") && !url.startsWith("https://")) {
             url = "http://" + url;
         }
@@ -153,12 +134,6 @@ public class RequestHelper {
 
             HttpEntity entity = response.getEntity();
             result = toString(entity);
-        } catch (UnsupportedEncodingException e) {
-            result = "There was an error accessing to URL: " + url + "\n\n" + e.toString();
-            e.printStackTrace();
-        } catch (ClientProtocolException e) {
-            result = "There was an error accessing to URL: " + url + "\n\n" + e.toString();
-            e.printStackTrace();
         } catch (IOException e) {
             result = "There was an error accessing to URL: " + url + "\n\n" + e.toString();
             e.printStackTrace();
@@ -192,9 +167,6 @@ public class RequestHelper {
             response = httpClient.execute(postMethod);
             result = toString(response.getEntity());
 
-        } catch (UnsupportedEncodingException e) {
-            result = "There was an error accessing to URL: " + url + "\n\n" + e.toString();
-//            e.printStackTrace();
         } catch (IOException e) {
             result = "There was an error accessing to URL: " + url + "\n\n" + e.toString();
 //            e.printStackTrace();
@@ -237,8 +209,9 @@ public class RequestHelper {
             e.printStackTrace();
         }
 
-        if (result != null && JsonUtils.isValidJson(result))
+        if (result != null && JsonUtils.isValidJson(result)) {
             return JsonUtils.format(result);
+        }
 
         return "";
     }

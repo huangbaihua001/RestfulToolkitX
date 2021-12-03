@@ -15,7 +15,7 @@ import java.awt.datatransfer.StringSelection;
 import java.util.List;
 
 /**
- * 生成查询参数
+ * gen query params
  */
 public class GenerateQueryParamAction extends SpringAnnotatedMethodAction {
 

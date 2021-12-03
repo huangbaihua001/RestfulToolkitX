@@ -1,9 +1,9 @@
 package jiux.net.plugin.restful.method;
 
 /**
- * 方法参数
+ * method params
  */
-public class Parameter {  // MethodParameter
+public class Parameter {
 
     private String paramType;
     private String paramName;

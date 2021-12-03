@@ -40,33 +40,29 @@ public class PsiClassHelper {
                 paramValue = Byte.valueOf("1");
                 break;
             case "char":
-                paramValue = Character.valueOf('Z');
-                break;
             case "character":
-                paramValue = Character.valueOf('Z');
+                paramValue = 'Z';
                 break;
             case "boolean":
                 paramValue = Boolean.TRUE;
                 break;
             case "int":
-                paramValue = Integer.valueOf(1);
-                break;
             case "integer":
-                paramValue = Integer.valueOf(1);
+                paramValue = 1;
                 break;
             case "double":
-                paramValue = Double.valueOf(1);
+                paramValue = 1.0;
                 break;
             case "float":
-                paramValue = Float.valueOf(1.0F);
+                paramValue = 1.0F;
                 break;
             case "long":
-                paramValue = Long.valueOf(1L);
+                paramValue = 1L;
                 break;
             case "short":
                 paramValue = Short.valueOf("1");
                 break;
-            case "bigdecimal":
+            case "decimal":
                 return BigDecimal.ONE;
             case "string":
                 paramValue = "demoData";
@@ -123,7 +119,8 @@ public class PsiClassHelper {
         Gson gson = gsonBuilder.create();
 
         String queryJson;
-        if (className.contains("List<")) { //list params
+        //list params
+        if (className.contains("List<")) {
             List<Map<String, Object>> jsonList = new ArrayList<>();
 
             // didn't handle generic nesting.

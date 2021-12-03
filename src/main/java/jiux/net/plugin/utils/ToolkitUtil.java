@@ -106,8 +106,8 @@ public class ToolkitUtil {
         if (pattern.contains(localhost)) {
             pattern = pattern.replaceFirst(localhostRegex, "");
         }
-
-        if (pattern.contains("http:") || pattern.contains("https:")) { // quick test if reg exp should be used
+        // quick test if reg exp should be used
+        if (pattern.contains("http:") || pattern.contains("https:")) {
             pattern = pattern.replaceFirst(hostAndPortRegex, "");
         }
 

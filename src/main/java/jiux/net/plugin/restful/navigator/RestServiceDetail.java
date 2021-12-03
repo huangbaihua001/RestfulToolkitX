@@ -18,6 +18,7 @@ import jiux.net.plugin.restful.common.RequestHelper;
 import jiux.net.plugin.utils.JsonUtils;
 import jiux.net.plugin.utils.ToolkitUtil;
 import org.apache.commons.lang.StringUtils;
+import org.apache.http.client.ClientProtocolException;
 import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
@@ -145,11 +146,15 @@ public class RestServiceDetail extends JBPanel {
                         String method = methodField.getText();
                         String responseText = url;
 
-                        String response;
+                        String response = null;
                         if (requestBodyTextArea != null && StringUtils.isNotBlank(requestBodyTextArea.getText())) {
                             response = RequestHelper.postRequestBodyWithJson(url, requestBodyTextArea.getText());
                         } else {
-                            response = RequestHelper.request(url, method);
+                            try {
+                                response = RequestHelper.request(url, method);
+                            } catch (ClientProtocolException ex) {
+                                ex.printStackTrace();
+                            }
                         }
 
                         if (response != null) {

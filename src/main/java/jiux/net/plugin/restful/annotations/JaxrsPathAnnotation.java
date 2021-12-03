@@ -13,23 +13,14 @@ public enum JaxrsPathAnnotation implements PathMappingAnnotation {
         this.qualifiedName = qualifiedName;
     }
 
+    @Override
     public String getQualifiedName() {
         return qualifiedName;
     }
 
+    @Override
     public String getShortName() {
         return shortName;
     }
-/*
-    @Override
-    public List<PathMappingAnnotation> getPathMappings() {
-        return allPathMappingAnnotations;
-    }
-
-    static {
-        for (JaxrsPathAnnotation annotation : JaxrsPathAnnotation.values()) {
-            allPathMappingAnnotations.add(annotation);
-        }
-    }*/
 
 }
