@@ -1,4 +1,4 @@
-# Restful Toolkit For Intellij IDEA
+# Restful Toolkit For IntelliJ IDEA
 
 ![Build](https://github.com/huangbaihua001/RestfulToolkitX/workflows/Build/badge.svg)
 [![Version](https://img.shields.io/jetbrains/plugin/v/jiux.net.plugin.restful.toolkit.svg)](https://plugins.jetbrains.com/plugin/18118-restfultoolkitx)
