@@ -115,7 +115,6 @@ public class RestServiceDetail extends JBPanel {
 
     private void bindSendButtonActionListener() {
         sendButton.addActionListener(e -> {
-
             ProgressManager.getInstance().run(new Task.Backgroundable(null, "Sending Request") {
                 @Override
                 public void run(@NotNull ProgressIndicator indicator) {
@@ -202,7 +201,6 @@ public class RestServiceDetail extends JBPanel {
                 methodField.selectAll();
             }
         });
-
     }
 
 
@@ -226,9 +224,7 @@ public class RestServiceDetail extends JBPanel {
             requestParamsTextArea.setText(paramBuilder.toString());
         }
 
-
         addRequestTabbedPane("RequestParams", requestParamsTextArea);
-
     }
 
     public void addRequestBodyTabPanel(String text) {
@@ -243,7 +239,8 @@ public class RestServiceDetail extends JBPanel {
 
 
     public void addRequestTabbedPane(String title, JTextArea jTextArea) {
-        JScrollPane jbScrollPane = new JBScrollPane(jTextArea, JBScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JBScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        JScrollPane jbScrollPane = new JBScrollPane(jTextArea, JBScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+                JBScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         jTextArea.addKeyListener(new TextAreaKeyAdapter(jTextArea));
 
         requestTabbedPane.addTab(title, jbScrollPane);
@@ -328,7 +325,7 @@ public class RestServiceDetail extends JBPanel {
         FontPreferences fontPreferences = this.getFontPreferences();
         String fontFamily = fontPreferences.getFontFamily();
         int size = fontPreferences.getSize(fontFamily);
-        return new Font("Monospaced", Font.PLAIN, size);
+        return new Font(FontPreferences.DEFAULT_FONT_NAME, Font.PLAIN, size);
     }
 
 
