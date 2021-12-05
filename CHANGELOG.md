@@ -3,6 +3,19 @@
 # RestfulToolkitX Changelog
 ## [Unreleased]
 
+## [1.0.1] - 2021-12-05
+
+### Added
+- Support for restful response JSON highlighting in RestServices Tree Window
+- 在 Restful 服务窗口中支持 返回的 JSON 格式高亮
+
+### Changed
+- Fixed some bugs
+- 修复若干Bug
+
+
+
+
 ## [1.0.0] - 2021-11-20
 
 ### Added
