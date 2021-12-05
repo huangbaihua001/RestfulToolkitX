@@ -5,6 +5,7 @@ import com.intellij.openapi.actionSystem.*;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.SimpleToolWindowPanel;
 import com.intellij.openapi.ui.Splitter;
+import com.intellij.ui.JBColor;
 import com.intellij.ui.PopupHandler;
 import com.intellij.ui.ScrollPaneFactory;
 import com.intellij.ui.treeStructure.SimpleTree;
@@ -19,7 +20,9 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-
+/**
+ * Restful Services Navigation Panel
+ */
 public class RestServicesNavigatorPanel extends SimpleToolWindowPanel implements DataProvider {
     private final Project myProject;
     private final SimpleTree myTree;
@@ -37,21 +40,19 @@ public class RestServicesNavigatorPanel extends SimpleToolWindowPanel implements
 
         final ActionManager actionManager = ActionManager.getInstance();
         ActionToolbar actionToolbar = actionManager.createActionToolbar("RestToolkit Navigator Toolbar",
-                (DefaultActionGroup) actionManager
-                        .getAction("Toolkit.NavigatorActionsToolbar"),
+                (DefaultActionGroup) actionManager.getAction("Toolkit.NavigatorActionsToolbar"),
                 true);
         setToolbar(actionToolbar.getComponent());
         Color gray = new Color(36, 38, 39);
         myTree.setBorder(BorderFactory.createLineBorder(gray));
         JScrollPane scrollPane = ScrollPaneFactory.createScrollPane(myTree);
-        scrollPane.setBorder(BorderFactory.createLineBorder(Color.RED));
+        scrollPane.setBorder(BorderFactory.createLineBorder(JBColor.RED));
 
         servicesContentPaneSplitter = new Splitter(true, .5f);
         servicesContentPaneSplitter.setShowDividerControls(true);
         servicesContentPaneSplitter.setDividerWidth(10);
-        servicesContentPaneSplitter.setBorder(BorderFactory.createLineBorder(Color.RED));
+        servicesContentPaneSplitter.setBorder(BorderFactory.createLineBorder(JBColor.RED));
         servicesContentPaneSplitter.setFirstComponent(scrollPane);
-
         servicesContentPaneSplitter.setSecondComponent(myRestServiceDetail);
 
         setContent(servicesContentPaneSplitter);
@@ -64,11 +65,9 @@ public class RestServicesNavigatorPanel extends SimpleToolWindowPanel implements
                     final ActionGroup actionGroup = (ActionGroup) actionManager.getAction(id);
                     if (actionGroup != null) {
                         JPopupMenu component = actionManager.createActionPopupMenu("", actionGroup).getComponent();
-
                         component.show(comp, x, y);
                     }
                 }
-
             }
 
             @Nullable
@@ -90,14 +89,14 @@ public class RestServicesNavigatorPanel extends SimpleToolWindowPanel implements
         });
     }
 
-    private Collection<? extends RestServiceStructure.BaseSimpleNode> getSelectedNodes(Class<RestServiceStructure.BaseSimpleNode> aClass) {
+    private Collection<? extends RestServiceStructure.BaseSimpleNode>
+    getSelectedNodes(Class<RestServiceStructure.BaseSimpleNode> aClass) {
         return RestServiceStructure.getSelectedNodes(myTree, aClass);
     }
 
     @Override
     @Nullable
     public Object getData(@NonNls String dataId) {
-
         if (RestServiceDataKeys.SERVICE_ITEMS.is(dataId)) {
             return extractServices();
         }
@@ -107,13 +106,13 @@ public class RestServicesNavigatorPanel extends SimpleToolWindowPanel implements
 
     private List<RestServiceItem> extractServices() {
         List<RestServiceItem> result = new ArrayList<>();
-        Collection<? extends RestServiceStructure.BaseSimpleNode> selectedNodes = getSelectedNodes(RestServiceStructure.BaseSimpleNode.class);
+        Collection<? extends RestServiceStructure.BaseSimpleNode> selectedNodes =
+                getSelectedNodes(RestServiceStructure.BaseSimpleNode.class);
         for (RestServiceStructure.BaseSimpleNode selectedNode : selectedNodes) {
             if (selectedNode instanceof RestServiceStructure.ServiceNode) {
                 result.add(((RestServiceStructure.ServiceNode) selectedNode).myServiceItem);
             }
         }
-
         return result;
     }
 }

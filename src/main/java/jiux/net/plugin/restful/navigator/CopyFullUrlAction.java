@@ -31,7 +31,6 @@ public class CopyFullUrlAction extends AnAction implements DumbAware {
             }
             sb.append(serviceItem.getFullUrl());
         }
-
         CopyPasteManager.getInstance().setContents(new StringSelection(sb.toString()));
     }
 

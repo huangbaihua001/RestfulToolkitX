@@ -13,7 +13,6 @@ import org.apache.http.util.EntityUtils;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
@@ -53,12 +52,7 @@ public class RequestHelper {
         try {
             response = httpClient.execute(httpMethod);
             HttpEntity entity = response.getEntity();
-
             result = toString(entity);
-            // System.out.println(response.getStatusLine().getStatusCode());
-        } catch (UnsupportedEncodingException | ClientProtocolException e) {
-            result = "There was an error accessing to URL: " + url + "\n\n" + e.toString();
-            e.printStackTrace();
         } catch (IOException e) {
             result = "There was an error accessing to URL: " + url + "\n\n" + e.toString();
             e.printStackTrace();
@@ -162,14 +156,13 @@ public class RequestHelper {
             postMethod.addHeader("Content-type", "application/json; charset=utf-8");
             postMethod.setHeader("Accept", "application/json");
 //            postMethod.setEntity(new StringEntity(parameters, Charset.forName("UTF-8")));
-            postMethod.setEntity(httpEntity);                                          //设置post请求实体
+            postMethod.setEntity(httpEntity);
 
             response = httpClient.execute(postMethod);
             result = toString(response.getEntity());
 
         } catch (IOException e) {
             result = "There was an error accessing to URL: " + url + "\n\n" + e.toString();
-//            e.printStackTrace();
         } finally {
             release(response, httpClient);
         }
@@ -215,6 +208,4 @@ public class RequestHelper {
 
         return "";
     }
-
-
 }

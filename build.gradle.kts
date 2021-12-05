@@ -24,6 +24,10 @@ repositories {
     mavenCentral()
 }
 
+dependencies {
+    implementation("com.fifesoft:rsyntaxtextarea:3.1.3")
+}
+
 // Configure Gradle IntelliJ Plugin - read more: https://github.com/JetBrains/gradle-intellij-plugin
 intellij {
     pluginName.set(properties("pluginName"))

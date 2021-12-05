@@ -19,6 +19,8 @@ import jiux.net.plugin.utils.JsonUtils;
 import jiux.net.plugin.utils.ToolkitUtil;
 import org.apache.commons.lang.StringUtils;
 import org.apache.http.client.ClientProtocolException;
+import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
+import org.fife.ui.rsyntaxtextarea.SyntaxConstants;
 import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
@@ -40,10 +42,9 @@ public class RestServiceDetail extends JBPanel {
     public JButton sendButton;
     public JTabbedPane requestTabbedPane;
 
-    public JTextArea requestParamsTextArea;
-
-    public JTextArea requestBodyTextArea;
-    public JTextArea responseTextArea;
+    public RSyntaxTextArea requestParamsTextArea;
+    public RSyntaxTextArea requestBodyTextArea;
+    public RSyntaxTextArea responseTextArea;
 
     private RestServiceDetail() {
         super();
@@ -62,14 +63,12 @@ public class RestServiceDetail extends JBPanel {
 
     private void initActions() {
         bindSendButtonActionListener();
-
         bindUrlTextActionListener();
     }
 
     public void initTab() {
         String jsonFormat = "Try press 'Ctrl(Cmd) Enter'";
-        JTextArea textArea = createTextArea("{'key':'value'}");
-
+        RSyntaxTextArea textArea = createTextArea("{'key':'value'}", SyntaxConstants.SYNTAX_STYLE_JSON);
         addRequestTabbedPane(jsonFormat, textArea);
     }
 
@@ -116,6 +115,7 @@ public class RestServiceDetail extends JBPanel {
 
     private void bindSendButtonActionListener() {
         sendButton.addActionListener(e -> {
+
             ProgressManager.getInstance().run(new Task.Backgroundable(null, "Sending Request") {
                 @Override
                 public void run(@NotNull ProgressIndicator indicator) {
@@ -125,10 +125,10 @@ public class RestServiceDetail extends JBPanel {
                         if (requestParamsTextArea != null) {
                             String requestParamsText = requestParamsTextArea.getText();
                             Map<String, String> paramMap = ToolkitUtil.textToParamMap(requestParamsText);
-                            if (paramMap != null && paramMap.size() > 0) {
+                            if (paramMap.size() > 0) {
                                 // set PathVariable value to request URI
                                 for (String key : paramMap.keySet()) {
-                                    url = url.replaceFirst("\\{(" + key + "[\\s\\S]*?)\\}", paramMap.get(key));
+                                    url = url.replaceFirst("\\{(" + key + "[\\s\\S]*?)}", paramMap.get(key));
                                 }
                             }
 
@@ -156,13 +156,10 @@ public class RestServiceDetail extends JBPanel {
                                 ex.printStackTrace();
                             }
                         }
-
                         if (response != null) {
                             responseText = response;
                         }
-
                         addResponseTabPanel(responseText);
-
                     };
                     runnable.run();
                 }
@@ -210,7 +207,6 @@ public class RestServiceDetail extends JBPanel {
 
 
     public void addRequestParamsTab(String requestParams) {
-
         StringBuilder paramBuilder = new StringBuilder();
 
         if (StringUtils.isNotBlank(requestParams)) {
@@ -225,12 +221,11 @@ public class RestServiceDetail extends JBPanel {
         }
 
         if (requestParamsTextArea == null) {
-            requestParamsTextArea = createTextArea(paramBuilder.toString());
+            requestParamsTextArea = createTextArea(paramBuilder.toString(), SyntaxConstants.SYNTAX_STYLE_NONE);
         } else {
             requestParamsTextArea.setText(paramBuilder.toString());
         }
 
-        highlightTextAreaData(requestParamsTextArea);
 
         addRequestTabbedPane("RequestParams", requestParamsTextArea);
 
@@ -239,12 +234,10 @@ public class RestServiceDetail extends JBPanel {
     public void addRequestBodyTabPanel(String text) {
         String reqBodyTitle = "RequestBody";
         if (requestBodyTextArea == null) {
-            requestBodyTextArea = createTextArea(text);
+            requestBodyTextArea = createTextArea(text, SyntaxConstants.SYNTAX_STYLE_NONE);
         } else {
             requestBodyTextArea.setText(text);
         }
-
-        highlightTextAreaData(requestBodyTextArea);
         addRequestTabbedPane(reqBodyTitle, this.requestBodyTextArea);
     }
 
@@ -261,7 +254,7 @@ public class RestServiceDetail extends JBPanel {
     public void addResponseTabPanel(String text) {
         String responseTabTitle = "Response";
         if (responseTextArea == null) {
-            responseTextArea = createTextArea(text);
+            responseTextArea = createTextArea(text, SyntaxConstants.SYNTAX_STYLE_JSON);
             addRequestTabbedPane(responseTabTitle, responseTextArea);
         } else {
             Component componentAt = null;
@@ -278,23 +271,22 @@ public class RestServiceDetail extends JBPanel {
             if (componentAt == null) {
                 addRequestTabbedPane(responseTabTitle, responseTextArea);
             }
-
         }
-
     }
 
     @NotNull
-    public JTextArea createTextArea(String text) {
+    public RSyntaxTextArea createTextArea(String text, String style) {
         Font font = getEffectiveFont();
-        JTextArea jTextArea = new JTextArea(text);
+        RSyntaxTextArea jTextArea = new RSyntaxTextArea(text);
         jTextArea.setFont(font);
+        jTextArea.setSyntaxEditingStyle(style);
+        jTextArea.setCodeFoldingEnabled(true);
 
         jTextArea.addKeyListener(new KeyAdapter() {
             @Override
             public void keyTyped(KeyEvent e) {
                 String text = jTextArea.getText();
                 getEffectiveFont(text);
-                highlightTextAreaData(jTextArea);
             }
         });
 
@@ -306,16 +298,12 @@ public class RestServiceDetail extends JBPanel {
                 }
             }
         });
-
-        highlightTextAreaData(jTextArea);
-
         return jTextArea;
     }
 
     @NotNull
     private Font getEffectiveFont(String text) {
         FontPreferences fontPreferences = this.getFontPreferences();
-
         List<String> effectiveFontFamilies = fontPreferences.getEffectiveFontFamilies();
 
         int size = fontPreferences.getSize(fontPreferences.getFontFamily());
@@ -363,11 +351,6 @@ public class RestServiceDetail extends JBPanel {
 
     public void setUrlValue(String url) {
         urlField.setText(url);
-    }
-
-
-    public void highlightTextAreaData(JTextArea jTextArea) {
-
     }
 
     private class TextAreaKeyAdapter extends KeyAdapter {

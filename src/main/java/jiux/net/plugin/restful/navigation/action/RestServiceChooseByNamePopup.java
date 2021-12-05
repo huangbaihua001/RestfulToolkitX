@@ -55,18 +55,21 @@ public class RestServiceChooseByNamePopup extends ChooseByNamePopup {
     }
 
     //TODO: resolve PathVariable
-    public static String getTransformedPattern(String pattern, ChooseByNameModel model) {
+    @NotNull
+    public static String getTransformedPattern(@NotNull String pattern,
+                                               @NotNull ChooseByNameModel model) {
         if (!(model instanceof GotoRequestMappingModel)) {
             return pattern;
         }
 
         pattern = ToolkitUtil.removeRedundancyMarkup(pattern);
-        ;
+
         return pattern;
     }
 
+    @NotNull
     @Override
-    public String transformPattern(String pattern) {
+    public String transformPattern(@NotNull String pattern) {
         final ChooseByNameModel model = getModel();
         return getTransformedPattern(pattern, model);
     }

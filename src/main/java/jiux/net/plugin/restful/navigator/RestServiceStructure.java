@@ -18,6 +18,7 @@ import jiux.net.plugin.restful.method.HttpMethod;
 import jiux.net.plugin.restful.navigation.action.RestServiceItem;
 import org.apache.commons.lang.StringUtils;
 import org.jetbrains.annotations.NonNls;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.jetbrains.kotlin.idea.KotlinLanguage;
 import org.jetbrains.kotlin.psi.KtNamedFunction;
@@ -88,6 +89,7 @@ public class RestServiceStructure extends SimpleTreeStructure {
         tree.setShowsRootHandles(true);
     }
 
+    @NotNull
     @Override
     public RootNode getRootElement() {
         return myRoot;

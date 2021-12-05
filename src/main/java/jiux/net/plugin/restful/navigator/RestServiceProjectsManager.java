@@ -33,7 +33,7 @@ public class RestServiceProjectsManager extends AbstractProjectComponent
     protected final Project myProject;
 
 
-    private RestServicesNavigatorState myState = new RestServicesNavigatorState();
+    private final RestServicesNavigatorState myState = new RestServicesNavigatorState();
 
     public RestServiceProjectsManager(Project project) {
         super(project);
@@ -61,7 +61,8 @@ public class RestServiceProjectsManager extends AbstractProjectComponent
     }
 
     public List<RestServiceProject> getServiceProjects() {
-        return DumbService.getInstance(myProject).runReadActionInSmartMode(() -> ServiceHelper.buildRestServiceProjectListUsingResolver(myProject));
+        return DumbService.getInstance(myProject).runReadActionInSmartMode(
+                () -> ServiceHelper.buildRestServiceProjectListUsingResolver(myProject));
     }
 
     public void forceUpdateAllProjects() {

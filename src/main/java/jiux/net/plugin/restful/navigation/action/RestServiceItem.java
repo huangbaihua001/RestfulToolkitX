@@ -25,9 +25,7 @@ public class RestServiceItem implements NavigationItem {
     private HttpMethod method;
 
     private String url;
-
     private Navigatable navigationElement;
-
 
     public RestServiceItem(PsiElement psiElement, String requestMethod, String urlPath) {
         this.psiElement = psiElement;

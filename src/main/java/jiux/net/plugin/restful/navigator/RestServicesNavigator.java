@@ -28,7 +28,8 @@ import java.awt.*;
 import java.net.URL;
 
 @State(name = "RestServicesNavigator", storages = {@Storage(StoragePathMacros.WORKSPACE_FILE)})
-public class RestServicesNavigator extends AbstractProjectComponent implements PersistentStateComponent<RestServicesNavigatorState>, ProjectComponent {
+public class RestServicesNavigator extends AbstractProjectComponent
+        implements PersistentStateComponent<RestServicesNavigatorState>, ProjectComponent {
     public static final Logger LOG = Logger.getInstance(RestServicesNavigator.class);
 
     public static final String TOOL_WINDOW_ID = "RestServices";
@@ -61,15 +62,12 @@ public class RestServicesNavigator extends AbstractProjectComponent implements P
             @Override
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
-
                 final JLabel myLabel = new JLabel(
                         RestfulToolkitBundle.message("toolkit.navigator.nothing.to.display", ToolkitUtil.formatHtmlImage(SYNC_ICON_URL)));
 
                 if (myProject.isInitialized()) {
                     return;
                 }
-//                if (myProjectsManager.hasProjects()) return;
-
                 myLabel.setFont(getFont());
                 myLabel.setBackground(getBackground());
                 myLabel.setForeground(getForeground());
