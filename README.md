@@ -27,7 +27,13 @@ Quick Search URL Preview
 
 Restful Services Window Preview
 
-![restServiceWindow.png](img/restServiceWindow.png)
+![restServiceWindow.png](img/rest_resp_highlight.png)
+
+Useful Functions Preview
+
+![gen_copy.png](img/gen_copy.png)
+![convert_json.png](img/convert_json.png)
+
 
 ## Installation
 

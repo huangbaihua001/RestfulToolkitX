@@ -33,7 +33,12 @@ RestfulToolkitX 的由来：
 
 Restful 服务窗口预览
 
-![restServiceWindow.png](img/restServiceWindow.png)
+![restServiceWindow.png](img/rest_resp_highlight.png)
+
+实用功能预览
+
+![gen_copy.png](img/gen_copy.png)
+![convert_json.png](img/convert_json.png)
 
 ## 安装
 
