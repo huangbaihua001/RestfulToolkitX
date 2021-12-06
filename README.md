@@ -18,7 +18,7 @@ Spring framework (Spring Boot / Spring MVC),JAX-RS.
 - [x] A simple http request tool.
 - [x] Generate&Copy Query Param, Generate&Copy URL on the request method.
 - [x] Convert java class to JSON; format json data <em>( Windows: Ctrl + Enter; Mac: Command + Enter ) .
-- [ ] Other useful features, Stay tuned... ^_^
+- [ ] In development: Quick code generation from tables, including DAO (MyBatis, JPA), Entity (DTO), Service, Controller.
 
 
 Quick Search URL Preview

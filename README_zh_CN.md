@@ -24,7 +24,7 @@ RestfulToolkitX 的由来：
 - [x] 简单的 HttpClient 工具。
 - [x] 在请求方法上生成并复制参数，URL。
 - [x] 将 Java类 转成 JSON; 格式化 JSON 数据 <em>( Windows: Ctrl + Enter; Mac: Command + Enter ) 。
-- [ ] 其它有用的功能，敬请期待... ^_^
+- [ ] 开发中：  一键从表生成代码,包括 (DAO MyBatis,JPA),Entity(DTO), Service, Controller.
 
 
 快速搜索 URL 预览
