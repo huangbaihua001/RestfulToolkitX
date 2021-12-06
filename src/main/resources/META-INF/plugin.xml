@@ -4,8 +4,9 @@
     <name>RestfulToolkitX</name>
     <vendor>jiux.net</vendor>
     <depends>com.intellij.modules.platform</depends>
-    <depends>com.intellij.java</depends>
     <depends>com.intellij.modules.lang</depends>
+    <depends>com.intellij.java</depends>
+    <depends>com.intellij.database</depends>
     <depends>com.intellij.properties</depends>
     <depends>org.jetbrains.plugins.yaml</depends>
     <depends>org.jetbrains.kotlin</depends>
