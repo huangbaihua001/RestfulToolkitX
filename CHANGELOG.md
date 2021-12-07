@@ -3,6 +3,12 @@
 # RestfulToolkitX Changelog
 ## [Unreleased]
 
+## [1.0.2] - 2021-12-07
+
+### Added
+- Support for IntelliJ IDEA 2021.3
+- 支持 IntelliJ IDEA 2021.3 版
+
 ## [1.0.1] - 2021-12-05
 
 ### Added
