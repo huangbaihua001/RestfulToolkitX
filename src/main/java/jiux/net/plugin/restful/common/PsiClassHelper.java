@@ -157,8 +157,7 @@ public class PsiClassHelper {
         if (psiClass != null) {
             jsonMap = assembleClassToMap(psiClass, project);
         }
-        String queryJson = gson.toJson(jsonMap);
-        return queryJson;
+        return gson.toJson(jsonMap);
     }
 
     private boolean isJavaBaseType(String typeName) {
@@ -321,16 +320,13 @@ public class PsiClassHelper {
     }
 
     public Map<String, Object> assembleClassToMap(PsiClass psiClass, Project project, int recursiveCount) {
-
         Map<String, Object> map = new LinkedHashMap<>();
         PsiField[] fields = psiClass.getFields();
         for (PsiField field : fields) {
             PsiType psiFieldType = field.getType();
             String typeName = psiFieldType.getPresentableText();
-
             String fieldName = field.getName();
 
-//            common base type
             if (isJavaBaseType(typeName)) {
                 map.put(fieldName, getJavaBaseTypeDefaultValue(typeName));
                 continue;
@@ -396,10 +392,8 @@ public class PsiClassHelper {
 
                         Map<String, Object> objectMap = assembleClassToMap(onePsiClassByClassName, project, 0);
                         map.put(fieldName, objectMap);
-                        continue;
                     }
                 }
-
             }
         }
 
