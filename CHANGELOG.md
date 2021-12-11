@@ -3,6 +3,16 @@
 # RestfulToolkitX Changelog
 ## [Unreleased]
 
+## [1.0.3] - 2021-12-11
+
+### Changed
+- Plugin ICON
+- 新的 ICON
+
+### Removed
+- Unused platform plugins
+- 未使用的平台插件
+
 ## [1.0.2] - 2021-12-07
 
 ### Added
