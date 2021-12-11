@@ -121,9 +121,12 @@ public class SpringResolver extends BaseServiceResolver {
         // TODO: This implementation is limited by other ways of implementing url mapping (xml (struts-like), webflux routers)
         SpringControllerAnnotation[] supportedAnnotations = SpringControllerAnnotation.values();
         for (PathMappingAnnotation controllerAnnotation : supportedAnnotations) {
-
             // java: Classes marked with the (Rest)Controller annotation, i.e. the Controller class
-            Collection<PsiAnnotation> psiAnnotations = JavaAnnotationIndex.getInstance().get(controllerAnnotation.getShortName(), project, globalSearchScope);
+            // FIXME java.lang.Throwable: Slow operations are prohibited on EDT. See SlowOperations.assertSlowOperationsAreAllowed javadoc.
+            // https://youtrack.jetbrains.com/issue/IDEA-273415
+            Collection<PsiAnnotation> psiAnnotations = JavaAnnotationIndex.getInstance()
+                                                    .get(controllerAnnotation.getShortName(), project, globalSearchScope);
+
             for (PsiAnnotation psiAnnotation : psiAnnotations) {
                 PsiModifierList psiModifierList = (PsiModifierList) psiAnnotation.getParent();
                 PsiElement psiElement = psiModifierList.getParent();

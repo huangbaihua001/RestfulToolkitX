@@ -2,12 +2,17 @@ package jiux.net.plugin.restful.annotations;
 
 
 public enum SpringControllerAnnotation implements PathMappingAnnotation {
-
+    /**
+     * org.springframework.stereotype.Controller
+     */
     CONTROLLER("Controller", "org.springframework.stereotype.Controller"),
+    /**
+     * org.springframework.web.bind.annotation.RestController
+     */
     REST_CONTROLLER("RestController", "org.springframework.web.bind.annotation.RestController");
 
-    private String shortName;
-    private String qualifiedName;
+    private final String shortName;
+    private final String qualifiedName;
 
     SpringControllerAnnotation(String shortName, String qualifiedName) {
         this.shortName = shortName;

@@ -2,16 +2,33 @@ package jiux.net.plugin.restful.annotations;
 
 
 public enum SpringRequestMethodAnnotation {
-
+    /**
+     * RequestMapping
+     */
     REQUEST_MAPPING("org.springframework.web.bind.annotation.RequestMapping", null),
+    /**
+     * GetMapping
+     */
     GET_MAPPING("org.springframework.web.bind.annotation.GetMapping", "GET"),
+    /**
+     * PostMapping
+     */
     POST_MAPPING("org.springframework.web.bind.annotation.PostMapping", "POST"),
+    /**
+     * PutMapping
+     */
     PUT_MAPPING("org.springframework.web.bind.annotation.PutMapping", "PUT"),
+    /**
+     * DeleteMapping
+     */
     DELETE_MAPPING("org.springframework.web.bind.annotation.DeleteMapping", "DELETE"),
+    /**
+     * PatchMapping
+     */
     PATCH_MAPPING("org.springframework.web.bind.annotation.PatchMapping", "PATCH");
 
-    private String qualifiedName;
-    private String methodName;
+    private final String qualifiedName;
+    private final String methodName;
 
     SpringRequestMethodAnnotation(String qualifiedName, String methodName) {
         this.qualifiedName = qualifiedName;

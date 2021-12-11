@@ -15,7 +15,6 @@ import org.jetbrains.kotlin.psi.KtNamedFunction;
 
 import javax.swing.*;
 
-
 public class RestServiceItem implements NavigationItem {
     private PsiMethod psiMethod;
     private PsiElement psiElement;
@@ -145,7 +144,6 @@ public class RestServiceItem implements NavigationItem {
 
             if (psiElement instanceof PsiMethod) {
                 PsiMethod psiMethod = ((PsiMethod) psiElement);
-                ;
                 location = psiMethod.getContainingClass().getName().concat("#").concat(psiMethod.getName());
             } else if (psiElement instanceof KtNamedFunction) {
                 KtNamedFunction ktNamedFunction = (KtNamedFunction) RestServiceItem.this.psiElement;

@@ -2,11 +2,13 @@ package jiux.net.plugin.restful.annotations;
 
 
 public enum JaxrsPathAnnotation implements PathMappingAnnotation {
-
+    /**
+     * Path javax.ws.rs.Path
+     */
     PATH("Path", "javax.ws.rs.Path");
 
-    private String shortName;
-    private String qualifiedName;
+    private final String shortName;
+    private final String qualifiedName;
 
     JaxrsPathAnnotation(String shortName, String qualifiedName) {
         this.shortName = shortName;
