@@ -6,7 +6,9 @@
 ## [1.0.3] - 2021-12-11
 
 ### Changed
+- Update for IntelliJ IDEA 2021.3
 - Plugin ICON
+- IntelliJ IDEA 2021.3 版的更新
 - 新的 ICON
 
 ### Removed
