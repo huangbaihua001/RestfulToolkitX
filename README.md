@@ -6,7 +6,7 @@
 
 [中文](README_zh_CN.md)
 
-![logo.png](img/logo.png)
+![logo.png](img/logo2.png)
 
 ## What is RestfulToolkitX?
 RestfulToolkitX is an awesome restful development toolkit for Intellij IDEA. This toolkit supports Java and Kotlin languages,
