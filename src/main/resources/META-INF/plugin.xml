@@ -2,11 +2,13 @@
 <idea-plugin>
     <id>jiux.net.plugin.restful.toolkit</id>
     <name>RestfulToolkitX</name>
-    <vendor>jiux.net</vendor>
+    <vendor email="huangbaihua@vip.qq.com" url="https://github.com/huangbaihua001/RestfulToolkitX/issues">jiux.net</vendor>
+
     <depends>com.intellij.modules.platform</depends>
-    <depends>com.intellij.modules.lang</depends>
-    <depends>com.intellij.java</depends>
-    <depends>org.jetbrains.kotlin</depends>
+
+    <depends optional="true" config-file="action-group.xml">com.intellij.modules.lang</depends>
+    <depends optional="true" config-file="java.xml">com.intellij.java</depends>
+    <depends optional="true" config-file="kotlin.xml">org.jetbrains.kotlin</depends>
 
     <description>
         <![CDATA[
@@ -15,11 +17,7 @@
     ]]>
     </description>
 
-    <extensions defaultExtensionNs="com.intellij">
-        <applicationService
-                serviceImplementation="jiux.net.services.RestfulToolkitApplicationService"/>
-        <projectService serviceImplementation="jiux.net.services.RestfulToolkitProjectService"/>
-    </extensions>
+
 
     <applicationListeners>
         <listener class="jiux.net.listeners.RestfulToolkitProjectManagerListener"
@@ -41,122 +39,10 @@
             <implementation-class>jiux.net.plugin.restful.navigator.RestServiceDetail</implementation-class>
         </component>
     </project-components>
-    <extensions defaultExtensionNs="com.intellij">
-        <projectService
-                serviceImplementation="jiux.net.plugin.restful.navigation.action.GotoRequestMappingConfiguration"/>
-        <!-- Add your extensions here -->
-        <productivityFeaturesProvider
-                implementation="jiux.net.plugin.restful.statistics.RestfulToolkitFeaturesProvider"/>
-        <tipAndTrick feature-id="navigation.popup.service" file="GotoService.html"/>
-    </extensions>
+
 
     <application-components>
         <!-- Add your application components here -->
     </application-components>
-    <actions>
-        <action id="Popup.PopupChoiceAction"
-                class="jiux.net.plugin.restful.popup.action.PopupChoiceAction"
-                text="Popup RESTful Toolkit ..."
-                description="Popup RESTful Toolkit ...">
-            <add-to-group group-id="EditMenu" anchor="last"/>
-            <keyboard-shortcut keymap="$default" first-keystroke="alt shift R"/>
-        </action>
 
-        <!--
-        add RestfulToolkit popup action in controller method，
-        generate rest url、
-        generate rest url with Possibly params （add params，parse entity，@RequestBody）、gen json、
-        gen key value for postman (postman params bulk edit)、
-        gen key value for apiview submit
-        -->
-        <!-- rest method added -->
-        <group id="RestfulToolkitGroup" text="RestfulToolkit"
-               description="RESTful Toolkit actions for rest method group">
-            <!--<add-to-group group-id="EditorPopupMenu" anchor="first"/>-->
-            <action class="jiux.net.plugin.restful.method.action.GenerateFullUrlAction" id="GenerateFullRestUrl"
-                    text="Generate &amp;&amp; Copy Full URL">
-                <add-to-group group-id="EditorPopupMenu" anchor="first"/>
-            </action>
-            <action class="jiux.net.plugin.restful.method.action.GenerateUrlAction" id="GenerateRestUrl"
-                    text="Generate &amp;&amp; Copy Relation URL">
-                <add-to-group group-id="EditorPopupMenu" anchor="first"/>
-            </action>
-            <action class="jiux.net.plugin.restful.method.action.GenerateQueryParamJsonAction"
-                    id="GenerateRequestBodyJson"
-                    text="Generate &amp;&amp; Copy RequestBody (JSON)">
-                <add-to-group group-id="EditorPopupMenu" anchor="first"/>
-            </action>
-            <action class="jiux.net.plugin.restful.method.action.GenerateQueryParamAction" id="BuildQueryParam"
-                    text="Generate &amp;&amp; Copy Query Param (Key Value)">
-                <add-to-group group-id="EditorPopupMenu" anchor="first"/>
-            </action>
-            <!--jaxrs-->
-
-        </group>
-
-
-        <group id="RestfulToolkit.RestMethod.EditorPopupMenu" text="RESTful Toolkit"
-               description="RESTful Toolkit"
-               popup="false">
-            <!--<add-to-group group-id="EditorPopupMenu" anchor="last" relative-to-action="EditorToggleColumnMode"/>-->
-            <add-to-group group-id="EditorPopupMenu" anchor="first"/>
-            <!--<reference ref="GenerateRestUrl"/>-->
-        </group>
-
-
-        <!--
-        add gen json for entity.
-        gen key value for postman( postman param bulk edit )
-        -->
-
-
-        <!--jump navigation： navigation by rest url, ref: request mapper  ( Enter mapping url ) shortcut: ctl alt n -->
-
-        <!-- show services -->
-        <action id="ConvertClassToJSONAction" class="jiux.net.plugin.restful.action.ConvertClassToJSONAction"
-                text="Convert to JSON" description="Convert to JSON">
-            <add-to-group group-id="EditorPopupMenu" anchor="first"/>
-        </action>
-        <action id="ConvertClassToJSONCompressedAction"
-                class="jiux.net.plugin.restful.action.ConvertClassToJSONCompressedAction"
-                text="Convert to JSON (Compressed)"
-                description="Convert to JSON (Compressed)">
-            <add-to-group group-id="EditorPopupMenu" anchor="first"/>
-        </action>
-
-        <!-- url navigation -->
-        <action id="Toolkit.GotoService" class="jiux.net.plugin.restful.navigation.action.GotoRequestMappingAction"
-                text="_Service" description="Go to Service"
-                icon="AllIcons.Actions.Search">
-            <add-to-group group-id="GoToTargetEx" anchor="first"/>
-            <keyboard-shortcut keymap="$default" first-keystroke="ctrl BACK_SLASH"/>
-            <keyboard-shortcut keymap="$default" first-keystroke="ctrl alt N"/>
-        </action>
-
-
-        <!--refresh-->
-        <action id="Toolkit.RefreshServices" class="jiux.net.plugin.restful.navigator.RefreshProjectAction"
-                text="Refresh Services in Project"
-                icon="AllIcons.Actions.Refresh">
-        </action>
-
-        <group id="Toolkit.NavigatorActionsToolbar">
-            <reference id="Toolkit.RefreshServices"/>
-            <separator/>
-            <reference id="Toolkit.GotoService"/>
-            <separator/>
-        </group>
-
-        <group id="Toolkit.NavigatorServiceMenu">
-            <action id="Menu.CopyFullUrlAction" class="jiux.net.plugin.restful.navigator.CopyFullUrlAction"
-                    text="Copy Full Url"
-                    icon="AllIcons.Actions.Copy">
-            </action>
-            <action id="Menu.EditSourceAction" class="jiux.net.plugin.restful.navigator.EditSourceAction"
-                    text="Jump to Source"
-                    icon="AllIcons.Actions.EditSource">
-            </action>
-            <separator/>
-        </group>
-    </actions>
 </idea-plugin>
