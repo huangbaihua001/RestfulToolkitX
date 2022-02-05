@@ -2,34 +2,32 @@
 
 ![Build](https://github.com/huangbaihua001/RestfulToolkitX/workflows/Build/badge.svg)
 [![Version](https://img.shields.io/jetbrains/plugin/v/jiux.net.plugin.restful.toolkit.svg)](https://plugins.jetbrains.com/plugin/18118-restfultoolkitx)
-
+[![Downloads](https://img.shields.io/jetbrains/plugin/d/jiux.net.plugin.restful.toolkit.svg)](https://plugins.jetbrains.com/plugin/jiux.net.plugin.restful.toolkit)
 
 [English](README.md)
 
 ![logo.png](img/logo2.png)
 
-## RestfulToolkitX 是什么?
-RestfulToolkitX 是运行在Intellij IDEA 之上的一个非常棒的 RESTful 开发工具包。支持 Java 和 Kotlin 语言，Spring 生态(Spring Boot / Spring MVC),JAX-RS.
-兼容 IDEA 2020.2及以上版本。
+## RestfulToolkitX?
+因 [RestfulToolkit][RestfulToolkit] 作者已经没有维护，且不兼容最新的 IDEA 版本，基于它的其它版本也不兼容最新 IDEA， 故 Fork 之。
+该分支后续会持续兼容最新的 IDEA 版本，也会加入一些实用特性。
 
 ---
-RestfulToolkitX 的由来： 
 
-原项目 [RestfulToolkit][RestfulToolkit] 之前个人也在使用。 但目前的版本，不兼容 IDEA 最新版本。 也用过基于该作者的其它版本，不是很理想。
-所以个人决定在 RestfulToolkit 基础之上维护并完善 RestfulToolkitX,增加一些实用的功能并会始终兼容 IDEA 最新版本。
+## 功能及特性
 
-## 功能
-
-- [x] 基于 [IntelliJ Platform Plugin Template][template] 构建, 支持 Java 8+, IDEA 2020.2+。
-- [x] 快捷键搜索 URL 并直接定位至服务. ( 使用: Ctrl + \ 或 Ctrl + Alt + N ) 。
-- [x] 导航窗显示 Restful 服务结构。
-- [x] 简单的 HttpClient 工具。
+- [x] 基于 [IntelliJ Platform Plugin Template][template] 重新构建。
+- [x] 兼容 IDEA 2020.2及以上版本。
+- [x] 支持 Java 及 Kotlin 语言,Spring framework (Spring Boot / Spring MVC),JAX-RS
+- [x] 快捷搜索 REST URL 并直接定位到相应服务，比 IDEA 自带的 Search Anywhere 更快. ( 使用: Ctrl + \ 或 Ctrl + Alt + N ) 。
+- [x] 一个导航窗口，用于显示 REST 服务的层次结构。
+- [x] 一个简单的 HttpClient 工具。
 - [x] 在请求方法上生成并复制参数，URL。
 - [x] 将 Java类 转成 JSON; 格式化 JSON 数据 <em>( Windows: Ctrl + Enter; Mac: Command + Enter ) 。
-- [ ] 开发中：  一键从表生成代码,包括 (DAO MyBatis,JPA),Entity(DTO), Service, Controller.
+- [ ] 开发中：  一键从表生成代码,包括 (DAO MyBatis,JPA), Entity(DTO), Service, Controller.
 
 
-快速搜索 URL 预览
+快捷搜索 URL 预览
 
 ![searchService.png](img/searchService.png)
 
@@ -62,7 +60,7 @@ Restful 服务窗口预览
 RestfulToolkitX is under the Apache 2.0 license. See the [Apache License 2.0](http://www.apache.org/licenses/LICENSE-2.0) file for details.
 
 ---
-Plugin based on the [IntelliJ Platform Plugin Template][template], [RestfulToolkit][RestfulToolkit]
+Plugin based on the [IntelliJ Platform Plugin Template][template]
 
 [template]: https://github.com/JetBrains/intellij-platform-plugin-template
 

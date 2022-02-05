@@ -2,19 +2,23 @@
 
 ![Build](https://github.com/huangbaihua001/RestfulToolkitX/workflows/Build/badge.svg)
 [![Version](https://img.shields.io/jetbrains/plugin/v/jiux.net.plugin.restful.toolkit.svg)](https://plugins.jetbrains.com/plugin/18118-restfultoolkitx)
-
+[![Downloads](https://img.shields.io/jetbrains/plugin/d/jiux.net.plugin.restful.toolkit.svg)](https://plugins.jetbrains.com/plugin/jiux.net.plugin.restful.toolkit)
 
 [中文](README_zh_CN.md)
 
 ![logo.png](img/logo2.png)
 
 ## What is RestfulToolkitX?
-RestfulToolkitX is an awesome restful development toolkit for Intellij IDEA. This toolkit supports Java and Kotlin languages,
-Spring framework (Spring Boot / Spring MVC),JAX-RS.
+
+The author of [RestfulToolkit][RestfulToolkit] has no longer maintains it and it is not compatible with the latest version of IDEA, 
+and other versions based on it are not compatible with the latest IDEA either. So I forked it.
+This branch will continue to be compatible with the latest version of IDEA, and will also include some useful features.
+
 
 ## Features
 
 - [x] Based on [IntelliJ Platform Plugin Template][template], support for Java 8+, IDEA 2020.2+.
+- [x] Supports Java and Kotlin languages, Spring framework (Spring Boot / Spring MVC),JAX-RS.
 - [x] Quick search url to navigate to service declaration. ( use: Ctrl + \ or Ctrl + Alt + N ) .
 - [x] Show Restful services structure.
 - [x] A simple http request tool.
@@ -58,7 +62,7 @@ Useful Functions Preview
 RestfulToolkitX is under the Apache 2.0 license. See the [Apache License 2.0](http://www.apache.org/licenses/LICENSE-2.0) file for details.
 
 ---
-Plugin based on the [IntelliJ Platform Plugin Template][template], [RestfulToolkit][RestfulToolkit]
+Plugin based on the [IntelliJ Platform Plugin Template][template]
 
 [template]: https://github.com/JetBrains/intellij-platform-plugin-template
 
