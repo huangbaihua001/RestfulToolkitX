@@ -26,7 +26,7 @@ repositories {
 }
 
 dependencies {
-    implementation("com.fifesoft:rsyntaxtextarea:3.1.3")
+    implementation("com.fifesoft:rsyntaxtextarea:3.1.6")
 }
 
 // Configure Gradle IntelliJ Plugin - read more: https://github.com/JetBrains/gradle-intellij-plugin

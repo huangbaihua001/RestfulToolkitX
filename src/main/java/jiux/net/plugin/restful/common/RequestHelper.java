@@ -71,6 +71,7 @@ public class RequestHelper {
         CloseableHttpResponse response = null;
         CloseableHttpClient httpClient = HttpClients.createDefault();
         try {
+
             HttpEntity httpEntity;
             httpEntity = new UrlEncodedFormEntity(params);
             HttpPost httpMethod = new HttpPost(completed(url));

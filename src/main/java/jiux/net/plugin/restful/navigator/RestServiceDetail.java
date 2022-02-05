@@ -10,6 +10,8 @@ import com.intellij.openapi.progress.ProgressIndicator;
 import com.intellij.openapi.progress.ProgressManager;
 import com.intellij.openapi.progress.Task;
 import com.intellij.openapi.project.Project;
+import com.intellij.openapi.util.SystemInfo;
+import com.intellij.openapi.util.SystemInfoRt;
 import com.intellij.ui.components.JBPanel;
 import com.intellij.ui.components.JBScrollPane;
 import com.intellij.uiDesigner.core.GridConstraints;
@@ -158,6 +160,7 @@ public class RestServiceDetail extends JBPanel {
                         if (response != null) {
                             responseText = response;
                         }
+                        System.err.println(responseText);
                         addResponseTabPanel(responseText);
                     };
                     runnable.run();
@@ -249,6 +252,7 @@ public class RestServiceDetail extends JBPanel {
 
 
     public void addResponseTabPanel(String text) {
+        //FIXME RSyntaxTextArea 中文乱码
         String responseTabTitle = "Response";
         if (responseTextArea == null) {
             responseTextArea = createTextArea(text, SyntaxConstants.SYNTAX_STYLE_JSON);
@@ -273,7 +277,8 @@ public class RestServiceDetail extends JBPanel {
 
     @NotNull
     public RSyntaxTextArea createTextArea(String text, String style) {
-        Font font = getEffectiveFont();
+        Font font = getTextAreaFont();
+
         RSyntaxTextArea jTextArea = new RSyntaxTextArea(text);
         jTextArea.setFont(font);
         jTextArea.setSyntaxEditingStyle(style);
@@ -296,6 +301,16 @@ public class RestServiceDetail extends JBPanel {
             }
         });
         return jTextArea;
+    }
+
+    public Font getTextAreaFont() {
+        if (SystemInfo.isWindows) {
+            return new java.awt.Font("宋体", 0, 14);
+        }
+        if (SystemInfoRt.isMac) {
+            return new Font("Menlo", 0, 14);
+        }
+        return new Font("Monospaced", 0, 14);
     }
 
     @NotNull
@@ -374,4 +389,6 @@ public class RestServiceDetail extends JBPanel {
             }
         }
     }
+
+
 }
