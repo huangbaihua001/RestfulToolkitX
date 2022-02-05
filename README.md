@@ -10,8 +10,8 @@
 
 ## What is RestfulToolkitX?
 
-The author of [RestfulToolkit][RestfulToolkit] has no longer maintains it and it is not compatible with the latest version of IDEA, 
-and other versions based on it are not compatible with the latest IDEA either. So I forked it.
+The author of [RestfulToolkit][RestfulToolkit] no longer maintains it, and it is not compatible with the latest version of IDEA, 
+and other versions based on it are not compatible with the latest IDEA either. So I fork it.
 This branch will continue to be compatible with the latest version of IDEA, and will also include some useful features.
 
 
