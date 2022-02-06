@@ -19,7 +19,7 @@ This branch will continue to be compatible with the latest version of IDEA, and 
 
 - [x] Based on [IntelliJ Platform Plugin Template][template], support for Java 8+, IDEA 2020.2+.
 - [x] Supports Java and Kotlin languages, Spring framework (Spring Boot / Spring MVC),JAX-RS.
-- [x] Quick search url to navigate to service declaration. ( use: Ctrl + \ or Ctrl + Alt + N ) .
+- [x] Quick search url to navigate to service declaration. ( use: Ctrl + \ or Ctrl + Alt + B ) .
 - [x] Show Restful services structure.
 - [x] A simple http request tool.
 - [x] Generate&Copy Query Param, Generate&Copy URL on the request method.

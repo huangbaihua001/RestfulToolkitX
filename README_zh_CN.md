@@ -19,7 +19,7 @@
 - [x] 基于 [IntelliJ Platform Plugin Template][template] 重新构建。
 - [x] 兼容 IDEA 2020.2及以上版本。
 - [x] 支持 Java 及 Kotlin 语言,Spring framework (Spring Boot / Spring MVC),JAX-RS
-- [x] 快捷搜索 REST URL 并直接定位到相应服务，比 IDEA 自带的 Search Anywhere 更快. ( 使用: Ctrl + \ 或 Ctrl + Alt + N ) 。
+- [x] 快捷搜索 REST URL 并直接定位到相应服务，比 IDEA 自带的 Search Anywhere 更快. ( 使用: Ctrl + \ 或 Ctrl + Alt + B ) 。
 - [x] 一个导航窗口，用于显示 REST 服务的层次结构。
 - [x] 一个简单的 HttpClient 工具。
 - [x] 在请求方法上生成并复制参数，URL。
