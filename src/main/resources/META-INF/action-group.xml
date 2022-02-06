@@ -76,7 +76,7 @@
                 icon="AllIcons.Actions.Search">
             <add-to-group group-id="GoToTargetEx" anchor="first"/>
             <keyboard-shortcut keymap="$default" first-keystroke="ctrl BACK_SLASH"/>
-            <keyboard-shortcut keymap="$default" first-keystroke="ctrl alt N"/>
+            <keyboard-shortcut keymap="$default" first-keystroke="ctrl alt B"/>
         </action>
 
 
