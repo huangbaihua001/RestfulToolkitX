@@ -36,10 +36,12 @@ public class ModuleHelper {
         }
 
         String port = propertiesHandler.getServerPort();
-        if (StringUtils.isEmpty(port)) port = PORT;
+        if (StringUtils.isEmpty(port)) {
+            port = PORT;
+        }
 
         String contextPath = propertiesHandler.getContextPath();
-        return new StringBuilder(SCHEME).append(HOST).append(":").append(port).append(contextPath).toString();
+        return SCHEME + HOST + ":" + port + contextPath;
     }
 
 }

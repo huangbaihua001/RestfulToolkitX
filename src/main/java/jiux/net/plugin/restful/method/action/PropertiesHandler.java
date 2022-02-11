@@ -72,8 +72,7 @@ public class PropertiesHandler {
 
     /* try find spring.profiles.active value */
     private String findProfilePropertyValue() {
-        String activeProfile = findPropertyValue(SPRING_PROFILE, null);
-        return activeProfile;
+        return findPropertyValue(SPRING_PROFILE, null);
     }
 
     /* Disregarding the path issue for now, the first file found by default  */
@@ -85,7 +84,7 @@ public class PropertiesHandler {
             for (String ext : getFileExtensions()) {
                 // load spring config file
                 String configFile = conf + profile + "." + ext;
-                if (ext.equals("properties")) {
+                if ("properties".equals(ext)) {
                     Properties properties = loadProertiesFromConfigFile(configFile);
                     if (properties != null) {
                         Object valueObj = properties.getProperty(propertyKey);
@@ -95,11 +94,13 @@ public class PropertiesHandler {
                         }
                     }
 
-                } else if (ext.equals("yml") || ext.equals("yaml")) {
+                } else if ("yml".equals(ext) || "yaml".equals(ext)) {
                     Map<String, Object> propertiesMap = getPropertiesMapFromYamlFile(configFile);
                     if (propertiesMap != null) {
                         Object valueObj = propertiesMap.get(propertyKey);
-                        if (valueObj == null) return null;
+                        if (valueObj == null) {
+                            return null;
+                        }
 
                         if (valueObj instanceof String) {
                             value = cleanPlaceholderIfExist((String) valueObj);
@@ -137,16 +138,27 @@ public class PropertiesHandler {
 
     public String getContextPath() {
         String key = "server.context-path";
+        String keyNext = "server.servlet.context-path";
+
         String contextPath = null;
 
         activeProfile = findProfilePropertyValue();
 
-        //
         if (activeProfile != null) {
             contextPath = findPropertyValue(key, activeProfile);
+
+            //try to find key server.servlet.context-path
+            if (contextPath == null) {
+                contextPath = findPropertyValue(keyNext, activeProfile);
+            }
         }
         if (contextPath == null) {
             contextPath = findPropertyValue(key, null);
+
+            //try to find key server.servlet.context-path
+            if (contextPath == null) {
+                contextPath = findPropertyValue(keyNext, null);
+            }
         }
 
         return contextPath != null ? contextPath : "";
@@ -173,7 +185,9 @@ public class PropertiesHandler {
             try {
                 Map<String, Object> ymlPropertiesMap = (Map<String, Object>) yaml.load(yamlText);
                 return getFlattenedMap(ymlPropertiesMap);
-            } catch (Exception e) { // FIXME: spring When configuring multiple environments in the same file; yaml formatting is not standardized, e.g., contains "--"
+            } catch (Exception e) {
+                // FIXME: spring When configuring multiple environments in the same file;
+                //  yaml formatting is not standardized, e.g., contains "--"
                 e.printStackTrace();
                 return null;
             }
@@ -199,17 +213,17 @@ public class PropertiesHandler {
      * ref: org.springframework.beans.factory.config.YamlProcessor
      */
     protected final Map<String, Object> getFlattenedMap(Map<String, Object> source) {
-        Map<String, Object> result = new LinkedHashMap();
+        Map<String, Object> result = new LinkedHashMap<String, Object>();
         this.buildFlattenedMap(result, source, null);
         return result;
     }
 
     private void buildFlattenedMap(Map<String, Object> result, Map<String, Object> source, String path) {
-        Iterator iterator = source.entrySet().iterator();
+        Iterator<Map.Entry<String, Object>> iterator = source.entrySet().iterator();
 
         while (true) {
             while (iterator.hasNext()) {
-                Map.Entry<String, Object> entry = (Map.Entry) iterator.next();
+                Map.Entry<String, Object> entry = iterator.next();
                 String key = entry.getKey();
                 if (StringUtils.isNotBlank(path)) {
                     if (key.startsWith("[")) {
