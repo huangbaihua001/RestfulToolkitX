@@ -3,6 +3,12 @@
 # RestfulToolkitX Changelog
 ## [Unreleased]
 
+## [1.0.5] - 2022-02-11
+
+### Changed
+- 修复 https://github.com/huangbaihua001/RestfulToolkitX/issues/6
+- Fix https://github.com/huangbaihua001/RestfulToolkitX/issues/6
+- 
 ## [1.0.4] - 2022-02-06
 
 ### Changed
