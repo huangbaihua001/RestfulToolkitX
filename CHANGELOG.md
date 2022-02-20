@@ -3,12 +3,21 @@
 # RestfulToolkitX Changelog
 ## [Unreleased]
 
+## [1.0.6] - 2022-02-20
+
+### Changed
+- 修复打开某些工程报插件异常的问题。
+- 多模块项目搜索 URL 时，URL路径描述增加模块名的显示。
+- Fix: Opening some projects reported a plugin exception.
+- When searching url for multiply module projects, the url path description adds the module name to the display.
+
 ## [1.0.5] - 2022-02-11
 
 ### Changed
 - 修复 https://github.com/huangbaihua001/RestfulToolkitX/issues/6
 - Fix https://github.com/huangbaihua001/RestfulToolkitX/issues/6
-- 
+
+
 ## [1.0.4] - 2022-02-06
 
 ### Changed

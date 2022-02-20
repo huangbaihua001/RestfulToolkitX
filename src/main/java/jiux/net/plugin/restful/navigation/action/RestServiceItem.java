@@ -144,11 +144,19 @@ public class RestServiceItem implements NavigationItem {
 
             if (psiElement instanceof PsiMethod) {
                 PsiMethod psiMethod = ((PsiMethod) psiElement);
-                location = psiMethod.getContainingClass().getName().concat("#").concat(psiMethod.getName());
+                if (module != null) {
+                    location = module.getName() + "#" + psiMethod.getContainingClass().getName().concat("#").concat(psiMethod.getName());
+                } else {
+                    location = psiMethod.getContainingClass().getName().concat("#").concat(psiMethod.getName());
+                }
             } else if (psiElement instanceof KtNamedFunction) {
                 KtNamedFunction ktNamedFunction = (KtNamedFunction) RestServiceItem.this.psiElement;
                 String className = ((KtClass) psiElement.getParent().getParent()).getName();
-                location = className.concat("#").concat(ktNamedFunction.getName());
+                if (module != null) {
+                    location = module.getName() + "#" + className.concat("#").concat(ktNamedFunction.getName());
+                } else {
+                    location = className.concat("#").concat(ktNamedFunction.getName());
+                }
             }
 
             return "(" + location + ")";

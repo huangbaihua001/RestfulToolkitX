@@ -63,11 +63,21 @@ public class ServiceHelper {
         SpringResolver springResolver = new SpringResolver(project);
         JaxrsResolver jaxrsResolver = new JaxrsResolver(project);
 
-        ServiceResolver[] resolvers = {springResolver, jaxrsResolver};
-        for (ServiceResolver resolver : resolvers) {
-            List<RestServiceItem> allSupportedServiceItemsInProject = resolver.findAllSupportedServiceItemsInProject();
+        Module[] modules = ModuleManager.getInstance(project).getModules();
 
-            itemList.addAll(allSupportedServiceItemsInProject);
+        if (modules.length > 1) {
+            //multiple modules
+            for (Module module : modules) {
+                itemList.addAll(buildRestServiceItemListUsingResolver(module));
+            }
+        } else {
+
+            ServiceResolver[] resolvers = {springResolver, jaxrsResolver};
+            for (ServiceResolver resolver : resolvers) {
+                List<RestServiceItem> allSupportedServiceItemsInProject = resolver.findAllSupportedServiceItemsInProject();
+
+                itemList.addAll(allSupportedServiceItemsInProject);
+            }
         }
 
         return itemList;

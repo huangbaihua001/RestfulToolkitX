@@ -2,8 +2,8 @@
     <actions>
         <action id="Popup.PopupChoiceAction"
                 class="jiux.net.plugin.restful.popup.action.PopupChoiceAction"
-                text="Popup RESTful Toolkit ..."
-                description="Popup RESTful Toolkit ...">
+                text="Popup Restful Toolkit ..."
+                description="Popup restful toolkit ...">
             <add-to-group group-id="EditMenu" anchor="last"/>
             <keyboard-shortcut keymap="$default" first-keystroke="alt shift R"/>
         </action>
@@ -17,7 +17,7 @@
         -->
         <!-- rest method added -->
         <group id="RestfulToolkitGroup" text="RestfulToolkit"
-               description="RESTful Toolkit actions for rest method group">
+               description="Restful Toolkit actions for rest method group">
             <!--<add-to-group group-id="EditorPopupMenu" anchor="first"/>-->
             <action class="jiux.net.plugin.restful.method.action.GenerateFullUrlAction" id="GenerateFullRestUrl"
                     text="Generate &amp;&amp; Copy Full URL">
@@ -42,7 +42,7 @@
 
 
         <group id="RestfulToolkit.RestMethod.EditorPopupMenu" text="RESTful Toolkit"
-               description="RESTful Toolkit"
+               description="Restful toolkit"
                popup="false">
             <!--<add-to-group group-id="EditorPopupMenu" anchor="last" relative-to-action="EditorToggleColumnMode"/>-->
             <add-to-group group-id="EditorPopupMenu" anchor="first"/>

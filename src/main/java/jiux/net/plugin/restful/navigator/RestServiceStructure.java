@@ -404,28 +404,37 @@ public class RestServiceStructure extends SimpleTreeStructure {
 
         @Override
         public void handleDoubleClickOrEnter(SimpleTree tree, InputEvent inputEvent) {
-            ServiceNode selectedNode = (ServiceNode) tree.getSelectedNode();
+            try {
+                ServiceNode selectedNode = (ServiceNode) tree.getSelectedNode();
 
-            RestServiceItem myServiceItem = selectedNode.myServiceItem;
-            PsiElement psiElement = myServiceItem.getPsiElement();
+                RestServiceItem myServiceItem = selectedNode.myServiceItem;
+                PsiElement psiElement = myServiceItem.getPsiElement();
 
-            if (!psiElement.isValid()) {
-                // PsiDocumentManager.getInstance(psiMethod.getProject()).commitAllDocuments();
-                // try refresh service
-                LOG.info("psiMethod is invalid: ");
-                LOG.info(psiElement.toString());
-                RestServicesNavigator.getInstance(myServiceItem.getModule().getProject()).scheduleStructureUpdate();
-            }
-
-            if (psiElement.getLanguage() == JavaLanguage.INSTANCE) {
-                PsiMethod psiMethod = myServiceItem.getPsiMethod();
-                OpenSourceUtil.navigate(psiMethod);
-
-            } else if (psiElement.getLanguage() == KotlinLanguage.INSTANCE) {
-                if (psiElement instanceof KtNamedFunction) {
-                    KtNamedFunction ktNamedFunction = (KtNamedFunction) psiElement;
-                    OpenSourceUtil.navigate(ktNamedFunction);
+                if (!psiElement.isValid()) {
+                    // PsiDocumentManager.getInstance(psiMethod.getProject()).commitAllDocuments();
+                    // try refresh service
+                    LOG.info("psiMethod is invalid: ");
+                    LOG.info(psiElement.toString());
+                    RestServicesNavigator.getInstance(myServiceItem.getModule().getProject()).scheduleStructureUpdate();
                 }
+
+                if (psiElement.getLanguage() == JavaLanguage.INSTANCE) {
+                    PsiMethod psiMethod = myServiceItem.getPsiMethod();
+                    OpenSourceUtil.navigate(psiMethod);
+
+                } else if (psiElement.getLanguage() == KotlinLanguage.INSTANCE) {
+                    if (psiElement instanceof KtNamedFunction) {
+                        KtNamedFunction ktNamedFunction = (KtNamedFunction) psiElement;
+                        OpenSourceUtil.navigate(ktNamedFunction);
+                    }
+                }
+            } catch (ClassCastException ignore) {
+                // ServiceNode cast ignored.
+                // java.lang.ClassCastException: class jiux.net.plugin.restful.navigator.RestServiceStructure$ProjectNode
+                // cannot be cast to class jiux.net.plugin.restful.navigator.RestServiceStructure$ServiceNode
+                // (jiux.net.plugin.restful.navigator.RestServiceStructure$ProjectNode
+                // and jiux.net.plugin.restful.navigator.RestServiceStructure$ServiceNode
+                // are in unnamed module of loader com.intellij.ide.plugins.cl.PluginClassLoader @742ad77c)
             }
         }
 
