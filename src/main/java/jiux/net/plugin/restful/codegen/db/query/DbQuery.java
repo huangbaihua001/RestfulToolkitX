@@ -1,4 +1,4 @@
-package jiux.net.plugin.restful.codegen.database;
+package jiux.net.plugin.restful.codegen.db.query;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
