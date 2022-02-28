@@ -7,13 +7,13 @@ public class MySqlQuery extends AbstractDbQuery {
 
     @Override
     public String tablesSql() {
-        return "show table status WHERE 1=1 ";
+        return "SHOW TABLE STATUS WHERE 1=1 ";
     }
 
 
     @Override
     public String tableFieldsSql() {
-        return "show full fields from `%s`";
+        return "SHOW FULL FIELDS FROM `%s`";
     }
 
 
