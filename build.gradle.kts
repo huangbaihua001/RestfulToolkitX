@@ -27,6 +27,7 @@ repositories {
 
 dependencies {
     implementation("com.fifesoft:rsyntaxtextarea:3.1.6")
+    implementation("mysql:mysql-connector-java:8.0.28")
 }
 
 // Configure Gradle IntelliJ Plugin - read more: https://github.com/JetBrains/gradle-intellij-plugin
