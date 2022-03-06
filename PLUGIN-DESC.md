@@ -8,6 +8,7 @@ with this plugin, you can
 <br/>
 <ul>
 <li>Running on the latest IDEA version. </li>
+<li>Code generator to generate code in a variety of styles such as SpringBoot + MyBatis-Plus, SpringBoot + JPA, JHipster etc.</li>
 <li>Enter the URL to navigate to service declaration. ( use: Ctrl + \ or Ctrl + Alt + N )</li>
 <li> Show Restful services structure.</li>
 <li>A simple http request tool.</li>
@@ -34,6 +35,7 @@ RestfulToolkitX 是运行在Intellij IDEA 之上的一个非常棒的 RESTful �
 <br/>
 <ul>
 <li>运行在 IDEA 最新版上;</li>
+<li>代码生成器，生成多种风格的代码，如 SpringBoot + MyBatis-Plus,SpringBoot + JPA, JHipster 等风格。</li>
 <li>输入 URL 直接跳转到对应的方法定义 ( Ctrl \ or Ctrl Alt N );</li>
 <li>显示 Services tree 窗口;</li>
 <li>一个简单的 HTTP 请求工具;</li>
