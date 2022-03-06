@@ -3,8 +3,10 @@
 # 代码生成器
 
 ## [Spring Boot][Spring Boot] + [MyBatis-Plus][MyBatis-Plus] 风格
+![](img/code_gen_preview_1.gif)
 
 ## [JHipster][JHipster] 风格
+
 
 [Spring Boot]: https://spring.io/projects/spring-boot
 
