@@ -68,9 +68,9 @@ public class MainAction extends AnAction {
         //
 
         //FIXME 仅限本地调试，重置代码生成配置
-        SettingsStorageService.getSettingsStorage().getGlobalConfigGroupMap().clear();
-        SettingsStorageService.getSettingsStorage().getTemplateGroupMap().clear();
-        SettingsStorageService.getSettingsStorage().resetDefaultVal();
+//        SettingsStorageService.getSettingsStorage().getGlobalConfigGroupMap().clear();
+//        SettingsStorageService.getSettingsStorage().getTemplateGroupMap().clear();
+//        SettingsStorageService.getSettingsStorage().resetDefaultVal();
 
         //开始处理
         new SelectSavePath(event.getProject()).show();
