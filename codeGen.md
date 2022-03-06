@@ -7,11 +7,11 @@
 
 ## [Spring Boot][Spring Boot] + JPA Style
 
-TODO
+TODO, Expected to be completed by 25 April
 
 ## [JHipster][JHipster] Style
 
-TODO
+TODO, Expected to be completed by 25 May
 
 [Spring Boot]: https://spring.io/projects/spring-boot
 
