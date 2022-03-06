@@ -24,7 +24,7 @@
 - [x] 一个简单的 HttpClient 工具。
 - [x] 在请求方法上生成并复制参数，URL。
 - [x] 将 Java类 转成 JSON; 格式化 JSON 数据 <em>( Windows: Ctrl + Enter; Mac: Command + Enter ) 。
-- [ ] 开发中：  一键从表生成代码,包括 (DAO MyBatis,JPA), Entity(DTO), Service, Controller.
+- [x] [代码生成器](codeGen_zh_CN.md)。
 
 
 快捷搜索 URL 预览

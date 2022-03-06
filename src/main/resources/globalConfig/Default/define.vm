@@ -1,0 +1,45 @@
+##（Velocity宏定义）
+
+##定义设置表名后缀的宏定义，调用方式：#setTableSuffix("Test")
+#macro(setTableSuffix $suffix)
+    #set($tableName = $!tool.append($tableInfo.name, $suffix))
+#end
+
+##定义设置包名后缀的宏定义，调用方式：#setPackageSuffix("Test")
+#macro(setPackageSuffix $suffix)
+#if($suffix!="")package #end#if($tableInfo.savePackageName!="")$!{tableInfo.savePackageName}.#{end}$!suffix;
+#end
+
+##定义直接保存路径与文件名简化的宏定义，调用方式：#save("/entity", ".java")
+#macro(save $path $fileName)
+    $!callback.setSavePath($tool.append($tableInfo.savePath, $path))
+    $!callback.setFileName($tool.append($tableInfo.name, $fileName))
+#end
+
+##定义服务接口名的前缀的宏定义，调用方式：#saveForPrefix("I")
+#macro(saveForPrefix $path $fileName $prefix)
+    $!callback.setSavePath($tool.append($tableInfo.savePath, $path))
+    $!callback.setFileName($tool.append($tool.append($prefix,$tableInfo.name), $fileName))
+#end
+
+##定义表注释的宏定义，调用方式：#tableComment("注释信息")
+#macro(tableComment $desc)
+/**
+ * $!{tableInfo.comment}($!{tableInfo.name})$desc
+ *
+ * @author $!author
+ * @since $!time.currTime()
+ */
+#end
+
+##定义GET，SET方法的宏定义，调用方式：#getSetMethod($column)
+#macro(getSetMethod $column)
+
+    public $!{tool.getClsNameByFullName($column.type)} get$!{tool.firstUpperCase($column.name)}() {
+        return $!{column.name};
+    }
+
+    public void set$!{tool.firstUpperCase($column.name)}($!{tool.getClsNameByFullName($column.type)} $!{column.name}) {
+        this.$!{column.name} = $!{column.name};
+    }
+#end

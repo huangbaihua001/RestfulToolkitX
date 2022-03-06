@@ -27,7 +27,9 @@ repositories {
 
 dependencies {
     implementation("com.fifesoft:rsyntaxtextarea:3.1.6")
-    implementation("mysql:mysql-connector-java:8.0.28")
+    compileOnly("org.projectlombok:lombok:1.18.22")
+    annotationProcessor("org.projectlombok:lombok:1.18.2");
+    testAnnotationProcessor("org.projectlombok:lombok:1.18.2");
 }
 
 // Configure Gradle IntelliJ Plugin - read more: https://github.com/JetBrains/gradle-intellij-plugin

@@ -24,7 +24,7 @@ This branch will continue to be compatible with the latest version of IDEA, and 
 - [x] A simple http request tool.
 - [x] Generate&Copy Query Param, Generate&Copy URL on the request method.
 - [x] Convert java class to JSON; format json data <em>( Windows: Ctrl + Enter; Mac: Command + Enter ) .
-- [ ] In development: Quick code generation from tables, including DAO (MyBatis, JPA), Entity (DTO), Service, Controller.
+- [x] [Code generator](codeGen.md).
 
 
 Quick Search URL Preview
