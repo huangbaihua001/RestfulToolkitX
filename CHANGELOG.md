@@ -3,6 +3,10 @@
 # RestfulToolkitX Changelog
 ## [Unreleased]
 
+## [2.0.0] - 2022-03-06
+- 代码生成器，生成多种风格的代码，如 SpringBoot + MyBatis-Plus,SpringBoot + JPA, JHipster 等风格。
+- Code generator to generate code in a variety of styles such as SpringBoot + MyBatis-Plus, SpringBoot + JPA, JHipster etc.
+
 ## [1.0.6] - 2022-02-20
 
 ### Changed
