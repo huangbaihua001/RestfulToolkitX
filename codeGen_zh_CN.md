@@ -4,6 +4,8 @@
 
 ## [Spring Boot][Spring Boot] + [MyBatis-Plus][MyBatis-Plus] 风格
 ![](img/code_gen_preview_1.gif)
+
+注意，手动添加以下依赖和注解
 - 项目依赖
 ```xml
  <dependencies>
@@ -36,6 +38,20 @@
     </dependency>
 </dependencies>
 ```
+- MapperScan
+```java
+@SpringBootApplication
+//Add MapperScan
+@MapperScan("com.example.demo.mapper")
+public class DemoApplication {
+
+    public static void main(String[] args) {
+        SpringApplication.run(DemoApplication.class, args);
+    }
+
+}
+```
+
 ## [Spring Boot][Spring Boot] + JPA 风格
 
 TODO,预计4月25日完成
