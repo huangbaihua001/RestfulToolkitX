@@ -26,6 +26,8 @@ This branch will continue to be compatible with the latest version of IDEA, and 
 - [x] Convert java class to JSON; format json data <em>( Windows: Ctrl + Enter; Mac: Command + Enter ) .
 - [x] [Code generator](codeGen.md).
 
+Generate Code Preview
+![code_gen_preview.png](img/code_gen_preview_1.gif)
 
 Quick Search URL Preview
 
