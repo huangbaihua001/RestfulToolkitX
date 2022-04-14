@@ -2,6 +2,9 @@
 
 # RestfulToolkitX Changelog
 ## [Unreleased]
+## [2.0.1] - 2022-04-14
+- 兼容 IDEA 2022.1
+- Compatible with IDEA 2022.1
 
 ## [2.0.0] - 2022-03-06
 - 代码生成器，生成多种风格的代码，如 SpringBoot + MyBatis-Plus,SpringBoot + JPA, JHipster 等风格。
