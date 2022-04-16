@@ -12,6 +12,7 @@ import com.intellij.openapi.progress.Task;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.SystemInfo;
 import com.intellij.openapi.util.SystemInfoRt;
+import com.intellij.ui.JBColor;
 import com.intellij.ui.components.JBPanel;
 import com.intellij.ui.components.JBScrollPane;
 import com.intellij.uiDesigner.core.GridConstraints;
@@ -281,8 +282,11 @@ public class RestServiceDetail extends JBPanel {
 
         RSyntaxTextArea jTextArea = new RSyntaxTextArea(text);
         jTextArea.setFont(font);
+        jTextArea.setCurrentLineHighlightColor(JBColor.LIGHT_GRAY);
         jTextArea.setSyntaxEditingStyle(style);
         jTextArea.setCodeFoldingEnabled(true);
+        jTextArea.setBackground(getBackground());
+        jTextArea.setForeground(getForeground());
 
         jTextArea.addKeyListener(new KeyAdapter() {
             @Override
