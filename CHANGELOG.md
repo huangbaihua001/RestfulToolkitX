@@ -2,6 +2,12 @@
 
 # RestfulToolkitX Changelog
 ## [Unreleased]
+
+## [2.0.2] - 2022-04-16
+### Fixed
+- Fixed: https://github.com/huangbaihua001/RestfulToolkitX/issues/15
+
+
 ## [2.0.1] - 2022-04-14
 - 兼容 IDEA 2022.1
 - Compatible with IDEA 2022.1

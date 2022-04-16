@@ -106,7 +106,7 @@ public class PsiClassHelper {
         if (!(psiFieldType instanceof PsiClassReferenceType)) {
             return false;
         }
-        return ((PsiClassReferenceType) psiFieldType).resolve().isEnum();
+        return Objects.requireNonNull(((PsiClassReferenceType) psiFieldType).resolve()).isEnum();
     }
 
     @NotNull
