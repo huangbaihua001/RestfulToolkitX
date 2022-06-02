@@ -10,6 +10,8 @@ import com.intellij.openapi.startup.StartupManager;
 import com.intellij.psi.*;
 import com.intellij.psi.search.GlobalSearchScope;
 import com.intellij.util.DisposeAwareRunnable;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import org.jetbrains.annotations.NotNull;
 
 import java.net.URL;
@@ -127,7 +129,14 @@ public class ToolkitUtil {
         Map<String, String> paramMap = textToParamMap(text);
 
         if (paramMap.size() > 0) {
-            paramMap.forEach((s, o) -> param.append(s).append("=").append(o).append("&"));
+            paramMap.forEach((s, o) -> {
+                try {
+                    param.append(s).append("=")
+                        .append(URLEncoder.encode(o, "UTF-8")).append("&");
+                } catch (UnsupportedEncodingException e) {
+                    throw new RuntimeException(e);
+                }
+            });
         }
 
         return param.length() == 0 ? "" : param.deleteCharAt(param.length() - 1).toString();

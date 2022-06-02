@@ -38,6 +38,7 @@ import java.util.Map;
 
 
 public class RestServiceDetail extends JBPanel {
+
     private static RestServiceDetail restServiceDetail;
     public JTextField urlField;
     public JPanel urlPanel;
@@ -89,31 +90,32 @@ public class RestServiceDetail extends JBPanel {
         urlPanel.setLayout(mgr);
 
         urlPanel.add(methodField,
-                new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_SOUTHEAST, GridConstraints.FILL_BOTH,
-                        GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED,
-                        null, null, null));
+            new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_SOUTHEAST, GridConstraints.FILL_BOTH,
+                GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED,
+                null, null, null));
         urlPanel.add(urlField,
-                new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_SOUTHEAST, GridConstraints.FILL_BOTH,
-                        GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW,
-                        GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW,
-                        null, null, null));
+            new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_SOUTHEAST, GridConstraints.FILL_BOTH,
+                GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW,
+                GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW,
+                null, null, null));
         urlPanel.add(sendButton,
-                new GridConstraints(0, 2, 1, 1, GridConstraints.ANCHOR_SOUTHEAST, GridConstraints.FILL_BOTH,
-                        GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED,
-                        null, null, null));
+            new GridConstraints(0, 2, 1, 1, GridConstraints.ANCHOR_SOUTHEAST, GridConstraints.FILL_BOTH,
+                GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED,
+                null, null, null));
 
         this.setBorder(BorderFactory.createEmptyBorder());
         this.setLayout(new GridLayoutManager(2, 1));
 
         this.add(urlPanel,
-                new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH,
-                        GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED,
-                        null, null, null));
+            new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH,
+                GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW,
+                GridConstraints.SIZEPOLICY_FIXED,
+                null, null, null));
         this.add(requestTabbedPane,
-                new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH,
-                        GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW,
-                        GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW,
-                        null, null, null));
+            new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH,
+                GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW,
+                GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW,
+                null, null, null));
     }
 
     private void bindSendButtonActionListener() {
@@ -143,7 +145,6 @@ public class RestServiceDetail extends JBPanel {
                                 }
                             }
                         }
-
 
                         String method = methodField.getText();
                         String responseText = url;
@@ -244,7 +245,7 @@ public class RestServiceDetail extends JBPanel {
 
     public void addRequestTabbedPane(String title, JTextArea jTextArea) {
         JScrollPane jbScrollPane = new JBScrollPane(jTextArea, JBScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
-                JBScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+            JBScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         jTextArea.addKeyListener(new TextAreaKeyAdapter(jTextArea));
 
         requestTabbedPane.addTab(title, jbScrollPane);
@@ -253,10 +254,10 @@ public class RestServiceDetail extends JBPanel {
 
 
     public void addResponseTabPanel(String text) {
-        //FIXME RSyntaxTextArea 中文乱码
+
         String responseTabTitle = "Response";
         if (responseTextArea == null) {
-            responseTextArea = createTextArea(text, SyntaxConstants.SYNTAX_STYLE_JSON);
+            responseTextArea = createTextArea(text, SyntaxConstants.SYNTAX_STYLE_NONE);
             addRequestTabbedPane(responseTabTitle, responseTextArea);
         } else {
             Component componentAt = null;
@@ -278,15 +279,14 @@ public class RestServiceDetail extends JBPanel {
 
     @NotNull
     public RSyntaxTextArea createTextArea(String text, String style) {
-        Font font = getTextAreaFont();
-
+        //FIXME RSyntaxTextArea 中文乱码
         RSyntaxTextArea jTextArea = new RSyntaxTextArea(text);
-        jTextArea.setFont(font);
-        jTextArea.setCurrentLineHighlightColor(JBColor.LIGHT_GRAY);
         jTextArea.setSyntaxEditingStyle(style);
         jTextArea.setCodeFoldingEnabled(true);
+
         jTextArea.setBackground(getBackground());
         jTextArea.setForeground(getForeground());
+        jTextArea.setCurrentLineHighlightColor(JBColor.LIGHT_GRAY);
 
         jTextArea.addKeyListener(new KeyAdapter() {
             @Override
@@ -370,6 +370,7 @@ public class RestServiceDetail extends JBPanel {
     }
 
     private class TextAreaKeyAdapter extends KeyAdapter {
+
         private final JTextArea jTextArea;
 
         public TextAreaKeyAdapter(JTextArea jTextArea) {
@@ -380,7 +381,7 @@ public class RestServiceDetail extends JBPanel {
         public void keyPressed(KeyEvent event) {
             super.keyPressed(event);
             if ((event.getKeyCode() == KeyEvent.VK_ENTER)
-                    && (event.isControlDown() || event.isMetaDown())) {
+                && (event.isControlDown() || event.isMetaDown())) {
                 String oldValue = jTextArea.getText();
                 if (!JsonUtils.isValidJson(oldValue)) {
                     return;

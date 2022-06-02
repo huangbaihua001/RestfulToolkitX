@@ -1,6 +1,8 @@
 package jiux.net.plugin.restful.common;
 
+import java.nio.charset.StandardCharsets;
 import jiux.net.plugin.utils.JsonUtils;
+import org.apache.commons.httpclient.params.HttpMethodParams;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
@@ -73,9 +75,10 @@ public class RequestHelper {
         try {
 
             HttpEntity httpEntity;
-            httpEntity = new UrlEncodedFormEntity(params);
+            httpEntity = new UrlEncodedFormEntity(params, StandardCharsets.UTF_8);
             HttpPost httpMethod = new HttpPost(completed(url));
             httpMethod.setEntity(httpEntity);
+
             response = httpClient.execute(httpMethod);
 
             HttpEntity entity = response.getEntity();
@@ -197,7 +200,7 @@ public class RequestHelper {
     private static String toString(HttpEntity entity) {
         String result = null;
         try {
-            result = EntityUtils.toString(entity, Charset.forName("UTF-8"));
+            result = EntityUtils.toString(entity, StandardCharsets.UTF_8);
 
         } catch (IOException e) {
             e.printStackTrace();
