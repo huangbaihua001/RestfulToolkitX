@@ -2,6 +2,7 @@
 
 # 代码生成器
 
+
 ## [Spring Boot][Spring Boot] + [MyBatis-Plus][MyBatis-Plus] 风格
 ![](img/code_gen_preview_1.gif)
 
@@ -54,11 +55,15 @@ public class DemoApplication {
 
 ## [Spring Boot][Spring Boot] + JPA 风格
 
-TODO,预计4月25日完成
+TODO
 
 ## [JHipster][JHipster] 风格
 
-TODO,预计5月25日完成
+TODO
+
+## 生成器重构增强，支持更多实用特性
+
+TODO
 
 [Spring Boot]: https://spring.io/projects/spring-boot
 

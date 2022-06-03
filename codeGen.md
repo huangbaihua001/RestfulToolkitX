@@ -54,11 +54,15 @@ public class DemoApplication {
 
 ## [Spring Boot][Spring Boot] + JPA Style
 
-TODO, Expected to be completed by 25 April
+TODO
 
 ## [JHipster][JHipster] Style
 
-TODO, Expected to be completed by 25 May
+TODO
+
+## Generator refactoring enhancements to support more useful features.
+
+TODO
 
 [Spring Boot]: https://spring.io/projects/spring-boot
 
