@@ -46,6 +46,7 @@ public class RestServiceDetail extends JBPanel {
     public JButton sendButton;
     public JTabbedPane requestTabbedPane;
 
+    public RSyntaxTextArea requestHeaderTextArea;
     public RSyntaxTextArea requestParamsTextArea;
     public RSyntaxTextArea requestBodyTextArea;
     public RSyntaxTextArea responseTextArea;
@@ -124,47 +125,61 @@ public class RestServiceDetail extends JBPanel {
                 @Override
                 public void run(@NotNull ProgressIndicator indicator) {
                     final Runnable runnable = () -> {
-                        String url = urlField.getText();
 
-                        if (requestParamsTextArea != null) {
-                            String requestParamsText = requestParamsTextArea.getText();
-                            Map<String, String> paramMap = ToolkitUtil.textToParamMap(requestParamsText);
-                            if (paramMap.size() > 0) {
-                                // set PathVariable value to request URI
-                                for (String key : paramMap.keySet()) {
-                                    url = url.replaceFirst("\\{(" + key + "[\\s\\S]*?)}", paramMap.get(key));
+                        try {
+
+                            String url = urlField.getText();
+                            Map<String, String> headerMap = null;
+                            if (requestParamsTextArea != null) {
+                                String requestParamsText = requestParamsTextArea.getText();
+                                Map<String, String> paramMap = ToolkitUtil.textToParamMap(requestParamsText);
+                                if (paramMap.size() > 0) {
+                                    // set PathVariable value to request URI
+                                    for (String key : paramMap.keySet()) {
+                                        url = url.replaceFirst("\\{(" + key + "[\\s\\S]*?)}", paramMap.get(key));
+                                    }
+                                }
+
+                                String params = ToolkitUtil.textToRequestParam(requestParamsText);
+                                if (params.length() != 0) {
+                                    if (url.contains("?")) {
+                                        url += "&" + params;
+                                    } else {
+                                        url += "?" + params;
+                                    }
                                 }
                             }
 
-                            String params = ToolkitUtil.textToRequestParam(requestParamsText);
-                            if (params.length() != 0) {
-                                if (url.contains("?")) {
-                                    url += "&" + params;
-                                } else {
-                                    url += "?" + params;
+                            if (requestHeaderTextArea != null) {
+                                String requestHeaderText = requestHeaderTextArea.getText();
+                                headerMap = ToolkitUtil.textToHeaderMap(requestHeaderText);
+                            }
+
+                            String method = methodField.getText();
+                            String responseText = url;
+                            //NOTICE: Send Request.
+                            String response = null;
+                            if (requestBodyTextArea != null && StringUtils.isNotBlank(requestBodyTextArea.getText())) {
+                                response = RequestHelper.postRequestBodyWithJson(url, requestBodyTextArea.getText(),
+                                    headerMap);
+                            } else {
+                                try {
+                                    response = RequestHelper.request(url, method, headerMap);
+                                } catch (ClientProtocolException ex) {
+                                    ex.printStackTrace();
                                 }
                             }
-                        }
-
-                        String method = methodField.getText();
-                        String responseText = url;
-
-                        String response = null;
-                        if (requestBodyTextArea != null && StringUtils.isNotBlank(requestBodyTextArea.getText())) {
-                            response = RequestHelper.postRequestBodyWithJson(url, requestBodyTextArea.getText());
-                        } else {
-                            try {
-                                response = RequestHelper.request(url, method);
-                            } catch (ClientProtocolException ex) {
-                                ex.printStackTrace();
+                            if (response != null) {
+                                responseText = response;
                             }
+                            addResponseTabPanel(responseText);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            System.err.println("Send Request Error " + e.getMessage());
                         }
-                        if (response != null) {
-                            responseText = response;
-                        }
-                        System.err.println(responseText);
-                        addResponseTabPanel(responseText);
+
                     };
+
                     runnable.run();
                 }
             });
@@ -176,7 +191,6 @@ public class RestServiceDetail extends JBPanel {
         requestTabbedPane.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                System.out.println(e.getClickCount());
                 super.mouseClicked(e);
             }
 
@@ -210,6 +224,14 @@ public class RestServiceDetail extends JBPanel {
 
 
     public void addRequestParamsTab(String requestParams) {
+        if (requestHeaderTextArea == null) {
+            requestHeaderTextArea = createTextArea("key:value", SyntaxConstants.SYNTAX_STYLE_NONE);
+        } else {
+            requestHeaderTextArea.setText("key:value");
+        }
+
+        addHeaderTabbedPane("Headers", requestHeaderTextArea);
+
         StringBuilder paramBuilder = new StringBuilder();
 
         if (StringUtils.isNotBlank(requestParams)) {
@@ -222,14 +244,14 @@ public class RestServiceDetail extends JBPanel {
                 paramBuilder.append(param).append(" : ").append(value).append("\n");
             }
         }
-
         if (requestParamsTextArea == null) {
             requestParamsTextArea = createTextArea(paramBuilder.toString(), SyntaxConstants.SYNTAX_STYLE_NONE);
         } else {
             requestParamsTextArea.setText(paramBuilder.toString());
         }
-
         addRequestTabbedPane("RequestParams", requestParamsTextArea);
+
+
     }
 
     public void addRequestBodyTabPanel(String text) {
@@ -242,6 +264,15 @@ public class RestServiceDetail extends JBPanel {
         addRequestTabbedPane(reqBodyTitle, this.requestBodyTextArea);
     }
 
+
+    public void addHeaderTabbedPane(String title, JTextArea jTextArea) {
+        JScrollPane jbScrollPane = new JBScrollPane(jTextArea, JBScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+            JBScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        jTextArea.addKeyListener(new TextAreaKeyAdapter(jTextArea));
+
+        requestTabbedPane.addTab(title, jbScrollPane);
+        requestTabbedPane.setSelectedComponent(jbScrollPane);
+    }
 
     public void addRequestTabbedPane(String title, JTextArea jTextArea) {
         JScrollPane jbScrollPane = new JBScrollPane(jTextArea, JBScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
@@ -286,7 +317,7 @@ public class RestServiceDetail extends JBPanel {
 
         jTextArea.setBackground(getBackground());
         jTextArea.setForeground(getForeground());
-        jTextArea.setCurrentLineHighlightColor(JBColor.LIGHT_GRAY);
+        jTextArea.setHighlightCurrentLine(false);
 
         jTextArea.addKeyListener(new KeyAdapter() {
             @Override
@@ -353,6 +384,7 @@ public class RestServiceDetail extends JBPanel {
         resetTextComponent(requestParamsTextArea);
         resetTextComponent(requestBodyTextArea);
         resetTextComponent(responseTextArea);
+        resetTextComponent(requestHeaderTextArea);
     }
 
     private void resetTextComponent(JTextArea textComponent) {

@@ -362,6 +362,7 @@ public class RestServiceStructure extends SimpleTreeStructure {
         @Override
         public void handleSelection(SimpleTree tree) {
             ServiceNode selectedNode = (ServiceNode) tree.getSelectedNode();
+            assert selectedNode != null;
             showServiceDetail(selectedNode.myServiceItem);
         }
 

@@ -43,8 +43,8 @@ public class RestServicesNavigatorPanel extends SimpleToolWindowPanel implements
                 (DefaultActionGroup) actionManager.getAction("Toolkit.NavigatorActionsToolbar"),
                 true);
         setToolbar(actionToolbar.getComponent());
-        Color gray = new Color(36, 38, 39);
-        myTree.setBorder(BorderFactory.createLineBorder(gray));
+        //Color gray = new Color(36, 38, 39);
+       // myTree.setBorder(BorderFactory.createLineBorder(gray));
         JScrollPane scrollPane = ScrollPaneFactory.createScrollPane(myTree);
         scrollPane.setBorder(BorderFactory.createLineBorder(JBColor.RED));
 

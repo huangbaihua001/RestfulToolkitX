@@ -12,6 +12,7 @@ import com.intellij.psi.search.GlobalSearchScope;
 import com.intellij.util.DisposeAwareRunnable;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import org.jetbrains.annotations.NotNull;
 
 import java.net.URL;
@@ -164,5 +165,26 @@ public class ToolkitUtil {
         return paramMap;
     }
 
+
+    @NotNull
+    public static Map<String, String> textToHeaderMap(String text) {
+        Map<String, String> paramMap = new HashMap<>();
+        String paramText = text;
+        String[] lines = paramText.split("\n");
+
+        for (String line : lines) {
+            if (!line.startsWith("//") && line.contains(":")) {
+
+                String[] prop = line.split(":");
+
+                if (prop.length > 1) {
+                    String key = prop[0].trim();
+                    String value = prop[1].trim();
+                    paramMap.put(key, value);
+                }
+            }
+        }
+        return paramMap;
+    }
 
 }

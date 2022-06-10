@@ -1,7 +1,11 @@
 package jiux.net.plugin.restful.common;
 
 import java.nio.charset.StandardCharsets;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.Map.Entry;
 import jiux.net.plugin.utils.JsonUtils;
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.httpclient.params.HttpMethodParams;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.ClientProtocolException;
@@ -23,7 +27,7 @@ import java.util.List;
 public class RequestHelper {
 
 
-    public static String request(String url, String method) throws ClientProtocolException {
+    public static String request(String url, String method, Map<String,String> headerMap) throws ClientProtocolException {
         if (method == null) {
             return "method is null";
         }
@@ -33,25 +37,30 @@ public class RequestHelper {
 
         switch (method.toUpperCase()) {
             case "GET":
-                return get(url);
+                return get(url, headerMap);
             case "POST":
-                return post(url);
+                return post(url, headerMap);
             case "PUT":
-                return put(url);
+                return put(url, headerMap);
             case "DELETE":
-                return delete(url);
+                return delete(url, headerMap);
             default:
                 return "not supported method : " + method + ".";
         }
 
     }
 
-    public static String get(String url) {
+    public static String get(String url, Map<String,String> headerMap) {
         CloseableHttpResponse response = null;
         CloseableHttpClient httpClient = HttpClients.createDefault();
         HttpGet httpMethod = new HttpGet(completed(url));
         String result = null;
         try {
+
+            if (headerMap != null && headerMap.size() > 0) {
+                headerMap.forEach(httpMethod::addHeader);
+            }
+
             response = httpClient.execute(httpMethod);
             HttpEntity entity = response.getEntity();
             result = toString(entity);
@@ -65,7 +74,7 @@ public class RequestHelper {
         return result;
     }
 
-    public static String post(String url) {
+    public static String post(String url, Map<String,String> headerMap) {
         List<BasicNameValuePair> params = new ArrayList<>();
 
         String result = null;
@@ -77,6 +86,11 @@ public class RequestHelper {
             HttpEntity httpEntity;
             httpEntity = new UrlEncodedFormEntity(params, StandardCharsets.UTF_8);
             HttpPost httpMethod = new HttpPost(completed(url));
+
+            if (headerMap != null && headerMap.size() > 0) {
+                headerMap.forEach(httpMethod::addHeader);
+            }
+
             httpMethod.setEntity(httpEntity);
 
             response = httpClient.execute(httpMethod);
@@ -94,13 +108,18 @@ public class RequestHelper {
     }
 
 
-    public static String put(String url) throws ClientProtocolException {
+    public static String put(String url, Map<String,String> headerMap) throws ClientProtocolException {
         String result;
 
         CloseableHttpResponse response = null;
         CloseableHttpClient httpClient = HttpClients.createDefault();
         try {
             HttpPut httpMethod = new HttpPut(completed(url));
+
+            if (headerMap != null && headerMap.size() > 0) {
+                headerMap.forEach(httpMethod::addHeader);
+            }
+
             response = httpClient.execute(httpMethod);
 
             HttpEntity entity = response.getEntity();
@@ -117,7 +136,7 @@ public class RequestHelper {
     }
 
 
-    public static String delete(String url) throws ClientProtocolException {
+    public static String delete(String url, Map<String,String> headerMap) throws ClientProtocolException {
         if (!url.startsWith("http://") && !url.startsWith("https://")) {
             url = "http://" + url;
         }
@@ -128,6 +147,11 @@ public class RequestHelper {
         CloseableHttpClient httpClient = HttpClients.createDefault();
         try {
             HttpDelete httpMethod = new HttpDelete(url);
+
+            if (headerMap != null && headerMap.size() > 0) {
+                headerMap.forEach(httpMethod::addHeader);
+            }
+
             response = httpClient.execute(httpMethod);
 
             HttpEntity entity = response.getEntity();
@@ -144,6 +168,10 @@ public class RequestHelper {
 
 
     public static String postRequestBodyWithJson(String url, String json) {
+        return postRequestBodyWithJson(url, json, new LinkedHashMap<>());
+    }
+
+    public static String postRequestBodyWithJson(String url, String json, Map<String,String> headerMap) {
 
         CloseableHttpResponse response = null;
         CloseableHttpClient httpClient = HttpClients.createDefault();
@@ -157,8 +185,13 @@ public class RequestHelper {
             httpEntity.setContentType("application/json");
             httpEntity.setContentEncoding("UTF-8");
 
+            if (headerMap != null && headerMap.size() > 0) {
+                headerMap.forEach(postMethod::addHeader);
+            }
+
             postMethod.addHeader("Content-type", "application/json; charset=utf-8");
             postMethod.setHeader("Accept", "application/json");
+
 //            postMethod.setEntity(new StringEntity(parameters, Charset.forName("UTF-8")));
             postMethod.setEntity(httpEntity);
 
@@ -178,13 +211,13 @@ public class RequestHelper {
         if (response != null) {
             try {
                 response.close();
-            } catch (IOException e) {
+            } catch (IOException ignored) {
             }
         }
         if (httpClient != null) {
             try {
                 httpClient.close();
-            } catch (IOException e) {
+            } catch (IOException ignored) {
             }
         }
     }
