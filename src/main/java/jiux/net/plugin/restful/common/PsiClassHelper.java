@@ -4,20 +4,34 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.intellij.openapi.module.Module;
 import com.intellij.openapi.project.Project;
-import com.intellij.psi.*;
+import com.intellij.psi.JavaPsiFacade;
+import com.intellij.psi.PsiArrayType;
+import com.intellij.psi.PsiClass;
+import com.intellij.psi.PsiClassType;
+import com.intellij.psi.PsiField;
+import com.intellij.psi.PsiType;
 import com.intellij.psi.impl.java.stubs.index.JavaShortClassNameIndex;
 import com.intellij.psi.impl.source.PsiClassReferenceType;
 import com.intellij.psi.search.GlobalSearchScope;
 import com.intellij.psi.search.PsiShortNamesCache;
 import com.intellij.util.text.DateFormatUtil;
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Optional;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.math.BigDecimal;
-import java.util.*;
-
 
 public class PsiClassHelper {
+
     private static int autoCorrelationCount = 0;
     PsiClass psiClass;
     private int listIterateCount = 0;
@@ -82,12 +96,12 @@ public class PsiClassHelper {
         }
 
         PsiClass resolvePsiClass = ((PsiClassReferenceType) psiFieldType).resolve();
-        if (resolvePsiClass.getQualifiedName().equals("java.util.List")) {
+        if ("java.util.List".equals(resolvePsiClass.getQualifiedName())) {
             return true;
         }
 
         for (PsiType psiType : ((PsiClassReferenceType) psiFieldType).rawType().getSuperTypes()) {
-            if (psiType.getCanonicalText().equals("java.util.List")) {
+            if ("java.util.List".equals(psiType.getCanonicalText())) {
                 return true;
             }
         }
@@ -114,7 +128,7 @@ public class PsiClassHelper {
         return psiClass.getProject();
     }
 
-    public String convertClassToJSON(String className, Project project) {
+    public String convertClassToJSON(String className, String paramName, Project project) {
         GsonBuilder gsonBuilder = new GsonBuilder().setPrettyPrinting();
         Gson gson = gsonBuilder.create();
 
@@ -122,17 +136,30 @@ public class PsiClassHelper {
         //list params
         if (className.contains("List<")) {
             List<Map<String, Object>> jsonList = new ArrayList<>();
-
             // didn't handle generic nesting.
             String entityName = className.substring(className.indexOf("<") + 1, className.lastIndexOf(">"));
-
-            // build RequestBody Json
+           // build RequestBody Json
             Map<String, Object> jsonMap = assembleClassToMap(entityName, project);
             jsonList.add(jsonMap);
             queryJson = gson.toJson(jsonList);
         } else {
             // build RequestBody Json
-            queryJson = convertPojoEntityToJSON(className, project);
+            int gIdx = className.indexOf("<");
+            if (gIdx != -1) {
+                //For example: PageParam<VetReq> req
+                //innerGenericName: VetReq；outerGenericName：PageParam
+                String innerGenericName = className.substring(gIdx + 1, className.lastIndexOf(">"));
+                String outerGenericName = className.substring(0, gIdx);
+
+                Map<String, Object> innerMap = assembleClassToMap(innerGenericName, project);
+                Map<String, Object> outerMap = assembleClassToMap(outerGenericName, project);
+
+                Map<String, Object> flatMap = new LinkedHashMap<>(outerMap);
+                flatMap.put(paramName, innerMap);
+                queryJson = gson.toJson(flatMap);
+            } else {
+                queryJson = convertPojoEntityToJSON(className, project);
+            }
         }
         return queryJson;
     }
@@ -171,11 +198,10 @@ public class PsiClassHelper {
             return baseTypeDefaultValue;
         }
 
-
         if (psiFieldType instanceof PsiClassReferenceType) {
             String className = ((PsiClassReferenceType) psiFieldType).getClassName();
 //            PsiUtil.getTopLevelClass(psiFieldType);
-            if (className.equalsIgnoreCase("List") || className.equalsIgnoreCase("ArrayList")) {
+            if ("List".equalsIgnoreCase(className) || "ArrayList".equalsIgnoreCase(className)) {
 
                 PsiType[] parameters = ((PsiClassReferenceType) psiFieldType).getParameters();
                 if (parameters != null && parameters.length > 0) {
@@ -191,7 +217,6 @@ public class PsiClassHelper {
             String fullName = psiFieldType.getCanonicalText();
             PsiClass fieldClass = findOnePsiClassByClassName(fullName, project);
 
-
             if (fieldClass != null) {
 //                todo:  autoCorrelationCount
                 if (autoCorrelationCount > 0) {
@@ -205,13 +230,16 @@ public class PsiClassHelper {
             }
         }
 
-
         return typeName;
     }
 
     @Nullable
     public PsiClass findOnePsiClassByClassName(String qualifiedClassName, Project project) {
-        return JavaPsiFacade.getInstance(project).findClass(qualifiedClassName, GlobalSearchScope.allScope(project));
+
+        PsiClass psiClass = JavaPsiFacade.getInstance(project)
+            .findClass(qualifiedClassName, GlobalSearchScope.allScope(project));
+
+        return psiClass;
     }
 
     @Nullable
@@ -232,7 +260,8 @@ public class PsiClassHelper {
             //找import中对应的class
 //            psiClass = psiClassCollection.stream().filter(tempPsiClass -> tempPsiClass.getQualifiedName().equals(className)).findFirst().get();
 
-            Optional<PsiClass> any = psiClassCollection.stream().filter(tempPsiClass -> tempPsiClass.getQualifiedName().equals(className)).findAny();
+            Optional<PsiClass> any = psiClassCollection.stream()
+                .filter(tempPsiClass -> tempPsiClass.getQualifiedName().equals(className)).findAny();
 
             if (any.isPresent()) {
                 psiClass = any.get();
@@ -243,14 +272,16 @@ public class PsiClassHelper {
     }
 
     public Collection<PsiClass> tryDetectPsiClassByShortClassName(Project project, String shortClassName) {
-        Collection<PsiClass> psiClassCollection = JavaShortClassNameIndex.getInstance().get(shortClassName, project, GlobalSearchScope.projectScope(project));
+        Collection<PsiClass> psiClassCollection = JavaShortClassNameIndex.getInstance()
+            .get(shortClassName, project, GlobalSearchScope.projectScope(project));
 
         if (psiClassCollection.size() > 0) {
             return psiClassCollection;
         }
 
         if (myModule != null) {
-            psiClassCollection = JavaShortClassNameIndex.getInstance().get(shortClassName, project, GlobalSearchScope.allScope(project));
+            psiClassCollection = JavaShortClassNameIndex.getInstance()
+                .get(shortClassName, project, GlobalSearchScope.allScope(project));
         }
 
         return psiClassCollection;
@@ -272,7 +303,8 @@ public class PsiClassHelper {
         }
 
         if (psiClasses.length > 1) {
-            Optional<PsiClass> any = Arrays.stream(psiClasses).filter(tempPsiClass -> tempPsiClass.getQualifiedName().equals(className)).findAny();
+            Optional<PsiClass> any = Arrays.stream(psiClasses)
+                .filter(tempPsiClass -> tempPsiClass.getQualifiedName().equals(className)).findAny();
             if (any.isPresent()) {
                 psiClass = any.get();
             }
@@ -287,7 +319,8 @@ public class PsiClassHelper {
 
     public PsiClass[] tryDetectPsiClassByShortClassName2(String shortClassName, Project project) {
         // all
-        PsiClass[] psiClasses = PsiShortNamesCache.getInstance(project).getClassesByName(shortClassName, GlobalSearchScope.allScope(project));
+        PsiClass[] psiClasses = PsiShortNamesCache.getInstance(project)
+            .getClassesByName(shortClassName, GlobalSearchScope.allScope(project));
 
         if (psiClasses.length > 0) {
             return psiClasses;
@@ -295,7 +328,8 @@ public class PsiClassHelper {
 
         if (myModule != null) {
             // all
-            psiClasses = PsiShortNamesCache.getInstance(project).getClassesByName(shortClassName, GlobalSearchScope.allScope(project));
+            psiClasses = PsiShortNamesCache.getInstance(project)
+                .getClassesByName(shortClassName, GlobalSearchScope.allScope(project));
             if (psiClasses.length > 0) {
                 return psiClasses;
             }
@@ -352,8 +386,10 @@ public class PsiClassHelper {
                 continue;
             }
 
+            String qualifiedName = resolveClass.getQualifiedName();
+
 //            self recursion
-            if (resolveClass.getQualifiedName().equals(psiClass.getQualifiedName())) {
+            if (Objects.equals(psiClass.getQualifiedName(), qualifiedName)) {
                 if (recursiveCount > 0) {
                     Map<String, Object> objectMap = assembleClassToMap(resolveClass, project, 0);
                     map.put(fieldName, objectMap);
@@ -388,7 +424,8 @@ public class PsiClassHelper {
                         if (parameter.getPresentableText().contains("<")) {
                             continue;
                         }
-                        PsiClass onePsiClassByClassName = findOnePsiClassByClassName(parameter.getCanonicalText(), project);
+                        PsiClass onePsiClassByClassName = findOnePsiClassByClassName(parameter.getCanonicalText(),
+                            project);
 
                         Map<String, Object> objectMap = assembleClassToMap(onePsiClassByClassName, project, 0);
                         map.put(fieldName, objectMap);

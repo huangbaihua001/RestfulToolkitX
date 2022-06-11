@@ -8,9 +8,20 @@ import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.Disposer;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiMethod;
-import com.intellij.ui.treeStructure.*;
+import com.intellij.ui.treeStructure.CachingSimpleNode;
+import com.intellij.ui.treeStructure.SimpleNode;
+import com.intellij.ui.treeStructure.SimpleTree;
+import com.intellij.ui.treeStructure.SimpleTreeBuilder;
+import com.intellij.ui.treeStructure.SimpleTreeStructure;
 import com.intellij.util.OpenSourceUtil;
 import gnu.trove.THashMap;
+import java.awt.event.InputEvent;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import javax.swing.Icon;
+import javax.swing.tree.DefaultTreeModel;
+import javax.swing.tree.TreePath;
 import jiux.net.plugin.restful.common.KtFunctionHelper;
 import jiux.net.plugin.restful.common.PsiMethodHelper;
 import jiux.net.plugin.restful.common.ToolkitIcons;
@@ -22,14 +33,6 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.jetbrains.kotlin.idea.KotlinLanguage;
 import org.jetbrains.kotlin.psi.KtNamedFunction;
-
-import javax.swing.*;
-import javax.swing.tree.DefaultTreeModel;
-import javax.swing.tree.TreePath;
-import java.awt.event.InputEvent;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 
 public class RestServiceStructure extends SimpleTreeStructure {
     public static final Logger LOG = Logger.getInstance(RestServiceStructure.class);

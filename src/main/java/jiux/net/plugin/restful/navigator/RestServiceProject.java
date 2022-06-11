@@ -2,9 +2,8 @@ package jiux.net.plugin.restful.navigator;
 
 
 import com.intellij.openapi.module.Module;
-import jiux.net.plugin.restful.navigation.action.RestServiceItem;
-
 import java.util.List;
+import jiux.net.plugin.restful.navigation.action.RestServiceItem;
 
 public class RestServiceProject {
     String port = "8080";

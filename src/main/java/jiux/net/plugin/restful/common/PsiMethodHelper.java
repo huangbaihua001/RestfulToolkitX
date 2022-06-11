@@ -1,9 +1,14 @@
 package jiux.net.plugin.restful.common;
 
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.intellij.openapi.module.Module;
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.*;
+import com.intellij.psi.util.PsiTreeUtil;
+import com.intellij.psi.util.PsiUtil;
+import java.util.Objects;
 import jiux.net.plugin.restful.annotations.JaxrsRequestAnnotation;
 import jiux.net.plugin.restful.annotations.SpringControllerAnnotation;
 import jiux.net.plugin.restful.common.jaxrs.JaxrsAnnotationHelper;
@@ -22,11 +27,12 @@ import static jiux.net.plugin.restful.annotations.SpringRequestParamAnnotations.
 
 
 public class PsiMethodHelper {
+
     PsiMethod psiMethod;
     Project myProject;
     Module myModule;
 
-    private String pathSeparator = "/";
+    private final String pathSeparator = "/";
 
     protected PsiMethodHelper(PsiMethod psiMethod) {
         this.psiMethod = psiMethod;
@@ -43,8 +49,8 @@ public class PsiMethodHelper {
         /*return modifierList.findAnnotation(SpringControllerAnnotation.REST_CONTROLLER.getQualifiedName()) != null ||
                 modifierList.findAnnotation(SpringControllerAnnotation.CONTROLLER.getQualifiedName()) != null ;*/
 
-        return modifierList.findAnnotation(SpringControllerAnnotation.REST_CONTROLLER.getQualifiedName()) != null ||
-                modifierList.findAnnotation(SpringControllerAnnotation.CONTROLLER.getQualifiedName()) != null;
+        return modifierList.findAnnotation(SpringControllerAnnotation.REST_CONTROLLER.getQualifiedName()) != null
+            || modifierList.findAnnotation(SpringControllerAnnotation.CONTROLLER.getQualifiedName()) != null;
     }
 
     //contains "RestController" "Controller"
@@ -104,7 +110,8 @@ public class PsiMethodHelper {
             if (psiClass != null) {
                 PsiField[] fields = psiClass.getFields();
                 for (PsiField field : fields) {
-                    Object fieldDefaultValue = PsiClassHelper.getJavaBaseTypeDefaultValue(field.getType().getPresentableText());
+                    Object fieldDefaultValue = PsiClassHelper.getJavaBaseTypeDefaultValue(
+                        field.getType().getPresentableText());
                     if (fieldDefaultValue != null) {
                         baseTypeParamMap.put(field.getName(), fieldDefaultValue);
                     }
@@ -133,10 +140,10 @@ public class PsiMethodHelper {
         PsiParameterList psiParameterList = psiMethod.getParameterList();
         PsiParameter[] psiParameters = psiParameterList.getParameters();
         for (PsiParameter psiParameter : psiParameters) {
-
-            String paramType = psiParameter.getType().getCanonicalText();
-            if (paramType.equals("javax.servlet.http.HttpServletRequest")
-                    || paramType.equals("javax.servlet.http.HttpServletResponse")) {
+            PsiType paramPsiType = psiParameter.getType();
+            String paramType = paramPsiType.getCanonicalText();
+            if ("javax.servlet.http.HttpServletRequest".equals(paramType)
+                || "javax.servlet.http.HttpServletResponse".equals(paramType)) {
                 continue;
             }
             // @RequestParam
@@ -148,21 +155,57 @@ public class PsiMethodHelper {
             PsiAnnotation pathVariableAnno = modifierList.findAnnotation(PATH_VARIABLE.getQualifiedName());
             if (pathVariableAnno != null) {
                 requestName = getAnnotationValue(pathVariableAnno);
-                Parameter parameter = new Parameter(paramType, requestName != null ? requestName : paramName).setRequired(true).requestBodyFound(requestBodyFound);
+                Parameter parameter = new Parameter(paramType,
+                    requestName != null ? requestName : paramName).setRequired(true).requestBodyFound(requestBodyFound);
                 parameterList.add(parameter);
             }
 
             PsiAnnotation requestParamAnno = modifierList.findAnnotation(REQUEST_PARAM.getQualifiedName());
             if (requestParamAnno != null) {
                 requestName = getAnnotationValue(requestParamAnno);
-                Parameter parameter = new Parameter(paramType, requestName != null ? requestName : paramName).setRequired(true).requestBodyFound(requestBodyFound);
+                Parameter parameter = new Parameter(paramType,
+                    requestName != null ? requestName : paramName).setRequired(true).requestBodyFound(requestBodyFound);
                 parameterList.add(parameter);
             }
 
             if (pathVariableAnno == null && requestParamAnno == null) {
-                Parameter parameter = new Parameter(paramType, paramName).requestBodyFound(requestBodyFound);
-                parameterList.add(parameter);
+
+                if (!paramType.contains("java.util.") && paramType.contains("<") && paramType.contains(">")) {
+                    PsiTypeElement typeElement = psiParameter.getTypeElement();
+                    if (typeElement == null) {
+                        return parameterList;
+                    }
+                    // Generics param found.  For example: get(PageParam<VetReq> req)
+                    PsiJavaCodeReferenceElement referenceElement = typeElement.getInnermostComponentReferenceElement();
+                    if (referenceElement == null) {
+                        return parameterList;
+                    }
+
+                    String tmpParamType = referenceElement.getCanonicalText();
+//                    PsiReferenceParameterList referenceParameterList = referenceElement.getParameterList();
+//                    if (referenceParameterList != null) {
+//                        PsiTypeElement[] typeParameterElements = referenceParameterList.getTypeParameterElements();
+//                        PsiTypeElement firstTypeEle = typeParameterElements[0];
+//                        PsiJavaCodeReferenceElement tmp = firstTypeEle.getInnermostComponentReferenceElement();
+//                        if (tmp != null) {
+//                            tmpParamType = tmp.getCanonicalText();
+//                        }
+//                    }
+
+                    if (tmpParamType != null) {
+                        Parameter parameter = new Parameter(tmpParamType, paramName, true).requestBodyFound(
+                            requestBodyFound);
+                        parameterList.add(parameter);
+                    }
+                } else {
+
+                    Parameter parameter = new Parameter(paramType, paramName).requestBodyFound(requestBodyFound);
+                    parameterList.add(parameter);
+
+                }
             }
+
+
         }
         return parameterList;
     }
@@ -181,9 +224,11 @@ public class PsiMethodHelper {
     public String buildRequestBodyJson(Parameter parameter) {
         Project project = psiMethod.getProject();
         final String className = parameter.getParamType();
+        final String paramName = parameter.getParamName();
 
-        String queryJson = PsiClassHelper.create(psiMethod.getContainingClass()).withModule(myModule).convertClassToJSON(className, project);
-        return queryJson;
+        return PsiClassHelper.create(Objects.requireNonNull(psiMethod.getContainingClass()))
+            .withModule(myModule)
+            .convertClassToJSON(className, paramName, project);
     }
 
     public String buildRequestBodyJson() {
@@ -253,7 +298,8 @@ public class PsiMethodHelper {
 
     @NotNull
     public String buildFullUrl() {
-        String hostUri = myModule != null ? ModuleHelper.create(myModule).getServiceHostPrefix() : ModuleHelper.DEFAULT_URI;
+        String hostUri =
+            myModule != null ? ModuleHelper.create(myModule).getServiceHostPrefix() : ModuleHelper.DEFAULT_URI;
 
         String servicePath = buildServiceUriPath();
 

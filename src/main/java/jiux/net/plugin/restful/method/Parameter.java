@@ -11,12 +11,20 @@ public class Parameter {
     private boolean required = false;
     private boolean requestBodyFound = false;
 
+    private boolean isGeneric = false;
+
     public Parameter() {
     }
 
     public Parameter(String paramType, String paramName) {
         this.paramType = paramType;
         this.paramName = paramName;
+    }
+
+    public Parameter(String paramType, String paramName, boolean isGeneric) {
+        this.paramType = paramType;
+        this.paramName = paramName;
+        this.isGeneric = isGeneric;
     }
 
     public Parameter(String paramType, String paramName, String defaultValue) {
@@ -84,5 +92,11 @@ public class Parameter {
         return shortName;
     }
 
+    public boolean isGeneric() {
+        return isGeneric;
+    }
 
+    public void setGeneric(boolean generic) {
+        isGeneric = generic;
+    }
 }

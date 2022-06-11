@@ -5,11 +5,10 @@ import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.Presentation;
 import com.intellij.openapi.ide.CopyPasteManager;
 import com.intellij.openapi.project.DumbAware;
-import jiux.net.plugin.restful.navigation.action.RestServiceItem;
-import jiux.net.plugin.utils.RestServiceDataKeys;
-
 import java.awt.datatransfer.StringSelection;
 import java.util.List;
+import jiux.net.plugin.restful.navigation.action.RestServiceItem;
+import jiux.net.plugin.utils.RestServiceDataKeys;
 
 public class CopyFullUrlAction extends AnAction implements DumbAware {
     @Override

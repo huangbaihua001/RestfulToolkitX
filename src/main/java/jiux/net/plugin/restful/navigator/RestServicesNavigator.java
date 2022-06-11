@@ -3,12 +3,17 @@ package jiux.net.plugin.restful.navigator;
 
 import com.intellij.ide.util.treeView.TreeState;
 import com.intellij.openapi.application.ApplicationManager;
-import com.intellij.openapi.components.*;
+import com.intellij.openapi.components.AbstractProjectComponent;
+import com.intellij.openapi.components.PersistentStateComponent;
+import com.intellij.openapi.components.ProjectComponent;
+import com.intellij.openapi.components.ServiceManager;
+import com.intellij.openapi.components.State;
+import com.intellij.openapi.components.Storage;
+import com.intellij.openapi.components.StoragePathMacros;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.WriteExternalException;
 import com.intellij.openapi.wm.ToolWindowAnchor;
-import com.intellij.openapi.wm.ToolWindowManager;
 import com.intellij.openapi.wm.ex.ToolWindowEx;
 import com.intellij.openapi.wm.ex.ToolWindowManagerAdapter;
 import com.intellij.openapi.wm.ex.ToolWindowManagerEx;
@@ -16,16 +21,18 @@ import com.intellij.ui.content.Content;
 import com.intellij.ui.content.ContentFactory;
 import com.intellij.ui.content.ContentManager;
 import com.intellij.ui.treeStructure.SimpleTree;
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Rectangle;
+import java.net.URL;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.tree.TreeSelectionModel;
 import jiux.net.RestfulToolkitBundle;
 import jiux.net.plugin.restful.common.ToolkitIcons;
 import jiux.net.plugin.utils.ToolkitUtil;
 import org.jdom.Element;
 import org.jetbrains.annotations.Nullable;
-
-import javax.swing.*;
-import javax.swing.tree.TreeSelectionModel;
-import java.awt.*;
-import java.net.URL;
 
 @State(name = "RestServicesNavigator", storages = {@Storage(StoragePathMacros.WORKSPACE_FILE)})
 public class RestServicesNavigator extends AbstractProjectComponent

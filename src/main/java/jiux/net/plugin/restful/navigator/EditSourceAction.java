@@ -5,10 +5,9 @@ import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.Presentation;
 import com.intellij.openapi.project.DumbAware;
 import com.intellij.util.PsiNavigateUtil;
+import java.util.List;
 import jiux.net.plugin.restful.navigation.action.RestServiceItem;
 import jiux.net.plugin.utils.RestServiceDataKeys;
-
-import java.util.List;
 
 public class EditSourceAction extends AnAction implements DumbAware {
     @Override

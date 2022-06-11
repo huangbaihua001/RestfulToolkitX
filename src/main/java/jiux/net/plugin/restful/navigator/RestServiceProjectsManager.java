@@ -22,10 +22,9 @@ import com.intellij.openapi.components.ProjectComponent;
 import com.intellij.openapi.components.State;
 import com.intellij.openapi.project.DumbService;
 import com.intellij.openapi.project.Project;
+import java.util.List;
 import jiux.net.plugin.restful.common.ServiceHelper;
 import org.jetbrains.annotations.Nullable;
-
-import java.util.List;
 
 @State(name = "RestServiceProjectsManager")
 public class RestServiceProjectsManager extends AbstractProjectComponent

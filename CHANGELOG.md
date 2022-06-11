@@ -3,6 +3,11 @@
 # RestfulToolkitX Changelog
 ## [Unreleased]
 
+## [2.0.5] - 2022-06-11
+### Added
+- 支持泛型参数 [#28](https://github.com/huangbaihua001/RestfulToolkitX/issues/28)
+- Supports generic parameters [#28](https://github.com/huangbaihua001/RestfulToolkitX/issues/28)
+
 ## [2.0.4] - 2022-06-10
 ### Fixed
 - Fixed: https://github.com/huangbaihua001/RestfulToolkitX/issues/36
