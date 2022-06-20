@@ -47,12 +47,15 @@ public abstract class SpringAnnotatedMethodAction extends AbstractBaseAction {
         setActionPresentationVisible(e, visible);
     }
 
-    //include "RestController" "Controller"
+    /**
+     * include "RestController" "Controller" "FeignClient"
+     */
     private boolean isRestController(PsiClass containingClass) {
         PsiModifierList modifierList = containingClass.getModifierList();
         assert modifierList != null;
         return modifierList.findAnnotation(SpringControllerAnnotation.REST_CONTROLLER.getQualifiedName()) != null ||
-                modifierList.findAnnotation(SpringControllerAnnotation.CONTROLLER.getQualifiedName()) != null;
+                modifierList.findAnnotation(SpringControllerAnnotation.CONTROLLER.getQualifiedName()) != null ||
+                modifierList.findAnnotation(SpringControllerAnnotation.FEIGN_CLIENT.getQualifiedName()) != null;
     }
 
     private boolean isRestfulMethod(PsiMethod psiMethod) {

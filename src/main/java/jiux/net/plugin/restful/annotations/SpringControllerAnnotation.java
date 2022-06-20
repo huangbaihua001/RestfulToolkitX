@@ -7,9 +7,14 @@ public enum SpringControllerAnnotation implements PathMappingAnnotation {
      */
     CONTROLLER("Controller", "org.springframework.stereotype.Controller"),
     /**
+     * org.springframework.cloud.openfeign.FeignClient
+     */
+    FEIGN_CLIENT("FeignClient", "org.springframework.cloud.openfeign.FeignClient"),
+    /**
      * org.springframework.web.bind.annotation.RestController
      */
     REST_CONTROLLER("RestController", "org.springframework.web.bind.annotation.RestController");
+
 
     private final String shortName;
     private final String qualifiedName;
