@@ -91,8 +91,10 @@ public class GenerateUrlAction /*extends RestfulMethodSpringSupportedAction*/ ex
         /*return modifierList.findAnnotation(SpringControllerAnnotation.REST_CONTROLLER.getQualifiedName()) != null ||
                 modifierList.findAnnotation(SpringControllerAnnotation.CONTROLLER.getQualifiedName()) != null ;*/
 
+        assert modifierList != null;
         return modifierList.findAnnotation(SpringControllerAnnotation.REST_CONTROLLER.getQualifiedName()) != null ||
                 modifierList.findAnnotation(SpringControllerAnnotation.CONTROLLER.getQualifiedName()) != null ||
+                modifierList.findAnnotation(SpringControllerAnnotation.FEIGN_CLIENT.getQualifiedName()) != null ||
                 modifierList.findAnnotation(JaxrsRequestAnnotation.PATH.getQualifiedName()) != null;
     }
 
