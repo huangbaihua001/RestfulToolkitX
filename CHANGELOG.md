@@ -3,6 +3,11 @@
 # RestfulToolkitX Changelog
 ## [Unreleased]
 
+## [2.0.7] - 2022-09-25
+### Fixed
+- 跳过HTTPS验证 [#issue 50](https://github.com/huangbaihua001/RestfulToolkitX/issues/50)
+- Skip HTTPS Authentication [#issue 50](https://github.com/huangbaihua001/RestfulToolkitX/issues/50)
+
 ## [2.0.6] - 2022-08-02
 ### Added
 - 兼容 IDEA 2022.2 (222)
