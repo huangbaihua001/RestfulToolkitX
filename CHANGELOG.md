@@ -3,6 +3,12 @@
 # RestfulToolkitX Changelog
 ## [Unreleased]
 
+## [2.0.6] - 2022-08-02
+### Added
+- 兼容 IDEA 2022.2 (222)
+- Compatible with IDEA 2022.2 (222)
+
+
 ## [2.0.5] - 2022-06-11
 ### Added
 - 支持泛型参数 [#28](https://github.com/huangbaihua001/RestfulToolkitX/issues/28)

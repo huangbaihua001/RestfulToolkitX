@@ -79,7 +79,7 @@ public class PsiClassHelper {
             case "decimal":
                 return BigDecimal.ONE;
             case "string":
-                paramValue = "demoData";
+                paramValue = "restfulToolkitX";
                 break;
             case "date":
                 paramValue = DateFormatUtil.formatDateTime(new Date());

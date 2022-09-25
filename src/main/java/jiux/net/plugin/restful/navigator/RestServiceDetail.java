@@ -131,9 +131,7 @@ public class RestServiceDetail extends JBPanel {
                 @Override
                 public void run(@NotNull ProgressIndicator indicator) {
                     final Runnable runnable = () -> {
-
                         try {
-
                             String url = urlField.getText();
                             Map<String, String> headerMap = null;
                             if (requestParamsTextArea != null) {
@@ -183,9 +181,7 @@ public class RestServiceDetail extends JBPanel {
                             e.printStackTrace();
                             System.err.println("Send Request Error " + e.getMessage());
                         }
-
                     };
-
                     runnable.run();
                 }
             });
