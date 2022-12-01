@@ -3,6 +3,11 @@
 # RestfulToolkitX Changelog
 ## [Unreleased]
 
+## [2.0.8] - 2022-12-01
+### Added
+- 兼容 IDEA 2022.3 (223)
+- Compatible with IDEA 2022.3 (223)
+
 ## [2.0.7] - 2022-09-25
 ### Fixed
 - 跳过HTTPS验证 [#issue 50](https://github.com/huangbaihua001/RestfulToolkitX/issues/50)
