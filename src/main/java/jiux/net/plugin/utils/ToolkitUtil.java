@@ -32,7 +32,7 @@ public class ToolkitUtil {
         }
 
         if (!project.isInitialized()) {
-            StartupManager.getInstance(project).registerPostStartupActivity(DisposeAwareRunnable.create(r, project));
+            StartupManager.getInstance(project).runAfterOpened(DisposeAwareRunnable.create(r, project));
             return;
         }
         invokeLater(project, r);
