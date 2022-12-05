@@ -31,10 +31,10 @@ public class ToolkitUtil {
             return;
         }
 
-        if (!project.isInitialized()) {
-            StartupManager.getInstance(project).runAfterOpened(DisposeAwareRunnable.create(r, project));
-            return;
-        }
+//        if (!project.isInitialized()) {
+//            StartupManager.getInstance(project).runAfterOpened(DisposeAwareRunnable.create(r, project));
+//            return;
+//        }
         invokeLater(project, r);
     }
 
