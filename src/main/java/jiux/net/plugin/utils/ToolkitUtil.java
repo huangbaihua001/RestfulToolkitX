@@ -7,6 +7,7 @@ import com.intellij.openapi.module.Module;
 import com.intellij.openapi.project.DumbService;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.startup.StartupManager;
+import com.intellij.openapi.wm.ToolWindowManager;
 import com.intellij.psi.*;
 import com.intellij.psi.search.GlobalSearchScope;
 import com.intellij.util.DisposeAwareRunnable;
@@ -71,7 +72,8 @@ public class ToolkitUtil {
         if (isNoBackgroundMode()) {
             r.run();
         } else {
-            ApplicationManager.getApplication().invokeLater(DisposeAwareRunnable.create(r, p), state);
+            ToolWindowManager.getInstance(p).invokeLater(r);
+//            ApplicationManager.getApplication().invokeLater(DisposeAwareRunnable.create(r, p), state);
         }
     }
 
