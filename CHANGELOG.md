@@ -3,6 +3,11 @@
 # RestfulToolkitX Changelog
 ## [Unreleased]
 
+## [2.0.9] - 2022-12-11
+### Added
+- 解决 IDEA 2022.3 启动报错的问题，感谢 [hnyyghk](https://github.com/hnyyghk) 提供解决方案 [75](https://github.com/huangbaihua001/RestfulToolkitX/pull/75)。
+- Fix the startup error of IDEA 2022.3. Thanks for [hnyyghk](https://github.com/hnyyghk) providing the solution [75](https://github.com/huangbaihua001/RestfulToolkitX/pull/75).
+
 ## [2.0.8] - 2022-12-01
 ### Added
 - 兼容 IDEA 2022.3 (223)
