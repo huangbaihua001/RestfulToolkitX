@@ -3,6 +3,13 @@
 # RestfulToolkitX Changelog
 ## [Unreleased]
 
+## [2.1.1] - 2023-01-17
+### Added
+- 解决 IDEA 2022.3 启动报错的问题 [#81]https://github.com/huangbaihua001/RestfulToolkitX/issues/87
+- Fixed the startup error of IDEA 2022.3 [#81]https://github.com/huangbaihua001/RestfulToolkitX/issues/87
+
+
+
 ## [2.1.0] - 2023-01-08
 ### Added
 - 修复导致打开两个窗口的问题 [#79]https://github.com/huangbaihua001/RestfulToolkitX/issues/79
