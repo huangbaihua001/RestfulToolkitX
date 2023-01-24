@@ -40,6 +40,7 @@ public class RestServiceItem implements NavigationItem {
         if (psiElement instanceof Navigatable) {
             navigationElement = (Navigatable) psiElement;
         }
+
     }
 
     @Nullable
@@ -125,6 +126,10 @@ public class RestServiceItem implements NavigationItem {
 
     public PsiElement getPsiElement() {
         return psiElement;
+    }
+
+    public String getKey() {
+        return this.module.getName() + this.getFullUrl() + this.getMethod();
     }
 
     private class RestServiceItemPresentation implements ItemPresentation {

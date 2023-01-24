@@ -12,6 +12,7 @@ import com.intellij.openapi.progress.Task;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.SystemInfo;
 import com.intellij.openapi.util.SystemInfoRt;
+import com.intellij.psi.PsiElement;
 import com.intellij.ui.components.JBPanel;
 import com.intellij.ui.components.JBScrollPane;
 import com.intellij.uiDesigner.core.GridConstraints;
@@ -33,7 +34,9 @@ import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import jiux.net.plugin.restful.common.Constants;
 import jiux.net.plugin.restful.common.RequestHelper;
+import jiux.net.plugin.restful.navigation.action.RestServiceItem;
 import jiux.net.plugin.utils.JsonUtils;
 import jiux.net.plugin.utils.ToolkitUtil;
 import org.apache.commons.lang.StringUtils;
@@ -56,6 +59,7 @@ public class RestServiceDetail extends JBPanel {
     public RSyntaxTextArea requestParamsTextArea;
     public RSyntaxTextArea requestBodyTextArea;
     public RSyntaxTextArea responseTextArea;
+    public RestServiceItem restServiceItem;
 
     private RestServiceDetail() {
         super();
@@ -161,6 +165,7 @@ public class RestServiceDetail extends JBPanel {
 
                             String method = methodField.getText();
                             String responseText = url;
+
                             //NOTICE: Send Request.
                             String response = null;
                             if (requestBodyTextArea != null && StringUtils.isNotBlank(requestBodyTextArea.getText())) {
@@ -173,9 +178,11 @@ public class RestServiceDetail extends JBPanel {
                                     ex.printStackTrace();
                                 }
                             }
+
                             if (response != null) {
                                 responseText = response;
                             }
+
                             addResponseTabPanel(responseText);
                         } catch (Exception e) {
                             e.printStackTrace();
@@ -383,15 +390,56 @@ public class RestServiceDetail extends JBPanel {
 
     public void resetRequestTabbedPane() {
         this.requestTabbedPane.removeAll();
+
+        resetTextComponent(requestHeaderTextArea);
         resetTextComponent(requestParamsTextArea);
         resetTextComponent(requestBodyTextArea);
+
         resetTextComponent(responseTextArea);
-        resetTextComponent(requestHeaderTextArea);
     }
+
+    public void setAllValueFromState() {
+        setValueFromState(requestHeaderTextArea);
+        setValueFromState(requestParamsTextArea);
+        setValueFromState(requestBodyTextArea);
+    }
+
 
     private void resetTextComponent(JTextArea textComponent) {
         if (textComponent != null && StringUtils.isNotBlank(textComponent.getText())) {
             textComponent.setText("");
+        }
+    }
+
+
+
+    private void setValueFromState(JTextArea textComponent) {
+        if (restServiceItem != null && textComponent != null) {
+            String key = restServiceItem.getKey();
+            Project project = restServiceItem.getModule().getProject();
+            RestServicesRequestManager restServicesRequestManager = project.getComponent(
+                RestServicesRequestManager.class);
+            Map<String, String> restReqMap = restServicesRequestManager.getState().restReqMap.get(key);
+
+
+            if (restReqMap == null) {
+                return;
+            }
+
+            String txt = null;
+            if (textComponent == requestHeaderTextArea) {
+                txt = restReqMap.get(Constants.REQ_HEADER_NAME);
+            } else if (textComponent == requestParamsTextArea) {
+                txt = restReqMap.get(Constants.REQ_PARAM_NAME);
+            } else if (textComponent == requestBodyTextArea) {
+                txt = restReqMap.get(Constants.REQ_BODY_NAME);
+            }
+
+            if (txt != null) {
+                textComponent.setText(txt);
+            }
+
+
         }
     }
 

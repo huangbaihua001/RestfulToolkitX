@@ -39,6 +39,9 @@
         <component>
             <implementation-class>jiux.net.plugin.restful.navigator.RestServiceDetail</implementation-class>
         </component>
+        <component>
+            <implementation-class>jiux.net.plugin.restful.navigator.RestServicesRequestManager</implementation-class>
+        </component>
     </project-components>
 
 

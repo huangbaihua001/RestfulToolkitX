@@ -3,6 +3,12 @@
 # RestfulToolkitX Changelog
 ## [Unreleased]
 
+
+## [2.1.2] - 2023-01-24
+### Added
+- 支持服务窗口选中 Rest 服务右键保存请求参数
+- You can right-click a rest service in the service navigator panel to save request parameters
+
 ## [2.1.1] - 2023-01-17
 ### Added
 - 解决 IDEA 2022.3 启动报错的问题 [#81]https://github.com/huangbaihua001/RestfulToolkitX/issues/87

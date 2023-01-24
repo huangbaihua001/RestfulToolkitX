@@ -102,6 +102,10 @@
                     text="Jump to Source"
                     icon="AllIcons.Actions.EditSource">
             </action>
+            <action id="Menu.SaveUrlAction" class="jiux.net.plugin.restful.navigator.SaveUrlRequestAction"
+              text="Save Url Request"
+              icon="AllIcons.Actions.MenuSaveall">
+            </action>
             <separator/>
         </group>
     </actions>

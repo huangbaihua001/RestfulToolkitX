@@ -335,6 +335,7 @@ public class RestServiceStructure extends SimpleTreeStructure {
     }
 
     public class ServiceNode extends BaseSimpleNode {
+
         RestServiceItem myServiceItem;
 
         public ServiceNode(SimpleNode parent, RestServiceItem serviceItem) {
@@ -373,6 +374,7 @@ public class RestServiceStructure extends SimpleTreeStructure {
          * 显示服务详情，url
          */
         private void showServiceDetail(RestServiceItem serviceItem) {
+            myRestServiceDetail.restServiceItem = serviceItem;
 
             myRestServiceDetail.resetRequestTabbedPane();
 
@@ -404,6 +406,10 @@ public class RestServiceStructure extends SimpleTreeStructure {
             if (StringUtils.isNotBlank(requestBodyJson)) {
                 myRestServiceDetail.addRequestBodyTabPanel(requestBodyJson);
             }
+
+
+            myRestServiceDetail.setAllValueFromState();
+
         }
 
         @Override
@@ -449,6 +455,13 @@ public class RestServiceStructure extends SimpleTreeStructure {
             return "Toolkit.NavigatorServiceMenu";
         }
 
+
+
+
+
+        public RestServiceItem getMyServiceItem() {
+            return myServiceItem;
+        }
 /*
         @Override
         @Nullable
