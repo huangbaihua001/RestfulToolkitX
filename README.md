@@ -25,7 +25,7 @@ This branch will continue to be compatible with the latest version of IDEA, and 
 - [x] A simple http request tool.
 - [x] Generate&Copy Query Param, Generate&Copy URL on the request method.
 - [x] Convert java class to JSON; format json data <em>( Windows: Ctrl + Enter; Mac: Command + Enter ) .
-- [x] [Code generator](codeGen.md). Based on [EasyCode]
+
 
 Generate Code Preview
 ![code_gen_preview.png](img/code_gen_preview_1.gif)
