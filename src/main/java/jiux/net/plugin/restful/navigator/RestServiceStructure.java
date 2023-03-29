@@ -2,16 +2,19 @@ package jiux.net.plugin.restful.navigator;
 
 
 import com.intellij.icons.AllIcons;
+import com.intellij.ide.DefaultTreeExpander;
+import com.intellij.ide.TreeExpander;
+import com.intellij.ide.todo.TodoTreeBuilder;
 import com.intellij.lang.java.JavaLanguage;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.project.Project;
-import com.intellij.openapi.util.Disposer;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiMethod;
+import com.intellij.ui.tree.AsyncTreeModel;
+import com.intellij.ui.tree.StructureTreeModel;
 import com.intellij.ui.treeStructure.CachingSimpleNode;
 import com.intellij.ui.treeStructure.SimpleNode;
 import com.intellij.ui.treeStructure.SimpleTree;
-import com.intellij.ui.treeStructure.SimpleTreeBuilder;
 import com.intellij.ui.treeStructure.SimpleTreeStructure;
 import com.intellij.util.OpenSourceUtil;
 import gnu.trove.THashMap;
@@ -20,7 +23,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import javax.swing.Icon;
-import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreePath;
 import jiux.net.plugin.restful.common.KtFunctionHelper;
 import jiux.net.plugin.restful.common.PsiMethodHelper;
@@ -40,8 +42,8 @@ public class RestServiceStructure extends SimpleTreeStructure {
     private final RestServiceProjectsManager myProjectsManager;
     private final Map<RestServiceProject, ProjectNode> myProjectToNodeMapping = new THashMap<>();
     RestServiceDetail myRestServiceDetail;
-    private SimpleTreeBuilder myTreeBuilder;
     private SimpleTree myTree;
+    private  TreeExpander myTreeExpander;
     private RootNode myRoot = new RootNode();
     private int serviceCount = 0;
 
@@ -55,11 +57,21 @@ public class RestServiceStructure extends SimpleTreeStructure {
 
         configureTree(tree);
 
-        myTreeBuilder = new SimpleTreeBuilder(tree, (DefaultTreeModel) tree.getModel(), this, null);
-        Disposer.register(myProject, myTreeBuilder);
+        StructureTreeModel<RestServiceStructure> structureTreeModel = new StructureTreeModel<>(this, TodoTreeBuilder.NODE_DESCRIPTOR_COMPARATOR, myProject);
 
-        myTreeBuilder.initRoot();
-        myTreeBuilder.expand(myRoot, null);
+        AsyncTreeModel asyncTreeModel = new AsyncTreeModel(structureTreeModel, myProject);
+
+        myTree.setModel(asyncTreeModel);
+
+        myTreeExpander = new DefaultTreeExpander(myTree);
+
+//        myTreeBuilder = new SimpleTreeBuilder(tree, (DefaultTreeModel) tree.getModel(), this, null);
+//        Disposer.register(myProject, myTreeBuilder);
+//
+//        myTreeBuilder.initRoot();
+//        myTreeBuilder.expand(myRoot, null);
+
+        myTreeExpander.expandAll();
 
     }
 
@@ -88,6 +100,7 @@ public class RestServiceStructure extends SimpleTreeStructure {
     }
 
     private void configureTree(SimpleTree tree) {
+        tree.setShowsRootHandles(true);
         tree.setRootVisible(true);
         tree.setShowsRootHandles(true);
     }
@@ -139,7 +152,7 @@ public class RestServiceStructure extends SimpleTreeStructure {
                 myProjectToNodeMapping.put(each, node);
             }
         }
-        myTreeBuilder.getUi().doUpdateFromRoot();
+      //  myTreeBuilder.getUi().doUpdateFromRoot();
 //        ((CachingSimpleNode) myRoot.getParent()).cleanUpCache();
 //        myRoot.childrenChanged();
         myRoot.updateProjectNodes(projects);
@@ -153,7 +166,7 @@ public class RestServiceStructure extends SimpleTreeStructure {
         if (node == null) {
             return;
         }
-        myTreeBuilder.addSubtreeToUpdateByElement(node);
+       // myTreeBuilder.addSubtreeToUpdateByElement(node);
     }
 
     private void updateUpTo(SimpleNode node) {
@@ -265,11 +278,11 @@ public class RestServiceStructure extends SimpleTreeStructure {
 
     public class ProjectNode extends BaseSimpleNode {
         List<ServiceNode> serviceNodes = new ArrayList<>();
-        RestServiceProject myProject;
+        final RestServiceProject myProject;
 
 
         public ProjectNode(SimpleNode parent,/*,List<RestServiceItem> serviceItems*/RestServiceProject project) {
-//            super(parent);
+
             super(parent);
             myProject = project;
 

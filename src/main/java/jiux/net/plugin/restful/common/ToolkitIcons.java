@@ -13,17 +13,19 @@ public class ToolkitIcons {
     //    public static final Icon SERVICE = IconLoader.getIcon("/icons/s1.png"); // 16x16
 //    public static final Icon SERVICE = IconLoader.getIcon("/icons/s2.png"); // 16x16
 //    public static final Icon SERVICE = IconLoader.getIcon("/icons/s3.png"); // 16x16
-    public static final Icon SERVICE = IconLoader.getIcon("/icons/service.png"); // 16x16
+
+    public static final ClassLoader CLASS_LOADER = ToolkitIcons.class.getClassLoader();
+    public static final Icon SERVICE = IconLoader.getIcon("/icons/service.png", CLASS_LOADER); // 16x16
 //    public static final Icon SERVICE = IconLoader.getIcon("/icons/service.png"); // 16x16
 
     public static class METHOD {
-        public static Icon GET = IconLoader.getIcon("/icons/method/g.png"); // 16x16 GREEN
+        public static Icon GET = IconLoader.getIcon("/icons/method/g.png", CLASS_LOADER); // 16x16 GREEN
         // post put patch
-        public static Icon PUT = IconLoader.getIcon("/icons/method/p2.png"); // 16x16 ORANGE
-        public static Icon POST = IconLoader.getIcon("/icons/method/p.png"); // 16x16 BLUE
-        public static Icon PATCH = IconLoader.getIcon("/icons/method/p3.png"); // 16x16 GRAY
-        public static Icon DELETE = IconLoader.getIcon("/icons/method/d.png"); // 16x16 RED
-        public static Icon UNDEFINED = IconLoader.getIcon("/icons/method/undefined.png"); // 16x16 GRAY
+        public static Icon PUT = IconLoader.getIcon("/icons/method/p2.png", CLASS_LOADER); // 16x16 ORANGE
+        public static Icon POST = IconLoader.getIcon("/icons/method/p.png", CLASS_LOADER); // 16x16 BLUE
+        public static Icon PATCH = IconLoader.getIcon("/icons/method/p3.png", CLASS_LOADER); // 16x16 GRAY
+        public static Icon DELETE = IconLoader.getIcon("/icons/method/d.png", CLASS_LOADER); // 16x16 RED
+        public static Icon UNDEFINED = IconLoader.getIcon("/icons/method/undefined.png", CLASS_LOADER); // 16x16 GRAY
 
         public static Icon get(HttpMethod method) {
             if (method == null) {
