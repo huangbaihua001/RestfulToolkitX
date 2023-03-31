@@ -3,9 +3,8 @@ package jiux.net.plugin.restful.navigator;
 
 import com.intellij.ide.util.treeView.TreeState;
 import com.intellij.openapi.application.ApplicationManager;
-import com.intellij.openapi.components.AbstractProjectComponent;
 import com.intellij.openapi.components.PersistentStateComponent;
-import com.intellij.openapi.components.ProjectComponent;
+import com.intellij.openapi.components.Service;
 import com.intellij.openapi.components.ServiceManager;
 import com.intellij.openapi.components.State;
 import com.intellij.openapi.components.Storage;
@@ -36,9 +35,9 @@ import org.jetbrains.annotations.Nullable;
 /**
  * @author baihua.huang
  */
+@Service(Service.Level.PROJECT)
 @State(name = "RestServicesNavigator", storages = {@Storage(StoragePathMacros.WORKSPACE_FILE)})
-public class RestServicesNavigator extends AbstractProjectComponent
-        implements PersistentStateComponent<RestServicesNavigatorState>, ProjectComponent {
+public class RestServicesNavigator implements PersistentStateComponent<RestServicesNavigatorState>{
     public static final Logger LOG = Logger.getInstance(RestServicesNavigator.class);
     public static final String TOOL_WINDOW_ID = "RestServices";
     private static final URL SYNC_ICON_URL = RestServicesNavigator.class.getResource("/actions/refresh.png");
@@ -49,7 +48,6 @@ public class RestServicesNavigator extends AbstractProjectComponent
     private ToolWindowEx myToolWindow;
 
     public RestServicesNavigator(Project project) {
-        super(project);
         this.project = project;
     }
 
@@ -92,18 +90,9 @@ public class RestServicesNavigator extends AbstractProjectComponent
         myTree.getSelectionModel().setSelectionMode(TreeSelectionModel.DISCONTIGUOUS_TREE_SELECTION);
     }
 
-    @Override
-    public void initComponent() {
-        listenForProjectsChanges();
-        ToolkitUtil.runWhenInitialized(project, () -> {
-            if (project.isDisposed()) {
-                return;
-            }
-            initToolWindow();
-        });
-    }
 
-    private void initToolWindow() {
+
+    public void initToolWindow() {
         final ToolWindowManagerEx manager = ToolWindowManagerEx.getInstanceEx(project);
         myToolWindow = (ToolWindowEx) manager.getToolWindow(TOOL_WINDOW_ID);
         if (myToolWindow != null) {
@@ -158,7 +147,7 @@ public class RestServicesNavigator extends AbstractProjectComponent
     }
 
 
-    private void listenForProjectsChanges() {
+    public void listenForProjectsChanges() {
         //todo :
     }
 

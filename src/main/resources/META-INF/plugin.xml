@@ -1,55 +1,59 @@
 <!-- Plugin Configuration File. Read more: https://plugins.jetbrains.com/docs/intellij/plugin-configuration-file.html -->
 <idea-plugin>
-    <id>jiux.net.plugin.restful.toolkit</id>
-    <name>RestfulToolkitX</name>
-    <vendor email="huangbaihua@vip.qq.com" url="https://github.com/huangbaihua001/RestfulToolkitX/issues">jiux.net</vendor>
+  <id>jiux.net.plugin.restful.toolkit</id>
+  <name>RestfulToolkitX</name>
+  <vendor email="huangbaihua@vip.qq.com" url="https://github.com/huangbaihua001/RestfulToolkitX/issues">jiux.net
+  </vendor>
 
-    <depends>com.intellij.modules.platform</depends>
+  <depends>com.intellij.modules.platform</depends>
 
-    <depends optional="true" config-file="action-group.xml">com.intellij.modules.lang</depends>
-    <depends optional="true" config-file="java.xml">com.intellij.java</depends>
-    <depends optional="true" config-file="kotlin.xml">org.jetbrains.kotlin</depends>
+  <depends optional="true" config-file="action-group.xml">com.intellij.modules.lang</depends>
+  <depends optional="true" config-file="java.xml">com.intellij.java</depends>
+  <depends optional="true" config-file="kotlin.xml">org.jetbrains.kotlin</depends>
 
 
-    <description>
-        <![CDATA[
+  <description>
+    <![CDATA[
         RestfulToolkitX is an awesome restful development toolkit for Intellij IDEA. This toolkit supports Java and Kotlin languages,
         Spring framework (Spring Boot / Spring MVC),JAX-RS.<br/>
     ]]>
-    </description>
+  </description>
 
-    <projectListeners>
-        <listener
-                class="jiux.net.plugin.restful.listener.MyToolWindowListener"
-                topic="com.intellij.openapi.wm.ex.ToolWindowManagerListener"/>
-    </projectListeners>
+  <projectListeners>
+    <listener
+      class="jiux.net.plugin.restful.listener.MyToolWindowListener"
+      topic="com.intellij.openapi.wm.ex.ToolWindowManagerListener"/>
+  </projectListeners>
 
-    <applicationListeners>
-
-
-
-    </applicationListeners>
+  <applicationListeners>
 
 
-    <project-components>
-        <component>
-            <implementation-class>jiux.net.plugin.restful.navigator.RestServicesNavigator</implementation-class>
-        </component>
-        <component>
-            <implementation-class>jiux.net.plugin.restful.navigator.RestServiceDetail</implementation-class>
-        </component>
-        <component>
-            <implementation-class>jiux.net.plugin.restful.navigator.RestServicesRequestManager</implementation-class>
-        </component>
-    </project-components>
+  </applicationListeners>
 
-    <extensions defaultExtensionNs="com.intellij">
-        <projectService serviceImplementation="jiux.net.plugin.restful.service.ProjectInitService"/>
-    </extensions>
+  <projectListeners>
+    <listener class="jiux.net.plugin.restful.listener.ProjectOpenCloseListener"
+      topic="com.intellij.openapi.project.ProjectManagerListener"/>
+  </projectListeners>
+
+  <project-components>
+    <component>
+      <implementation-class>jiux.net.plugin.restful.navigator.RestServicesNavigator</implementation-class>
+    </component>
+    <component>
+      <implementation-class>jiux.net.plugin.restful.navigator.RestServiceDetail</implementation-class>
+    </component>
+    <component>
+      <implementation-class>jiux.net.plugin.restful.navigator.RestServicesRequestManager</implementation-class>
+    </component>
+  </project-components>
+
+  <extensions defaultExtensionNs="com.intellij">
+    <projectService serviceImplementation="jiux.net.plugin.restful.service.ProjectInitService"/>
+  </extensions>
 
 
-    <application-components>
-        <!-- Add your application components here -->
-    </application-components>
+  <application-components>
+    <!-- Add your application components here -->
+  </application-components>
 
 </idea-plugin>
