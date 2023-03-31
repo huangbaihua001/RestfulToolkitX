@@ -32,7 +32,8 @@ public class ToolkitUtil {
         }
 
         if (!project.isInitialized()) {
-            StartupManager.getInstance(project).runAfterOpened(() -> DumbService.getInstance(project).unsafeRunWhenSmart(r));
+            StartupManager.getInstance(project).runAfterOpened(() ->
+                DumbService.getInstance(project).runWhenSmart(r));
             return;
         }
         invokeLater(project, r);
