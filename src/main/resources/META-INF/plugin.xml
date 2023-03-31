@@ -18,11 +18,16 @@
     ]]>
     </description>
 
-
+    <projectListeners>
+        <listener
+                class="jiux.net.plugin.restful.listener.MyToolWindowListener"
+                topic="com.intellij.openapi.wm.ex.ToolWindowManagerListener"/>
+    </projectListeners>
 
     <applicationListeners>
-        <listener class="jiux.net.listeners.RestfulToolkitProjectManagerListener"
-                  topic="com.intellij.openapi.project.ProjectManagerListener"/>
+
+
+
     </applicationListeners>
 
 

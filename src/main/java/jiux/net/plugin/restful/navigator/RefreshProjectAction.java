@@ -22,6 +22,7 @@ public class RefreshProjectAction extends AnAction {
     @Override
     public void actionPerformed(AnActionEvent e) {
         final Project project = getProject(e.getDataContext());
+        assert project != null;
         RestServicesNavigator servicesNavigator = RestServicesNavigator.getInstance(project);
 
         servicesNavigator.initComponent();

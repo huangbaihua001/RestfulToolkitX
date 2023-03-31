@@ -1,8 +1,5 @@
 <idea-plugin>
     <extensions defaultExtensionNs="com.intellij">
-        <applicationService
-                serviceImplementation="jiux.net.services.RestfulToolkitApplicationService"/>
-        <projectService serviceImplementation="jiux.net.services.RestfulToolkitProjectService"/>
 
         <projectService
                 serviceImplementation="jiux.net.plugin.restful.navigation.action.GotoRequestMappingConfiguration"/>

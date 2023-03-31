@@ -14,6 +14,7 @@ import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.WriteExternalException;
 import com.intellij.openapi.wm.ToolWindowAnchor;
+import com.intellij.openapi.wm.ToolWindowManager;
 import com.intellij.openapi.wm.ex.ToolWindowEx;
 import com.intellij.openapi.wm.ex.ToolWindowManagerAdapter;
 import com.intellij.openapi.wm.ex.ToolWindowManagerEx;
@@ -21,6 +22,7 @@ import com.intellij.ui.content.Content;
 import com.intellij.ui.content.ContentFactory;
 import com.intellij.ui.content.ContentManager;
 import com.intellij.ui.treeStructure.SimpleTree;
+
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Rectangle;
@@ -28,32 +30,34 @@ import java.net.URL;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.tree.TreeSelectionModel;
+
 import jiux.net.RestfulToolkitBundle;
 import jiux.net.plugin.restful.common.ToolkitIcons;
+import jiux.net.plugin.restful.listener.MyToolWindowListener;
 import jiux.net.plugin.utils.ToolkitUtil;
 import org.jdom.Element;
 import org.jetbrains.annotations.Nullable;
 
+/**
+ * @author baihua.huang
+ */
 @State(name = "RestServicesNavigator", storages = {@Storage(StoragePathMacros.WORKSPACE_FILE)})
 public class RestServicesNavigator extends AbstractProjectComponent
         implements PersistentStateComponent<RestServicesNavigatorState>, ProjectComponent {
     public static final Logger LOG = Logger.getInstance(RestServicesNavigator.class);
-
     public static final String TOOL_WINDOW_ID = "RestServices";
     private static final URL SYNC_ICON_URL = RestServicesNavigator.class.getResource("/actions/refresh.png");
-    protected final Project myProject;
-    //    private JTree myTree;
+    protected final Project project;
+    private final RestServiceProjectsManager myProjectsManager;
     protected RestServiceStructure myStructure;
-    RestServicesNavigatorState myState = new RestServicesNavigatorState();
+    protected RestServicesNavigatorState myState = new RestServicesNavigatorState();
     private SimpleTree myTree;
     private ToolWindowEx myToolWindow;
 
-    private RestServiceProjectsManager myProjectsManager;
-
-    public RestServicesNavigator(Project myProject, RestServiceProjectsManager projectsManager) {
-        super(myProject);
-        this.myProject = myProject;
-        myProjectsManager = projectsManager;
+    public RestServicesNavigator(Project project, RestServiceProjectsManager projectsManager) {
+        super(project);
+        this.project = project;
+        this.myProjectsManager = projectsManager;
     }
 
 
@@ -72,7 +76,7 @@ public class RestServicesNavigator extends AbstractProjectComponent
                 final JLabel myLabel = new JLabel(
                         RestfulToolkitBundle.message("toolkit.navigator.nothing.to.display", ToolkitUtil.formatHtmlImage(SYNC_ICON_URL)));
 
-                if (myProject.isInitialized()) {
+                if (project.isInitialized()) {
                     return;
                 }
                 myLabel.setFont(getFont());
@@ -92,15 +96,14 @@ public class RestServicesNavigator extends AbstractProjectComponent
             }
         };
         myTree.getEmptyText().clear();
-
         myTree.getSelectionModel().setSelectionMode(TreeSelectionModel.DISCONTIGUOUS_TREE_SELECTION);
     }
 
     @Override
     public void initComponent() {
         listenForProjectsChanges();
-        ToolkitUtil.runWhenInitialized(myProject, () -> {
-            if (myProject.isDisposed()) {
+        ToolkitUtil.runWhenInitialized(project, () -> {
+            if (project.isDisposed()) {
                 return;
             }
             initToolWindow();
@@ -108,7 +111,7 @@ public class RestServicesNavigator extends AbstractProjectComponent
     }
 
     private void initToolWindow() {
-        final ToolWindowManagerEx manager = ToolWindowManagerEx.getInstanceEx(myProject);
+        final ToolWindowManagerEx manager = ToolWindowManagerEx.getInstanceEx(project);
         myToolWindow = (ToolWindowEx) manager.getToolWindow(TOOL_WINDOW_ID);
         if (myToolWindow != null) {
             return;
@@ -116,44 +119,15 @@ public class RestServicesNavigator extends AbstractProjectComponent
 
         initTree();
 
-        myToolWindow = (ToolWindowEx) manager.registerToolWindow(TOOL_WINDOW_ID, false, ToolWindowAnchor.RIGHT, myProject, true);
+        myToolWindow = (ToolWindowEx) manager.registerToolWindow(TOOL_WINDOW_ID, false, ToolWindowAnchor.RIGHT, project, true);
         myToolWindow.setIcon(ToolkitIcons.SERVICE);
 
-        JPanel panel = new RestServicesNavigatorPanel(myProject, myTree);
+        final JPanel panel = new RestServicesNavigatorPanel(project, myTree);
         final ContentFactory contentFactory = ServiceManager.getService(ContentFactory.class);
         final Content content = contentFactory.createContent(panel, "", false);
         ContentManager contentManager = myToolWindow.getContentManager();
         contentManager.addContent(content);
         contentManager.setSelectedContent(content, false);
-
-        final ToolWindowManagerAdapter listener = new ToolWindowManagerAdapter() {
-            boolean wasVisible = false;
-
-            @Override
-            public void stateChanged() {
-                if (myToolWindow.isDisposed()) {
-                    return;
-                }
-                boolean visible = myToolWindow.isVisible();
-                if (!visible || wasVisible) {
-                    return;
-                }
-                scheduleStructureUpdate();
-                wasVisible = true;
-            }
-        };
-        manager.addToolWindowManagerListener(listener, myProject);
-
-        //todo: extend toolWindows right click
-/*        ActionManager actionManager = ActionManager.getInstance();
-        DefaultActionGroup group = new DefaultActionGroup();
-        group.add(actionManager.getAction("Maven.GroupProjects"));
-        group.add(actionManager.getAction("Maven.ShowIgnored"));
-        group.add(actionManager.getAction("Maven.ShowBasicPhasesOnly"));
-        group.add(actionManager.getAction("Maven.AlwaysShowArtifactId")); // 默认显示 app serviceName
-        group.add(actionManager.getAction("Maven.ShowVersions")); //
-        myToolWindow.setAdditionalGearActions(group);*/
-
     }
 
 
@@ -166,7 +140,7 @@ public class RestServicesNavigator extends AbstractProjectComponent
         if (myToolWindow == null) {
             return;
         }
-        ToolkitUtil.runWhenProjectIsReady(myProject, () -> {
+        ToolkitUtil.runWhenProjectIsReady(project, () -> {
             if (!myToolWindow.isVisible()) {
                 return;
             }
@@ -187,8 +161,7 @@ public class RestServicesNavigator extends AbstractProjectComponent
     }
 
     private void initStructure() {
-        myStructure = new RestServiceStructure(myProject, myProjectsManager, myTree);
-
+        myStructure = new RestServiceStructure(project, myProjectsManager, myTree);
     }
 
 
