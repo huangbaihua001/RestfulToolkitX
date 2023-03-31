@@ -3,7 +3,15 @@
 # RestfulToolkitX Changelog
 ## [Unreleased]
 
-## [2.1.3] - 2023-03-19
+## [2.1.3] - 2023-03-31
+### Added
+- 兼容 IDEA 2023.x
+- Compatible with IDEA 2023.x
+
+### Updated
+- 解决代码兼容性问题
+- Fix code compatibility issues.
+
 ### Removed
 - 移除未成熟的代码生成器
 - Remove less maturity code generators.
