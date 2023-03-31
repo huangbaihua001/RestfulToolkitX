@@ -37,9 +37,6 @@
 
   <project-components>
     <component>
-      <implementation-class>jiux.net.plugin.restful.navigator.RestServicesNavigator</implementation-class>
-    </component>
-    <component>
       <implementation-class>jiux.net.plugin.restful.navigator.RestServiceDetail</implementation-class>
     </component>
     <component>
@@ -49,6 +46,7 @@
 
   <extensions defaultExtensionNs="com.intellij">
     <projectService serviceImplementation="jiux.net.plugin.restful.service.ProjectInitService"/>
+    <projectService serviceImplementation="jiux.net.plugin.restful.navigator.RestServicesNavigator"/>
   </extensions>
 
 

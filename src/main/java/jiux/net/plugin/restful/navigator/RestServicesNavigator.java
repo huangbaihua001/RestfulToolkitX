@@ -53,7 +53,7 @@ public class RestServicesNavigator implements PersistentStateComponent<RestServi
 
 
     public static RestServicesNavigator getInstance(Project p) {
-        return p.getComponent(RestServicesNavigator.class);
+        return p.getService(RestServicesNavigator.class);
     }
 
 
