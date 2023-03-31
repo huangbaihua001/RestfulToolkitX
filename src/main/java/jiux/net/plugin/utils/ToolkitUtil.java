@@ -7,17 +7,19 @@ import com.intellij.openapi.module.Module;
 import com.intellij.openapi.project.DumbService;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.startup.StartupManager;
-import com.intellij.psi.*;
+import com.intellij.psi.JavaDirectoryService;
+import com.intellij.psi.JavaPsiFacade;
+import com.intellij.psi.PsiClass;
+import com.intellij.psi.PsiDirectory;
+import com.intellij.psi.PsiPackage;
 import com.intellij.psi.search.GlobalSearchScope;
 import com.intellij.util.DisposeAwareRunnable;
 import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
-import org.jetbrains.annotations.NotNull;
-
 import java.net.URL;
+import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
+import org.jetbrains.annotations.NotNull;
 
 public class ToolkitUtil {
     public static void runWhenInitialized(final Project project, final Runnable r) {
@@ -32,7 +34,7 @@ public class ToolkitUtil {
         }
 
         if (!project.isInitialized()) {
-            StartupManager.getInstance(project).runAfterOpened(() ->
+            StartupManager.getInstance(project).runWhenProjectIsInitialized(() ->
                 DumbService.getInstance(project).runWhenSmart(r));
             return;
         }

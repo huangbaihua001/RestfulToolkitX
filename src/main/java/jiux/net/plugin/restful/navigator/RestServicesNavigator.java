@@ -14,15 +14,12 @@ import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.WriteExternalException;
 import com.intellij.openapi.wm.ToolWindowAnchor;
-import com.intellij.openapi.wm.ToolWindowManager;
 import com.intellij.openapi.wm.ex.ToolWindowEx;
-import com.intellij.openapi.wm.ex.ToolWindowManagerAdapter;
 import com.intellij.openapi.wm.ex.ToolWindowManagerEx;
 import com.intellij.ui.content.Content;
 import com.intellij.ui.content.ContentFactory;
 import com.intellij.ui.content.ContentManager;
 import com.intellij.ui.treeStructure.SimpleTree;
-
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Rectangle;
@@ -30,10 +27,8 @@ import java.net.URL;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.tree.TreeSelectionModel;
-
 import jiux.net.RestfulToolkitBundle;
 import jiux.net.plugin.restful.common.ToolkitIcons;
-import jiux.net.plugin.restful.listener.MyToolWindowListener;
 import jiux.net.plugin.utils.ToolkitUtil;
 import org.jdom.Element;
 import org.jetbrains.annotations.Nullable;
@@ -48,16 +43,14 @@ public class RestServicesNavigator extends AbstractProjectComponent
     public static final String TOOL_WINDOW_ID = "RestServices";
     private static final URL SYNC_ICON_URL = RestServicesNavigator.class.getResource("/actions/refresh.png");
     protected final Project project;
-    private final RestServiceProjectsManager myProjectsManager;
     protected RestServiceStructure myStructure;
     protected RestServicesNavigatorState myState = new RestServicesNavigatorState();
     private SimpleTree myTree;
     private ToolWindowEx myToolWindow;
 
-    public RestServicesNavigator(Project project, RestServiceProjectsManager projectsManager) {
+    public RestServicesNavigator(Project project) {
         super(project);
         this.project = project;
-        this.myProjectsManager = projectsManager;
     }
 
 
@@ -161,7 +154,7 @@ public class RestServicesNavigator extends AbstractProjectComponent
     }
 
     private void initStructure() {
-        myStructure = new RestServiceStructure(project, myProjectsManager, myTree);
+        myStructure = new RestServiceStructure(project, myTree);
     }
 
 

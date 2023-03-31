@@ -36,18 +36,16 @@
             <implementation-class>jiux.net.plugin.restful.navigator.RestServicesNavigator</implementation-class>
         </component>
         <component>
-            <implementation-class>jiux.net.plugin.restful.navigator.RestServiceProjectsManager</implementation-class>
-        </component>
-        <!--        <component>
-                    <implementation-class>jiux.net.plugin.restful.navigation.action.GotoRequestMappingConfiguration</implementation-class>
-                </component>-->
-        <component>
             <implementation-class>jiux.net.plugin.restful.navigator.RestServiceDetail</implementation-class>
         </component>
         <component>
             <implementation-class>jiux.net.plugin.restful.navigator.RestServicesRequestManager</implementation-class>
         </component>
     </project-components>
+
+    <extensions defaultExtensionNs="com.intellij">
+        <projectService serviceImplementation="jiux.net.plugin.restful.service.ProjectInitService"/>
+    </extensions>
 
 
     <application-components>

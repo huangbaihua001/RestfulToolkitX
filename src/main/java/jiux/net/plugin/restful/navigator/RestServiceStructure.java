@@ -12,22 +12,24 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiMethod;
 import com.intellij.ui.tree.AsyncTreeModel;
 import com.intellij.ui.tree.StructureTreeModel;
-import com.intellij.ui.treeStructure.*;
+import com.intellij.ui.treeStructure.CachingSimpleNode;
+import com.intellij.ui.treeStructure.SimpleNode;
+import com.intellij.ui.treeStructure.SimpleTree;
+import com.intellij.ui.treeStructure.SimpleTreeStructure;
 import com.intellij.util.OpenSourceUtil;
 import gnu.trove.THashMap;
-
 import java.awt.event.InputEvent;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import javax.swing.Icon;
 import javax.swing.tree.TreePath;
-
 import jiux.net.plugin.restful.common.KtFunctionHelper;
 import jiux.net.plugin.restful.common.PsiMethodHelper;
 import jiux.net.plugin.restful.common.ToolkitIcons;
 import jiux.net.plugin.restful.method.HttpMethod;
 import jiux.net.plugin.restful.navigation.action.RestServiceItem;
+import jiux.net.plugin.restful.service.ProjectInitService;
 import org.apache.commons.lang.StringUtils;
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
@@ -38,7 +40,6 @@ import org.jetbrains.kotlin.psi.KtNamedFunction;
 public class RestServiceStructure extends SimpleTreeStructure {
     public static final Logger LOG = Logger.getInstance(RestServiceStructure.class);
     private final Project myProject;
-    private final RestServiceProjectsManager myProjectsManager;
     private final Map<RestServiceProject, ProjectNode> myProjectToNodeMapping = new THashMap<>();
     RestServiceDetail myRestServiceDetail;
     private SimpleTree myTree;
@@ -48,10 +49,8 @@ public class RestServiceStructure extends SimpleTreeStructure {
     private StructureTreeModel<RestServiceStructure> structureTreeModel;
     private AsyncTreeModel asyncTreeModel;
     public RestServiceStructure(Project project,
-                                RestServiceProjectsManager projectsManager,
                                 SimpleTree tree) {
         myProject = project;
-        myProjectsManager = projectsManager;
         myTree = tree;
         init(project, tree);
     }
@@ -103,7 +102,7 @@ public class RestServiceStructure extends SimpleTreeStructure {
     }
 
     public void update() {
-        List<RestServiceProject> projects = RestServiceProjectsManager.getInstance(myProject).getServiceProjects();
+        List<RestServiceProject> projects = ProjectInitService.getInstance(myProject).getServiceProjects();
         updateProjects(projects);
         structureTreeModel.invalidate();
     }
