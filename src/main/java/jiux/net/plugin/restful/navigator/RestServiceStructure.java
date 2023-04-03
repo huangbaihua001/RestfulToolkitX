@@ -102,10 +102,17 @@ public class RestServiceStructure extends SimpleTreeStructure {
     }
 
     public void update() {
+        update(false);
+    }
+
+    public void update(boolean needRefresh) {
         List<RestServiceProject> projects = ProjectInitService.getInstance(myProject).getServiceProjects();
         updateProjects(projects);
-        structureTreeModel.invalidate();
+        if (needRefresh) {
+            structureTreeModel.invalidate();
+        }
     }
+
 
     public void updateProjects(List<RestServiceProject> projects) {
         serviceCount = 0;

@@ -19,6 +19,6 @@ public class RefreshProjectAction extends AnAction {
         final Project project = getProject(e.getDataContext());
         assert project != null;
         RestServicesNavigator servicesNavigator = RestServicesNavigator.getInstance(project);
-        servicesNavigator.scheduleStructureUpdate();
+        servicesNavigator.scheduleStructureUpdate(true);
     }
 }

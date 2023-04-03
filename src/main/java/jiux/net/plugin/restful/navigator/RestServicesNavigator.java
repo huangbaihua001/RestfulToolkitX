@@ -114,8 +114,11 @@ public class RestServicesNavigator implements PersistentStateComponent<RestServi
 
 
     public void scheduleStructureUpdate() {
-        scheduleStructureRequest(() -> myStructure.update());
+       scheduleStructureUpdate(false);
+    }
 
+    public void scheduleStructureUpdate(boolean needRefresh) {
+        scheduleStructureRequest(() -> myStructure.update(needRefresh));
     }
 
     private void scheduleStructureRequest(final Runnable r) {
