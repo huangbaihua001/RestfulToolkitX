@@ -26,10 +26,6 @@ This branch will continue to be compatible with the latest version of IDEA, and 
 - [x] Generate&Copy Query Param, Generate&Copy URL on the request method.
 - [x] Convert java class to JSON; format json data <em>( Windows: Ctrl + Enter; Mac: Command + Enter ) .
 
-
-Generate Code Preview
-![code_gen_preview.png](img/code_gen_preview_1.gif)
-
 Quick Search URL Preview
 
 ![searchService.png](img/searchService.png)
