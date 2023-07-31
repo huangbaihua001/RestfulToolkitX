@@ -3,6 +3,11 @@
 # RestfulToolkitX Changelog
 ## [Unreleased]
 
+## [2.1.5] - 2023-07-31
+### Added
+- 兼容 IDEA 2023.2
+- Compatible with IDEA 2023.2
+
 ## [2.1.4] - 2023-04-03
 ### Fixed
 - 修复 Rest 导航窗口刷新问题
