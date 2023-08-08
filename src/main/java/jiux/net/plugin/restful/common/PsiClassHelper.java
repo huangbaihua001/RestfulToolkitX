@@ -1,5 +1,6 @@
 package jiux.net.plugin.restful.common;
 
+import com.google.common.collect.Lists;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.intellij.openapi.module.Module;
@@ -15,6 +16,7 @@ import com.intellij.psi.impl.source.PsiClassReferenceType;
 import com.intellij.psi.search.GlobalSearchScope;
 import com.intellij.psi.search.PsiShortNamesCache;
 import com.intellij.util.text.DateFormatUtil;
+
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -26,6 +28,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
+
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -138,7 +141,7 @@ public class PsiClassHelper {
             List<Map<String, Object>> jsonList = new ArrayList<>();
             // didn't handle generic nesting.
             String entityName = className.substring(className.indexOf("<") + 1, className.lastIndexOf(">"));
-           // build RequestBody Json
+            // build RequestBody Json
             Map<String, Object> jsonMap = assembleClassToMap(entityName, project);
             jsonList.add(jsonMap);
             queryJson = gson.toJson(jsonList);
@@ -237,7 +240,7 @@ public class PsiClassHelper {
     public PsiClass findOnePsiClassByClassName(String qualifiedClassName, Project project) {
 
         PsiClass psiClass = JavaPsiFacade.getInstance(project)
-            .findClass(qualifiedClassName, GlobalSearchScope.allScope(project));
+                .findClass(qualifiedClassName, GlobalSearchScope.allScope(project));
 
         return psiClass;
     }
@@ -261,7 +264,7 @@ public class PsiClassHelper {
 //            psiClass = psiClassCollection.stream().filter(tempPsiClass -> tempPsiClass.getQualifiedName().equals(className)).findFirst().get();
 
             Optional<PsiClass> any = psiClassCollection.stream()
-                .filter(tempPsiClass -> tempPsiClass.getQualifiedName().equals(className)).findAny();
+                    .filter(tempPsiClass -> tempPsiClass.getQualifiedName().equals(className)).findAny();
 
             if (any.isPresent()) {
                 psiClass = any.get();
@@ -273,7 +276,7 @@ public class PsiClassHelper {
 
     public Collection<PsiClass> tryDetectPsiClassByShortClassName(Project project, String shortClassName) {
         Collection<PsiClass> psiClassCollection = JavaShortClassNameIndex.getInstance()
-            .get(shortClassName, project, GlobalSearchScope.projectScope(project));
+                .get(shortClassName, project, GlobalSearchScope.projectScope(project));
 
         if (psiClassCollection.size() > 0) {
             return psiClassCollection;
@@ -281,7 +284,7 @@ public class PsiClassHelper {
 
         if (myModule != null) {
             psiClassCollection = JavaShortClassNameIndex.getInstance()
-                .get(shortClassName, project, GlobalSearchScope.allScope(project));
+                    .get(shortClassName, project, GlobalSearchScope.allScope(project));
         }
 
         return psiClassCollection;
@@ -304,7 +307,7 @@ public class PsiClassHelper {
 
         if (psiClasses.length > 1) {
             Optional<PsiClass> any = Arrays.stream(psiClasses)
-                .filter(tempPsiClass -> tempPsiClass.getQualifiedName().equals(className)).findAny();
+                    .filter(tempPsiClass -> tempPsiClass.getQualifiedName().equals(className)).findAny();
             if (any.isPresent()) {
                 psiClass = any.get();
             }
@@ -320,7 +323,7 @@ public class PsiClassHelper {
     public PsiClass[] tryDetectPsiClassByShortClassName2(String shortClassName, Project project) {
         // all
         PsiClass[] psiClasses = PsiShortNamesCache.getInstance(project)
-            .getClassesByName(shortClassName, GlobalSearchScope.allScope(project));
+                .getClassesByName(shortClassName, GlobalSearchScope.allScope(project));
 
         if (psiClasses.length > 0) {
             return psiClasses;
@@ -329,7 +332,7 @@ public class PsiClassHelper {
         if (myModule != null) {
             // all
             psiClasses = PsiShortNamesCache.getInstance(project)
-                .getClassesByName(shortClassName, GlobalSearchScope.allScope(project));
+                    .getClassesByName(shortClassName, GlobalSearchScope.allScope(project));
             if (psiClasses.length > 0) {
                 return psiClasses;
             }
@@ -399,7 +402,7 @@ public class PsiClassHelper {
 
             if (isListFieldType(psiFieldType)) {
                 PsiType[] parameters = ((PsiClassReferenceType) psiFieldType).getParameters();
-                if (parameters != null && parameters.length > 0) {
+                if (parameters.length > 0) {
                     PsiType parameter = parameters[0];
                     if (recursiveCount <= 0) {
                         continue;
@@ -407,7 +410,7 @@ public class PsiClassHelper {
 
                     if (parameter.getPresentableText().equals(psiClass.getName())) {
                         Map<String, Object> objectMap = assembleClassToMap(psiClass, project, 0);
-                        map.put(fieldName, objectMap);
+                        map.put(fieldName, Lists.newArrayList(objectMap));
                         continue;
                     }
 
@@ -425,10 +428,10 @@ public class PsiClassHelper {
                             continue;
                         }
                         PsiClass onePsiClassByClassName = findOnePsiClassByClassName(parameter.getCanonicalText(),
-                            project);
+                                project);
 
                         Map<String, Object> objectMap = assembleClassToMap(onePsiClassByClassName, project, 0);
-                        map.put(fieldName, objectMap);
+                        map.put(fieldName, Lists.newArrayList(objectMap));
                     }
                 }
             }
