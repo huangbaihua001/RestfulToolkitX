@@ -34,9 +34,9 @@ kotlin {
 
 dependencies {
     implementation("com.fifesoft:rsyntaxtextarea:3.1.6")
-    compileOnly("org.projectlombok:lombok:1.18.22")
-    annotationProcessor("org.projectlombok:lombok:1.18.2");
-    testAnnotationProcessor("org.projectlombok:lombok:1.18.2");
+    compileOnly("org.projectlombok:lombok:1.18.28")
+    annotationProcessor("org.projectlombok:lombok:1.18.28");
+    testAnnotationProcessor("org.projectlombok:lombok:1.18.28");
 }
 
 // Configure Gradle IntelliJ Plugin - read more: https://plugins.jetbrains.com/docs/intellij/tools-gradle-intellij-plugin.html
