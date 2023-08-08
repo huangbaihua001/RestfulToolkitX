@@ -16,8 +16,15 @@ import com.intellij.psi.impl.source.PsiClassReferenceType;
 import com.intellij.psi.search.GlobalSearchScope;
 import com.intellij.psi.search.PsiShortNamesCache;
 import com.intellij.util.text.DateFormatUtil;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.math.BigDecimal;
+import java.math.BigInteger;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -28,9 +35,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
-
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 
 public class PsiClassHelper {
@@ -80,9 +84,23 @@ public class PsiClassHelper {
                 paramValue = Short.valueOf("1");
                 break;
             case "decimal":
+            case "bigdecimal":
                 return BigDecimal.ONE;
+            case "biginteger":
+                return BigInteger.ONE;
+            case "atomicinteger":
+                return "1";
             case "string":
                 paramValue = "restfulToolkitX";
+                break;
+            case "localdate":
+                paramValue = LocalDate.now().toString();
+                break;
+            case "localtime":
+                paramValue = DateTimeFormatter.ofPattern("HH:mm:ss").format(LocalTime.now());
+                break;
+            case "localdatetime":
+                paramValue = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss").format(LocalDateTime.now());
                 break;
             case "date":
                 paramValue = DateFormatUtil.formatDateTime(new Date());
