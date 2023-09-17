@@ -3,6 +3,11 @@
 # RestfulToolkitX Changelog
 ## [Unreleased]
 
+## [2.1.6] - 2023-09-17
+### Fixed
+- 修复插件报 "failed to save settings" 的问题
+- Fixed the issue of "failed to save settings"
+
 ## [2.1.5] - 2023-07-31
 ### Added
 - 兼容 IDEA 2023.2
