@@ -49,6 +49,7 @@ public class RestServicesNavigatorPanel extends SimpleToolWindowPanel implements
         ActionToolbar actionToolbar = actionManager.createActionToolbar("RestToolkit Navigator Toolbar",
                 (DefaultActionGroup) actionManager.getAction("Toolkit.NavigatorActionsToolbar"),
                 true);
+        actionToolbar.setTargetComponent(this);
         setToolbar(actionToolbar.getComponent());
         //Color gray = new Color(36, 38, 39);
        // myTree.setBorder(BorderFactory.createLineBorder(gray));

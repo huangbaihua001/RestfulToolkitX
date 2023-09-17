@@ -2,7 +2,6 @@ package jiux.net.plugin.restful.navigator;
 
 
 import com.intellij.ide.util.treeView.TreeState;
-import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.components.PersistentStateComponent;
 import com.intellij.openapi.components.Service;
 import com.intellij.openapi.components.ServiceManager;
@@ -157,7 +156,7 @@ public class RestServicesNavigator implements PersistentStateComponent<RestServi
     @Nullable
     @Override
     public RestServicesNavigatorState getState() {
-        ApplicationManager.getApplication().assertIsDispatchThread();
+      //  ApplicationManager.getApplication().assertIsDispatchThread();
         if (myStructure != null) {
             try {
                 myState.treeState = new Element("root");
