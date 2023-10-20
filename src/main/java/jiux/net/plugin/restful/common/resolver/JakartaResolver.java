@@ -12,18 +12,18 @@ import com.intellij.psi.search.GlobalSearchScope;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import jiux.net.plugin.restful.annotations.JaxrsPathAnnotation;
-import jiux.net.plugin.restful.common.jaxrs.JaxrsAnnotationHelper;
+import jiux.net.plugin.restful.annotations.JakartaPathAnnotation;
+import jiux.net.plugin.restful.common.jakarta.JakartaAnnotationHelper;
 import jiux.net.plugin.restful.method.RequestPath;
 import jiux.net.plugin.restful.navigation.action.RestServiceItem;
 
-public class JaxrsResolver extends BaseServiceResolver {
+public class JakartaResolver extends BaseServiceResolver {
 
-  public JaxrsResolver(Module module) {
+  public JakartaResolver(Module module) {
     myModule = module;
   }
 
-  public JaxrsResolver(Project project) {
+  public JakartaResolver(Project project) {
     myProject = project;
   }
 
@@ -35,7 +35,7 @@ public class JaxrsResolver extends BaseServiceResolver {
     List<RestServiceItem> itemList = new ArrayList<>();
     Collection<PsiAnnotation> psiAnnotations = JavaAnnotationIndex
       .getInstance()
-      .get(JaxrsPathAnnotation.PATH.getShortName(), project, globalSearchScope);
+      .get(JakartaPathAnnotation.PATH.getShortName(), project, globalSearchScope);
 
     for (PsiAnnotation psiAnnotation : psiAnnotations) {
       PsiModifierList psiModifierList = (PsiModifierList) psiAnnotation.getParent();
@@ -48,16 +48,17 @@ public class JaxrsResolver extends BaseServiceResolver {
       PsiClass psiClass = (PsiClass) psiElement;
       PsiMethod[] psiMethods = psiClass.getMethods();
 
-      String classUriPath = JaxrsAnnotationHelper.getClassUriPath(psiClass);
+      String classUriPath = JakartaAnnotationHelper.getClassUriPath(psiClass);
 
       for (PsiMethod psiMethod : psiMethods) {
-        RequestPath[] methodUriPaths = JaxrsAnnotationHelper.getRequestPaths(psiMethod);
+        RequestPath[] methodUriPaths = JakartaAnnotationHelper.getRequestPaths(psiMethod);
 
         for (RequestPath methodUriPath : methodUriPaths) {
           RestServiceItem item = createRestServiceItem(
             psiMethod,
             classUriPath,
-            methodUriPath
+            methodUriPath,
+            false
           );
           itemList.add(item);
         }

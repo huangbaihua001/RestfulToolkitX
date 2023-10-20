@@ -55,6 +55,17 @@ public abstract class BaseServiceResolver implements ServiceResolver {
     String classUriPath,
     RequestPath requestMapping
   ) {
+    return createRestServiceItem(psiMethod, classUriPath, requestMapping, true);
+  }
+
+
+  @NotNull
+  protected RestServiceItem createRestServiceItem(
+    PsiElement psiMethod,
+    String classUriPath,
+    RequestPath requestMapping,
+    Boolean isUrlWithoutReqMethod
+  ) {
     if (!classUriPath.startsWith("/")) {
       classUriPath = "/".concat(classUriPath);
     }
@@ -65,18 +76,20 @@ public abstract class BaseServiceResolver implements ServiceResolver {
     String methodPath = requestMapping.getPath();
 
     if (methodPath.startsWith("/")) {
-      methodPath = methodPath.substring(1, methodPath.length());
+      methodPath = methodPath.substring(1);
     }
-    String requestPath = classUriPath + methodPath;
+    String requestPath = classUriPath + (isUrlWithoutReqMethod ? methodPath : "");
 
     RestServiceItem item = new RestServiceItem(
       psiMethod,
       requestMapping.getMethod(),
-      requestPath
+      requestPath,
+      isUrlWithoutReqMethod
     );
     if (myModule != null) {
       item.setModule(myModule);
     }
+    System.err.println("item:" + item);
     return item;
   }
 }

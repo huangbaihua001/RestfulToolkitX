@@ -1,6 +1,10 @@
 package jiux.net.plugin.restful.common;
 
-import com.intellij.psi.*;
+import com.intellij.psi.PsiAnnotation;
+import com.intellij.psi.PsiAnnotationMemberValue;
+import com.intellij.psi.PsiArrayInitializerMemberValue;
+import com.intellij.psi.PsiLiteralExpression;
+import com.intellij.psi.PsiReferenceExpression;
 import java.util.ArrayList;
 import java.util.List;
 import org.jetbrains.annotations.NotNull;
@@ -12,9 +16,12 @@ public class PsiAnnotationHelper {
     PsiAnnotation annotation,
     String attr
   ) {
+    List<String> values = new ArrayList<>();
+    if (annotation == null) {
+      return values;
+    }
     PsiAnnotationMemberValue value = annotation.findDeclaredAttributeValue(attr);
 
-    List<String> values = new ArrayList<>();
     // class com.intellij.psi.impl.source.tree.java.PsiLiteralExpressionImpl
     // class com.intellij.psi.impl.source.tree.java.PsiArrayInitializerMemberValueImpl
     if (value instanceof PsiReferenceExpression) {

@@ -37,7 +37,7 @@ public class RequestPath {
       classUri = classUri.concat("/");
     }
     if (this.path.startsWith("/")) {
-      methodUri = this.path.substring(1, this.path.length());
+      methodUri = this.path.substring(1);
     }
 
     this.path = classUri.concat(methodUri);

@@ -7,6 +7,7 @@ import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiMethod;
 import java.util.ArrayList;
 import java.util.List;
+import jiux.net.plugin.restful.common.resolver.JakartaResolver;
 import jiux.net.plugin.restful.common.resolver.JaxrsResolver;
 import jiux.net.plugin.restful.common.resolver.ServiceResolver;
 import jiux.net.plugin.restful.common.resolver.SpringResolver;
@@ -32,7 +33,7 @@ public class ServiceHelper {
     Module[] modules = ModuleManager.getInstance(project).getModules();
     for (Module module : modules) {
       List<RestServiceItem> restServices = buildRestServiceItemListUsingResolver(module);
-      if (restServices.size() > 0) {
+      if (!restServices.isEmpty()) {
         serviceProjectList.add(new RestServiceProject(module, restServices));
       }
     }
@@ -47,7 +48,9 @@ public class ServiceHelper {
 
     SpringResolver springResolver = new SpringResolver(module);
     JaxrsResolver jaxrsResolver = new JaxrsResolver(module);
-    ServiceResolver[] resolvers = { springResolver, jaxrsResolver };
+    JakartaResolver jakartaResolver = new JakartaResolver(module);
+
+    ServiceResolver[] resolvers = { springResolver, jaxrsResolver, jakartaResolver };
 
     for (ServiceResolver resolver : resolvers) {
       List<RestServiceItem> allSupportedServiceItemsInModule =
@@ -67,6 +70,7 @@ public class ServiceHelper {
 
     SpringResolver springResolver = new SpringResolver(project);
     JaxrsResolver jaxrsResolver = new JaxrsResolver(project);
+    JakartaResolver jakartaResolver = new JakartaResolver(project);
 
     Module[] modules = ModuleManager.getInstance(project).getModules();
 
@@ -76,7 +80,7 @@ public class ServiceHelper {
         itemList.addAll(buildRestServiceItemListUsingResolver(module));
       }
     } else {
-      ServiceResolver[] resolvers = { springResolver, jaxrsResolver };
+      ServiceResolver[] resolvers = { springResolver, jaxrsResolver, jakartaResolver };
       for (ServiceResolver resolver : resolvers) {
         List<RestServiceItem> allSupportedServiceItemsInProject =
           resolver.findAllSupportedServiceItemsInProject();

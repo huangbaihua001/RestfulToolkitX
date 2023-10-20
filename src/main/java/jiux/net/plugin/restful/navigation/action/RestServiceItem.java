@@ -6,14 +6,16 @@ import com.intellij.openapi.module.Module;
 import com.intellij.pom.Navigatable;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiMethod;
-import javax.swing.*;
+import javax.swing.Icon;
 import jiux.net.plugin.restful.common.ToolkitIcons;
 import jiux.net.plugin.restful.method.HttpMethod;
 import jiux.net.plugin.restful.method.action.ModuleHelper;
+import lombok.ToString;
 import org.jetbrains.annotations.Nullable;
 import org.jetbrains.kotlin.psi.KtClass;
 import org.jetbrains.kotlin.psi.KtNamedFunction;
 
+@ToString
 public class RestServiceItem implements NavigationItem {
 
   private PsiMethod psiMethod;
@@ -25,8 +27,9 @@ public class RestServiceItem implements NavigationItem {
 
   private String url;
   private Navigatable navigationElement;
+  private Boolean isUrlWithoutReqMethod = false;
 
-  public RestServiceItem(PsiElement psiElement, String requestMethod, String urlPath) {
+  public RestServiceItem(PsiElement psiElement, String requestMethod, String urlPath, Boolean isUrlWithoutReqMethod) {
     this.psiElement = psiElement;
     if (psiElement instanceof PsiMethod) {
       this.psiMethod = (PsiMethod) psiElement;
@@ -40,6 +43,10 @@ public class RestServiceItem implements NavigationItem {
     if (psiElement instanceof Navigatable) {
       navigationElement = (Navigatable) psiElement;
     }
+    this.isUrlWithoutReqMethod = isUrlWithoutReqMethod;
+  }
+  public RestServiceItem(PsiElement psiElement, String requestMethod, String urlPath) {
+    this(psiElement, requestMethod, urlPath, false);
   }
 
   @Nullable
