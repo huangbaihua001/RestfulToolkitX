@@ -12,26 +12,26 @@ import jiux.net.plugin.restful.navigator.RestServiceProject;
  * @author baihua.huang
  */
 @Service(Service.Level.PROJECT)
-public class ProjectInitService  implements Disposable {
+public class ProjectInitService implements Disposable {
 
-    private final Project myProject;
+  private final Project myProject;
 
-    public ProjectInitService(Project project) {
-        myProject = project;
-    }
+  public ProjectInitService(Project project) {
+    myProject = project;
+  }
 
+  public static ProjectInitService getInstance(Project p) {
+    return p.getService(ProjectInitService.class);
+  }
 
-    public static ProjectInitService getInstance(Project p) {
-        return p.getService(ProjectInitService.class);
-    }
+  public List<RestServiceProject> getServiceProjects() {
+    return DumbService
+      .getInstance(myProject)
+      .runReadActionInSmartMode(() ->
+        ServiceHelper.buildRestServiceProjectListUsingResolver(myProject)
+      );
+  }
 
-    public List<RestServiceProject> getServiceProjects() {
-        return DumbService.getInstance(myProject).runReadActionInSmartMode(
-            () -> ServiceHelper.buildRestServiceProjectListUsingResolver(myProject));
-    }
-
-    @Override
-    public void dispose() {
-
-    }
+  @Override
+  public void dispose() {}
 }

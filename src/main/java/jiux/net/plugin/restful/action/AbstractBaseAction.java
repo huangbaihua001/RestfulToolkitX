@@ -6,20 +6,17 @@ import com.intellij.openapi.actionSystem.DataKeys;
 import com.intellij.openapi.module.Module;
 import com.intellij.openapi.project.Project;
 
-
 public abstract class AbstractBaseAction extends AnAction {
 
-    protected Module myModule(AnActionEvent e) {
-        return e.getData(DataKeys.MODULE);
-    }
+  protected Module myModule(AnActionEvent e) {
+    return e.getData(DataKeys.MODULE);
+  }
 
-    protected Project myProject(AnActionEvent e) {
-        return getEventProject(e);
-    }
+  protected Project myProject(AnActionEvent e) {
+    return getEventProject(e);
+  }
 
-
-    protected void setActionPresentationVisible(AnActionEvent e, boolean visible) {
-        e.getPresentation().setVisible(visible);
-    }
-
+  protected void setActionPresentationVisible(AnActionEvent e, boolean visible) {
+    e.getPresentation().setVisible(visible);
+  }
 }

@@ -9,16 +9,16 @@ import org.jetbrains.annotations.Nullable;
 
 public class RefreshProjectAction extends AnAction {
 
-    @Nullable
-    public static Project getProject(DataContext context) {
-        return CommonDataKeys.PROJECT.getData(context);
-    }
+  @Nullable
+  public static Project getProject(DataContext context) {
+    return CommonDataKeys.PROJECT.getData(context);
+  }
 
-    @Override
-    public void actionPerformed(AnActionEvent e) {
-        final Project project = getProject(e.getDataContext());
-        assert project != null;
-        RestServicesNavigator servicesNavigator = RestServicesNavigator.getInstance(project);
-        servicesNavigator.scheduleStructureUpdate(true);
-    }
+  @Override
+  public void actionPerformed(AnActionEvent e) {
+    final Project project = getProject(e.getDataContext());
+    assert project != null;
+    RestServicesNavigator servicesNavigator = RestServicesNavigator.getInstance(project);
+    servicesNavigator.scheduleStructureUpdate(true);
+  }
 }

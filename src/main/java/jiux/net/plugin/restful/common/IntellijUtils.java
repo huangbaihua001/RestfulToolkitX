@@ -1,6 +1,3 @@
 package jiux.net.plugin.restful.common;
 
-
-public class IntellijUtils {
-
-}
+public class IntellijUtils {}

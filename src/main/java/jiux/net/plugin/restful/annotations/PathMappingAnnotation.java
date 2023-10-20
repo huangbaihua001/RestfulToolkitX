@@ -1,8 +1,7 @@
 package jiux.net.plugin.restful.annotations;
 
 public interface PathMappingAnnotation {
-    
-    String getQualifiedName();
+  String getQualifiedName();
 
-    String getShortName();
+  String getShortName();
 }

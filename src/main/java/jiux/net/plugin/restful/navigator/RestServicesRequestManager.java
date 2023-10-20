@@ -8,21 +8,23 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 @State(name = "restServicesRequestManager")
-public class RestServicesRequestManager implements PersistentStateComponent<RestServicesRequestState> {
+public class RestServicesRequestManager
+  implements PersistentStateComponent<RestServicesRequestState> {
 
-    private final RestServicesRequestState restServicesRequestState = new RestServicesRequestState();
+  private final RestServicesRequestState restServicesRequestState =
+    new RestServicesRequestState();
 
-    public static RestServicesRequestManager getInstance(Project p) {
-        return p.getComponent(RestServicesRequestManager.class);
-    }
+  public static RestServicesRequestManager getInstance(Project p) {
+    return p.getComponent(RestServicesRequestManager.class);
+  }
 
-    @Override
-    public @Nullable RestServicesRequestState getState() {
-        return restServicesRequestState;
-    }
+  @Override
+  public @Nullable RestServicesRequestState getState() {
+    return restServicesRequestState;
+  }
 
-    @Override
-    public void loadState(@NotNull RestServicesRequestState state) {
-        XmlSerializerUtil.copyBean(state, restServicesRequestState);
-    }
+  @Override
+  public void loadState(@NotNull RestServicesRequestState state) {
+    XmlSerializerUtil.copyBean(state, restServicesRequestState);
+  }
 }

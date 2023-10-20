@@ -1,10 +1,14 @@
 package jiux.net.plugin.restful.common;
 
+import java.io.IOException;
+import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.security.KeyManagementException;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import jiux.net.plugin.utils.JsonUtils;
@@ -30,262 +34,254 @@ import org.apache.http.ssl.SSLContextBuilder;
 import org.apache.http.util.EntityUtils;
 import org.jetbrains.annotations.NotNull;
 
-import java.io.IOException;
-import java.nio.charset.Charset;
-import java.util.ArrayList;
-import java.util.List;
-
-
 public class RequestHelper {
 
-
-    public static String request(String url, String method, Map<String, String> headerMap)
-        throws ClientProtocolException {
-        if (method == null) {
-            return "method is null";
-        }
-        if (!url.startsWith("http://") && !url.startsWith("https://")) {
-            url = "http://" + url;
-        }
-
-        switch (method.toUpperCase()) {
-            case "GET":
-                return get(url, headerMap);
-            case "POST":
-                return post(url, headerMap);
-            case "PUT":
-                return put(url, headerMap);
-            case "DELETE":
-                return delete(url, headerMap);
-            default:
-                return "not supported method : " + method + ".";
-        }
-
+  public static String request(String url, String method, Map<String, String> headerMap)
+    throws ClientProtocolException {
+    if (method == null) {
+      return "method is null";
+    }
+    if (!url.startsWith("http://") && !url.startsWith("https://")) {
+      url = "http://" + url;
     }
 
-    public static String get(String url, Map<String, String> headerMap) {
-        CloseableHttpResponse response = null;
-        CloseableHttpClient httpClient = createHttpsClient();
-        HttpGet httpMethod = new HttpGet(completed(url));
-        String result = null;
-        try {
+    switch (method.toUpperCase()) {
+      case "GET":
+        return get(url, headerMap);
+      case "POST":
+        return post(url, headerMap);
+      case "PUT":
+        return put(url, headerMap);
+      case "DELETE":
+        return delete(url, headerMap);
+      default:
+        return "not supported method : " + method + ".";
+    }
+  }
 
-            if (headerMap != null && headerMap.size() > 0) {
-                headerMap.forEach(httpMethod::addHeader);
-            }
+  public static String get(String url, Map<String, String> headerMap) {
+    CloseableHttpResponse response = null;
+    CloseableHttpClient httpClient = createHttpsClient();
+    HttpGet httpMethod = new HttpGet(completed(url));
+    String result = null;
+    try {
+      if (headerMap != null && headerMap.size() > 0) {
+        headerMap.forEach(httpMethod::addHeader);
+      }
 
-            response = httpClient.execute(httpMethod);
-            HttpEntity entity = response.getEntity();
-            result = toString(entity);
-        } catch (IOException e) {
-            result = "There was an error accessing to URL: " + url + "\n\n" + e.toString();
-            e.printStackTrace();
-        } finally {
-            release(response, httpClient);
-        }
-
-        return result;
+      response = httpClient.execute(httpMethod);
+      HttpEntity entity = response.getEntity();
+      result = toString(entity);
+    } catch (IOException e) {
+      result = "There was an error accessing to URL: " + url + "\n\n" + e.toString();
+      e.printStackTrace();
+    } finally {
+      release(response, httpClient);
     }
 
-    public static String post(String url, Map<String, String> headerMap) {
-        List<BasicNameValuePair> params = new ArrayList<>();
+    return result;
+  }
 
-        String result = null;
+  public static String post(String url, Map<String, String> headerMap) {
+    List<BasicNameValuePair> params = new ArrayList<>();
 
-        CloseableHttpResponse response = null;
-        CloseableHttpClient httpClient = createHttpsClient();
-        try {
+    String result = null;
 
-            HttpEntity httpEntity;
-            httpEntity = new UrlEncodedFormEntity(params, StandardCharsets.UTF_8);
-            HttpPost httpMethod = new HttpPost(completed(url));
+    CloseableHttpResponse response = null;
+    CloseableHttpClient httpClient = createHttpsClient();
+    try {
+      HttpEntity httpEntity;
+      httpEntity = new UrlEncodedFormEntity(params, StandardCharsets.UTF_8);
+      HttpPost httpMethod = new HttpPost(completed(url));
 
-            if (headerMap != null && headerMap.size() > 0) {
-                headerMap.forEach(httpMethod::addHeader);
-            }
+      if (headerMap != null && headerMap.size() > 0) {
+        headerMap.forEach(httpMethod::addHeader);
+      }
 
-            httpMethod.setEntity(httpEntity);
+      httpMethod.setEntity(httpEntity);
 
-            response = httpClient.execute(httpMethod);
+      response = httpClient.execute(httpMethod);
 
-            HttpEntity entity = response.getEntity();
-            result = toString(entity);
-        } catch (IOException e) {
-            result = "There was an error accessing to URL: " + url + "\n\n" + e.toString();
-            e.printStackTrace();
-        } finally {
-            release(response, httpClient);
-        }
-
-        return result;
+      HttpEntity entity = response.getEntity();
+      result = toString(entity);
+    } catch (IOException e) {
+      result = "There was an error accessing to URL: " + url + "\n\n" + e.toString();
+      e.printStackTrace();
+    } finally {
+      release(response, httpClient);
     }
 
+    return result;
+  }
 
-    public static String put(String url, Map<String, String> headerMap) throws ClientProtocolException {
-        String result;
+  public static String put(String url, Map<String, String> headerMap)
+    throws ClientProtocolException {
+    String result;
 
-        CloseableHttpResponse response = null;
-        CloseableHttpClient httpClient = createHttpsClient();
-        try {
-            HttpPut httpMethod = new HttpPut(completed(url));
+    CloseableHttpResponse response = null;
+    CloseableHttpClient httpClient = createHttpsClient();
+    try {
+      HttpPut httpMethod = new HttpPut(completed(url));
 
-            if (headerMap != null && headerMap.size() > 0) {
-                headerMap.forEach(httpMethod::addHeader);
-            }
+      if (headerMap != null && headerMap.size() > 0) {
+        headerMap.forEach(httpMethod::addHeader);
+      }
 
-            response = httpClient.execute(httpMethod);
+      response = httpClient.execute(httpMethod);
 
-            HttpEntity entity = response.getEntity();
-            result = toString(entity);
-            // System.out.println(response.getStatusLine().getStatusCode());
-        } catch (IOException e) {
-            result = "There was an error accessing to URL: " + url + "\n\n" + e.toString();
-            e.printStackTrace();
-        } finally {
-            release(response, httpClient);
-        }
-
-        return result;
+      HttpEntity entity = response.getEntity();
+      result = toString(entity);
+      // System.out.println(response.getStatusLine().getStatusCode());
+    } catch (IOException e) {
+      result = "There was an error accessing to URL: " + url + "\n\n" + e.toString();
+      e.printStackTrace();
+    } finally {
+      release(response, httpClient);
     }
 
+    return result;
+  }
 
-    public static String delete(String url, Map<String, String> headerMap) throws ClientProtocolException {
-        if (!url.startsWith("http://") && !url.startsWith("https://")) {
-            url = "http://" + url;
-        }
-
-        String result;
-
-        CloseableHttpResponse response = null;
-        CloseableHttpClient httpClient = createHttpsClient();
-        try {
-            HttpDelete httpMethod = new HttpDelete(url);
-
-            if (headerMap != null && headerMap.size() > 0) {
-                headerMap.forEach(httpMethod::addHeader);
-            }
-
-            response = httpClient.execute(httpMethod);
-
-            HttpEntity entity = response.getEntity();
-            result = toString(entity);
-        } catch (IOException e) {
-            result = "There was an error accessing to URL: " + url + "\n\n" + e.toString();
-            e.printStackTrace();
-        } finally {
-            release(response, httpClient);
-        }
-
-        return result;
+  public static String delete(String url, Map<String, String> headerMap)
+    throws ClientProtocolException {
+    if (!url.startsWith("http://") && !url.startsWith("https://")) {
+      url = "http://" + url;
     }
 
+    String result;
 
-    public static String postRequestBodyWithJson(String url, String json) {
-        return postRequestBodyWithJson(url, json, new LinkedHashMap<>());
+    CloseableHttpResponse response = null;
+    CloseableHttpClient httpClient = createHttpsClient();
+    try {
+      HttpDelete httpMethod = new HttpDelete(url);
+
+      if (headerMap != null && headerMap.size() > 0) {
+        headerMap.forEach(httpMethod::addHeader);
+      }
+
+      response = httpClient.execute(httpMethod);
+
+      HttpEntity entity = response.getEntity();
+      result = toString(entity);
+    } catch (IOException e) {
+      result = "There was an error accessing to URL: " + url + "\n\n" + e.toString();
+      e.printStackTrace();
+    } finally {
+      release(response, httpClient);
     }
 
-    public static String postRequestBodyWithJson(String url, String json, Map<String, String> headerMap) {
+    return result;
+  }
 
-        CloseableHttpResponse response = null;
-        CloseableHttpClient httpClient = createHttpsClient();
+  public static String postRequestBodyWithJson(String url, String json) {
+    return postRequestBodyWithJson(url, json, new LinkedHashMap<>());
+  }
 
-        HttpPost postMethod = new HttpPost(completed(url));
+  public static String postRequestBodyWithJson(
+    String url,
+    String json,
+    Map<String, String> headerMap
+  ) {
+    CloseableHttpResponse response = null;
+    CloseableHttpClient httpClient = createHttpsClient();
 
-        String result = null;
-        try {
-            StringEntity httpEntity = new StringEntity(json);
+    HttpPost postMethod = new HttpPost(completed(url));
 
-            httpEntity.setContentType("application/json");
-            httpEntity.setContentEncoding("UTF-8");
+    String result = null;
+    try {
+      StringEntity httpEntity = new StringEntity(json);
 
-            if (headerMap != null && headerMap.size() > 0) {
-                headerMap.forEach(postMethod::addHeader);
-            }
+      httpEntity.setContentType("application/json");
+      httpEntity.setContentEncoding("UTF-8");
 
-            postMethod.addHeader("Content-type", "application/json; charset=utf-8");
-            postMethod.setHeader("Accept", "application/json");
+      if (headerMap != null && headerMap.size() > 0) {
+        headerMap.forEach(postMethod::addHeader);
+      }
 
-//            postMethod.setEntity(new StringEntity(parameters, Charset.forName("UTF-8")));
-            postMethod.setEntity(httpEntity);
+      postMethod.addHeader("Content-type", "application/json; charset=utf-8");
+      postMethod.setHeader("Accept", "application/json");
 
-            response = httpClient.execute(postMethod);
-            result = toString(response.getEntity());
+      //            postMethod.setEntity(new StringEntity(parameters, Charset.forName("UTF-8")));
+      postMethod.setEntity(httpEntity);
 
-        } catch (IOException e) {
-            result = "There was an error accessing to URL: " + url + "\n\n" + e.toString();
-        } finally {
-            release(response, httpClient);
-        }
-
-        return result;
+      response = httpClient.execute(postMethod);
+      result = toString(response.getEntity());
+    } catch (IOException e) {
+      result = "There was an error accessing to URL: " + url + "\n\n" + e.toString();
+    } finally {
+      release(response, httpClient);
     }
 
-    private static void release(CloseableHttpResponse response, CloseableHttpClient httpClient) {
-        if (response != null) {
-            try {
-                response.close();
-            } catch (IOException ignored) {
-            }
-        }
-        if (httpClient != null) {
-            try {
-                httpClient.close();
-            } catch (IOException ignored) {
-            }
-        }
+    return result;
+  }
+
+  private static void release(
+    CloseableHttpResponse response,
+    CloseableHttpClient httpClient
+  ) {
+    if (response != null) {
+      try {
+        response.close();
+      } catch (IOException ignored) {}
+    }
+    if (httpClient != null) {
+      try {
+        httpClient.close();
+      } catch (IOException ignored) {}
+    }
+  }
+
+  private static String completed(String url) {
+    if (!url.startsWith("http://") && !url.startsWith("https://")) {
+      url = "http://" + url;
+    }
+    return url;
+  }
+
+  @NotNull
+  private static String toString(HttpEntity entity) {
+    String result = null;
+    try {
+      result = EntityUtils.toString(entity, StandardCharsets.UTF_8);
+    } catch (IOException e) {
+      e.printStackTrace();
     }
 
-    private static String completed(String url) {
-        if (!url.startsWith("http://") && !url.startsWith("https://")) {
-            url = "http://" + url;
-        }
-        return url;
+    if (result != null && JsonUtils.isValidJson(result)) {
+      return JsonUtils.format(result);
     }
 
-    @NotNull
-    private static String toString(HttpEntity entity) {
-        String result = null;
-        try {
-            result = EntityUtils.toString(entity, StandardCharsets.UTF_8);
+    return "";
+  }
 
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+  public static CloseableHttpClient createHttpsClient() {
+    try {
+      SSLContextBuilder builder = new SSLContextBuilder();
+      builder.loadTrustMaterial(null, new TrustSelfSignedStrategy());
 
-        if (result != null && JsonUtils.isValidJson(result)) {
-            return JsonUtils.format(result);
-        }
+      SSLConnectionSocketFactory sslcsf = new SSLConnectionSocketFactory(
+        builder.build(),
+        SSLConnectionSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER
+      );
 
-        return "";
+      Registry<ConnectionSocketFactory> registry = RegistryBuilder
+        .<ConnectionSocketFactory>create()
+        .register("http", new PlainConnectionSocketFactory())
+        .register("https", sslcsf)
+        .build();
+      PoolingHttpClientConnectionManager cm = new PoolingHttpClientConnectionManager(
+        registry
+      );
+      cm.setMaxTotal(2000);
+
+      CloseableHttpClient httpClient = HttpClients
+        .custom()
+        .setSSLSocketFactory(sslcsf)
+        .setConnectionManager(cm)
+        .build();
+      return httpClient;
+    } catch (Exception e) {
+      throw new RuntimeException(e);
     }
-
-
-    public static CloseableHttpClient createHttpsClient() {
-        try {
-            SSLContextBuilder builder = new SSLContextBuilder();
-            builder.loadTrustMaterial(null, new TrustSelfSignedStrategy());
-
-            SSLConnectionSocketFactory sslcsf = new SSLConnectionSocketFactory(
-                builder.build(), SSLConnectionSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER);
-
-            Registry<ConnectionSocketFactory> registry = RegistryBuilder.
-                <ConnectionSocketFactory>create()
-                .register("http", new PlainConnectionSocketFactory())
-                .register("https", sslcsf)
-                .build();
-            PoolingHttpClientConnectionManager cm = new PoolingHttpClientConnectionManager(registry);
-            cm.setMaxTotal(2000);
-
-            CloseableHttpClient httpClient = HttpClients.custom()
-                .setSSLSocketFactory(sslcsf)
-                .setConnectionManager(cm)
-                .build();
-            return httpClient;
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-
-    }
-
-
+  }
 }

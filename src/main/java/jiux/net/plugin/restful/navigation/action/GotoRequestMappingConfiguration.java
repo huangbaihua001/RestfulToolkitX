@@ -13,20 +13,25 @@ import jiux.net.plugin.restful.method.HttpMethod;
  *
  * @author zhaow
  */
-@State(name = "GotoRequestMappingConfiguration", storages = @Storage(StoragePathMacros.WORKSPACE_FILE))
-class GotoRequestMappingConfiguration extends ChooseByNameFilterConfiguration<HttpMethod> {
-    /**
-     * Get configuration instance
-     *
-     * @param project a project instance
-     * @return a configuration instance
-     */
-    public static GotoRequestMappingConfiguration getInstance(Project project) {
-        return ServiceManager.getService(project, GotoRequestMappingConfiguration.class);
-    }
+@State(
+  name = "GotoRequestMappingConfiguration",
+  storages = @Storage(StoragePathMacros.WORKSPACE_FILE)
+)
+class GotoRequestMappingConfiguration
+  extends ChooseByNameFilterConfiguration<HttpMethod> {
 
-    @Override
-    protected String nameForElement(HttpMethod type) {
-        return type.name();
-    }
+  /**
+   * Get configuration instance
+   *
+   * @param project a project instance
+   * @return a configuration instance
+   */
+  public static GotoRequestMappingConfiguration getInstance(Project project) {
+    return ServiceManager.getService(project, GotoRequestMappingConfiguration.class);
+  }
+
+  @Override
+  protected String nameForElement(HttpMethod type) {
+    return type.name();
+  }
 }

@@ -8,5 +8,5 @@ import org.jdom.Element;
 
 public class RestServicesRequestState {
 
-    public Map<String, Map<String, String>> restReqMap = new LinkedHashMap<>();
+  public Map<String, Map<String, String>> restReqMap = new LinkedHashMap<>();
 }

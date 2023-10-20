@@ -12,27 +12,30 @@ import jiux.net.plugin.restful.navigator.RestServicesNavigator;
  */
 
 public class MyToolWindowListener implements ToolWindowManagerListener {
-    private final Project project;
 
-    public MyToolWindowListener(Project project) {
-        this.project = project;
+  private final Project project;
+
+  public MyToolWindowListener(Project project) {
+    this.project = project;
+  }
+
+  @Override
+  public void stateChanged(ToolWindowManager toolWindowManager) {
+    ToolWindow toolWindow = toolWindowManager.getToolWindow(
+      RestServicesNavigator.TOOL_WINDOW_ID
+    );
+    if (toolWindow == null) {
+      return;
     }
 
-    @Override
-    public void stateChanged(ToolWindowManager toolWindowManager) {
-        ToolWindow toolWindow = toolWindowManager.getToolWindow(RestServicesNavigator.TOOL_WINDOW_ID);
-        if (toolWindow == null) {
-            return ;
-        }
-
-        if (toolWindow.isDisposed()) {
-            return;
-        }
-        boolean visible = toolWindow.isVisible();
-        if (!visible) {
-            return;
-        }
-        RestServicesNavigator servicesNavigator = RestServicesNavigator.getInstance(project);
-        servicesNavigator.scheduleStructureUpdate();
+    if (toolWindow.isDisposed()) {
+      return;
     }
+    boolean visible = toolWindow.isVisible();
+    if (!visible) {
+      return;
+    }
+    RestServicesNavigator servicesNavigator = RestServicesNavigator.getInstance(project);
+    servicesNavigator.scheduleStructureUpdate();
+  }
 }
