@@ -43,4 +43,12 @@ public class RequestPath {
     this.path = classUri.concat(methodUri);
     //        method
   }
+
+  @Override
+  public String toString() {
+    return "RequestPath{" +
+      "path='" + path + '\'' +
+      ", method='" + method + '\'' +
+      '}';
+  }
 }

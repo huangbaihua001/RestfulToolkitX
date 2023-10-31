@@ -49,6 +49,7 @@ public class JakartaResolver extends BaseServiceResolver {
       PsiMethod[] psiMethods = psiClass.getMethods();
 
       String classUriPath = JakartaAnnotationHelper.getClassUriPath(psiClass);
+      System.out.println("classUriPath->" + classUriPath);
 
       for (PsiMethod psiMethod : psiMethods) {
         RequestPath[] methodUriPaths = JakartaAnnotationHelper.getRequestPaths(psiMethod);

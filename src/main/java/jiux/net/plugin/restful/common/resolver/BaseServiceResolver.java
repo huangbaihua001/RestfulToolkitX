@@ -1,5 +1,6 @@
 package jiux.net.plugin.restful.common.resolver;
 
+import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.module.Module;
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiElement;
@@ -12,6 +13,7 @@ import org.jetbrains.annotations.NotNull;
 
 public abstract class BaseServiceResolver implements ServiceResolver {
 
+  public static final Logger LOG = Logger.getInstance(BaseServiceResolver.class);
   Module myModule;
   Project myProject;
 
@@ -58,7 +60,6 @@ public abstract class BaseServiceResolver implements ServiceResolver {
     return createRestServiceItem(psiMethod, classUriPath, requestMapping, true);
   }
 
-
   @NotNull
   protected RestServiceItem createRestServiceItem(
     PsiElement psiMethod,
@@ -66,6 +67,11 @@ public abstract class BaseServiceResolver implements ServiceResolver {
     RequestPath requestMapping,
     Boolean isUrlWithoutReqMethod
   ) {
+    System.out.printf("psiMethod:%s,classUriPath:%s,requestMapping:%s,isUrlWithoutReqMethod:%s%n",
+    psiMethod,
+    classUriPath,
+    requestMapping,
+    isUrlWithoutReqMethod);
     if (!classUriPath.startsWith("/")) {
       classUriPath = "/".concat(classUriPath);
     }
@@ -78,7 +84,7 @@ public abstract class BaseServiceResolver implements ServiceResolver {
     if (methodPath.startsWith("/")) {
       methodPath = methodPath.substring(1);
     }
-    String requestPath = classUriPath + (isUrlWithoutReqMethod ? methodPath : "");
+    String requestPath = classUriPath + methodPath;
 
     RestServiceItem item = new RestServiceItem(
       psiMethod,
