@@ -3,6 +3,12 @@
 # RestfulToolkitX Changelog
 ## [Unreleased]
 
+## [2.1.7] - 2023-10-31
+### Added
+- 支持 jakarta ws [#110](https://github.com/huangbaihua001/RestfulToolkitX/issues/110)
+- Supports jakarta ws [#110](https://github.com/huangbaihua001/RestfulToolkitX/issues/110)
+
+
 ## [2.1.6] - 2023-09-17
 ### Fixed
 - 修复插件报 "failed to save settings" 的问题
