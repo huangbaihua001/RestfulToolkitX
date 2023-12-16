@@ -12,7 +12,7 @@ import jiux.net.plugin.restful.navigator.RestServiceProject;
  * @author baihua.huang
  */
 @Service(Service.Level.PROJECT)
-public class ProjectInitService implements Disposable {
+public final class ProjectInitService implements Disposable {
 
   private final Project myProject;
 

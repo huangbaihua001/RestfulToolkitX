@@ -3,6 +3,11 @@
 # RestfulToolkitX Changelog
 ## [Unreleased]
 
+## [2.1.8] - 2023-12-16
+### Added
+- 兼容 IDEA 2023.3
+- Compatible with IDEA 2023.3
+
 ## [2.1.7] - 2023-10-31
 ### Added
 - 支持 jakarta ws [#110](https://github.com/huangbaihua001/RestfulToolkitX/issues/110)

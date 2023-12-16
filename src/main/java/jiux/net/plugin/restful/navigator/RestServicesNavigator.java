@@ -38,7 +38,7 @@ import org.jetbrains.annotations.Nullable;
   name = "RestServicesNavigator",
   storages = { @Storage(StoragePathMacros.WORKSPACE_FILE) }
 )
-public class RestServicesNavigator
+public final class RestServicesNavigator
   implements PersistentStateComponent<RestServicesNavigatorState> {
 
   public static final Logger LOG = Logger.getInstance(RestServicesNavigator.class);
