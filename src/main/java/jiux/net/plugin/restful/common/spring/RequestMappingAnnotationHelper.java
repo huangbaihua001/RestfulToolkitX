@@ -1,15 +1,17 @@
 package jiux.net.plugin.restful.common.spring;
 
 import com.intellij.psi.*;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
 import jiux.net.plugin.restful.annotations.SpringRequestMethodAnnotation;
 import jiux.net.plugin.restful.common.PsiAnnotationHelper;
 import jiux.net.plugin.restful.common.RestSupportedAnnotationHelper;
 import jiux.net.plugin.restful.method.RequestPath;
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class RequestMappingAnnotationHelper implements RestSupportedAnnotationHelper {
 
@@ -20,49 +22,43 @@ public class RequestMappingAnnotationHelper implements RestSupportedAnnotationHe
    * @return
    */
   public static List<RequestPath> getRequestPaths(PsiClass psiClass) {
-    PsiAnnotation[] annotations = psiClass.getModifierList().getAnnotations();
-    if (annotations == null) {
-      return null;
-    }
+    PsiAnnotation[] annotations = psiClass.getAnnotations();
 
     PsiAnnotation requestMappingAnnotation = null;
     List<RequestPath> list = new ArrayList<>();
     for (PsiAnnotation annotation : annotations) {
-      for (SpringRequestMethodAnnotation mappingAnnotation : SpringRequestMethodAnnotation.values()) {
-        if (annotation.getQualifiedName().equals(mappingAnnotation.getQualifiedName())) {
-          requestMappingAnnotation = annotation;
-        }
+      if (SpringRequestMethodAnnotation.isNotRequestMapping(annotation.getQualifiedName())) {
+        continue;
       }
+
+      requestMappingAnnotation = annotation;
     }
 
     if (requestMappingAnnotation != null) {
-      List<RequestPath> requestMappings = getRequestMappings(
-        requestMappingAnnotation,
-        ""
-      );
+      List<RequestPath> requestMappings = getRequestMappings(requestMappingAnnotation, "");
       if (requestMappings.size() > 0) {
         list.addAll(requestMappings);
       }
     } else {
-      // TODO : Inheritance RequestMapping
-      PsiClass superClass = psiClass.getSuperClass();
-      if (
-        superClass != null && !superClass.getQualifiedName().equals("java.lang.Object")
-      ) {
+      PsiClass[] superClassArray = psiClass.getSupers();
+      for (PsiClass superClass : superClassArray) {
+        if (superClass == null || "java.lang.Object".equals(superClass.getQualifiedName())) {
+          continue;
+        }
+
         list = getRequestPaths(superClass);
-      } else {
+      }
+
+      if (list == null || list.isEmpty()) {
+        list = new ArrayList<>(1);
         list.add(new RequestPath("/", null));
       }
     }
-
     return list;
   }
 
   public static String[] getRequestMappingValues(PsiClass psiClass) {
-    PsiAnnotation[] annotations = psiClass.getModifierList().getAnnotations();
-    if (annotations == null) {
-      return null;
-    }
+    PsiAnnotation[] annotations = psiClass.getAnnotations();
 
     for (PsiAnnotation annotation : annotations) {
       if (
@@ -135,22 +131,26 @@ public class RequestMappingAnnotationHelper implements RestSupportedAnnotationHe
   }
 
   public static RequestPath[] getRequestPaths(PsiMethod psiMethod) {
-    PsiAnnotation[] annotations = psiMethod.getModifierList().getAnnotations();
+    List<PsiAnnotation> annotationList = Arrays.stream(psiMethod.getAnnotations()).collect(Collectors.toList());
+
+    PsiMethod[] parentMethods = psiMethod.findDeepestSuperMethods();
+    for (PsiMethod parent : parentMethods) {
+      PsiAnnotation[] annotations = parent.getAnnotations();
+      annotationList.addAll(Arrays.stream(annotations).collect(Collectors.toList()));
+    }
 
     List<RequestPath> list = new ArrayList<>();
 
-    for (PsiAnnotation annotation : annotations) {
-      for (SpringRequestMethodAnnotation mappingAnnotation : SpringRequestMethodAnnotation.values()) {
-        if (mappingAnnotation.getQualifiedName().equals(annotation.getQualifiedName())) {
-          String defaultValue = "/";
-          List<RequestPath> requestMappings = getRequestMappings(
-            annotation,
-            defaultValue
-          );
-          if (requestMappings.size() > 0) {
-            list.addAll(requestMappings);
-          }
-        }
+    for (PsiAnnotation annotation : annotationList) {
+      if (annotation == null || SpringRequestMethodAnnotation.isNotRequestMapping(annotation.getQualifiedName())) {
+        continue;
+      }
+
+      String defaultValue = "/";
+      List<RequestPath> requestMappings = getRequestMappings(annotation,defaultValue);
+
+      if (CollectionUtils.isNotEmpty(requestMappings)) {
+        list.addAll(requestMappings);
       }
     }
 
@@ -181,7 +181,6 @@ public class RequestMappingAnnotationHelper implements RestSupportedAnnotationHe
       PsiAnnotationMemberValue[] initializers =
         ((PsiArrayInitializerMemberValue) attributeValue).getInitializers();
       values = new String[initializers.length];
-      for (PsiAnnotationMemberValue initializer : initializers) {}
       for (int i = 0; i < initializers.length; i++) {
         values[i] = ((PsiLiteralExpression) (initializers[i])).getValue().toString();
       }
