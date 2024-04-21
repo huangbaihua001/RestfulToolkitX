@@ -2,7 +2,9 @@ package jiux.net.plugin.restful.navigation.action;
 
 import com.intellij.navigation.ItemPresentation;
 import com.intellij.navigation.NavigationItem;
+import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.module.Module;
+import com.intellij.openapi.util.Computable;
 import com.intellij.pom.Navigatable;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiMethod;
@@ -152,44 +154,62 @@ public class RestServiceItem implements NavigationItem {
     @Nullable
     @Override
     public String getLocationString() {
-      String fileName = psiElement.getContainingFile().getName();
 
-      String location = null;
-
-      if (psiElement instanceof PsiMethod) {
-        PsiMethod psiMethod = ((PsiMethod) psiElement);
-        if (module != null) {
-          location =
-            module.getName() +
-            "#" +
-            psiMethod
-              .getContainingClass()
-              .getName()
-              .concat("#")
-              .concat(psiMethod.getName());
-        } else {
-          location =
-            psiMethod
-              .getContainingClass()
-              .getName()
-              .concat("#")
-              .concat(psiMethod.getName());
+      //======================================================================================
+      // 2023.3 Threading Model Changes
+      // https://plugins.jetbrains.com/docs/intellij/general-threading-rules.html#-9rmqiu_24
+     return ApplicationManager.getApplication()
+         .runWriteAction(new Computable<String>() {
+       String location = null;
+        @Override
+        public String compute() {
+          //DO NOTHING.
+          return null;
         }
-      } else if (psiElement instanceof KtNamedFunction) {
-        KtNamedFunction ktNamedFunction =
-          (KtNamedFunction) RestServiceItem.this.psiElement;
-        String className = ((KtClass) psiElement.getParent().getParent()).getName();
-        if (module != null) {
-          location =
-            module.getName() +
-            "#" +
-            className.concat("#").concat(ktNamedFunction.getName());
-        } else {
-          location = className.concat("#").concat(ktNamedFunction.getName());
-        }
-      }
 
-      return "(" + location + ")";
+        @Override
+        public String get() {
+          String fileName = psiElement.getContainingFile().getName();
+          if (psiElement instanceof PsiMethod) {
+            PsiMethod psiMethod = ((PsiMethod) psiElement);
+            if (module != null) {
+              location =
+                  module.getName() +
+                      "#" +
+                      psiMethod
+                          .getContainingClass()
+                          .getName()
+                          .concat("#")
+                          .concat(psiMethod.getName());
+            } else {
+              location =
+                  psiMethod
+                      .getContainingClass()
+                      .getName()
+                      .concat("#")
+                      .concat(psiMethod.getName());
+            }
+          } else if (psiElement instanceof KtNamedFunction) {
+            KtNamedFunction ktNamedFunction =
+                (KtNamedFunction) RestServiceItem.this.psiElement;
+            String className = ((KtClass) psiElement.getParent().getParent()).getName();
+            if (module != null) {
+              location =
+                  module.getName() +
+                      "#" +
+                      className.concat("#").concat(ktNamedFunction.getName());
+            } else {
+              location = className.concat("#").concat(ktNamedFunction.getName());
+            }
+          }
+
+          return "(" + location + ")";
+
+        }
+      });
+      //===========================================================
+
+
     }
 
     @Nullable

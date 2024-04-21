@@ -3,6 +3,11 @@
 # RestfulToolkitX Changelog
 ## [Unreleased]
 
+## [2.1.9] - 2024-04-21
+### Added
+- 兼容 2023.3 线程模型变更
+- Compatible with 2023.3 Threading Model Changes
+- 
 ## [2.1.8] - 2023-12-16
 ### Added
 - 兼容 IDEA 2023.3

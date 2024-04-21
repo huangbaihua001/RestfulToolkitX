@@ -1,6 +1,7 @@
 package jiux.net.plugin.restful.navigator;
 
 import com.intellij.ide.util.treeView.TreeState;
+import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.components.PersistentStateComponent;
 import com.intellij.openapi.components.Service;
 import com.intellij.openapi.components.ServiceManager;
@@ -177,7 +178,18 @@ public final class RestServicesNavigator
     if (myStructure != null) {
       try {
         myState.treeState = new Element("root");
-        TreeState.createOn(myTree).writeExternal(myState.treeState);
+
+        //======================================================================================
+        // 2023.3 Threading Model Changes
+        // https://plugins.jetbrains.com/docs/intellij/general-threading-rules.html#-9rmqiu_24
+        ApplicationManager.getApplication().invokeLater(new Runnable() {
+          @Override
+          public void run() {
+            TreeState.createOn(myTree).writeExternal(myState.treeState);
+          }
+        });
+        //======================================================================================
+
       } catch (WriteExternalException e) {
         LOG.warn(e);
       }
