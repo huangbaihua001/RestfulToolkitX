@@ -1,7 +1,7 @@
 package jiux.net.plugin.restful.method.action;
 
 import com.intellij.openapi.module.Module;
-import org.apache.commons.lang.StringUtils;
+import jiux.net.plugin.restful.common.spring.StringUtils;
 import org.jetbrains.annotations.NotNull;
 
 //PathAndQuery  AbsolutePath AbsoluteUri Query

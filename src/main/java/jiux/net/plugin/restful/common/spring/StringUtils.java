@@ -29,9 +29,8 @@ import java.util.StringTokenizer;
  * for a more comprehensive suite of {@code String} utilities.
  *
  * <p>This class delivers some simple functionality that should really be
- * provided by the core Java {@link String} and {@link StringBuilder}
- * classes. It also provides easy-to-use methods to convert between
- * delimited strings, such as CSV strings, and collections and arrays.
+ * provided by the core Java {@link String} and {@link StringBuilder} classes. It also provides easy-to-use methods to
+ * convert between delimited strings, such as CSV strings, and collections and arrays.
  *
  * @author Rod Johnson
  * @author Juergen Hoeller
@@ -46,8 +45,7 @@ import java.util.StringTokenizer;
 public abstract class StringUtils {
 
   /**
-   * Check that the given {@code CharSequence} is neither {@code null} nor
-   * of length 0.
+   * Check that the given {@code CharSequence} is neither {@code null} nor of length 0.
    * <p>Note: this method returns {@code true} for a {@code CharSequence}
    * that purely consists of whitespace.
    * <p><pre class="code">
@@ -70,8 +68,7 @@ public abstract class StringUtils {
    * <p>The {@code Collection} must contain {@code String} elements only.
    *
    * @param collection the {@code Collection} to copy
-   * @return the {@code String} array ({@code null} if the supplied
-   * {@code Collection} was {@code null})
+   * @return the {@code String} array ({@code null} if the supplied {@code Collection} was {@code null})
    */
   public static String[] toStringArray(Collection<String> collection) {
     if (collection == null) {
@@ -82,31 +79,28 @@ public abstract class StringUtils {
   }
 
   /**
-   * Tokenize the given {@code String} into a {@code String} array via a
-   * {@link StringTokenizer}.
+   * Tokenize the given {@code String} into a {@code String} array via a {@link StringTokenizer}.
    * <p>The given {@code delimiters} string can consist of any number of
-   * delimiter characters. Each of those characters can be used to separate
-   * tokens. A delimiter is always a single character; for multi-character
-   * delimiters, consider using {@link #delimitedListToStringArray}.
+   * delimiter characters. Each of those characters can be used to separate tokens. A delimiter is always a single
+   * character; for multi-character delimiters, consider using {@link #delimitedListToStringArray}.
    *
    * @param str               the {@code String} to tokenize
-   * @param delimiters        the delimiter characters, assembled as a {@code String}
-   *                          (each of the characters is individually considered as a delimiter)
+   * @param delimiters        the delimiter characters, assembled as a {@code String} (each of the characters is
+   *                          individually considered as a delimiter)
    * @param trimTokens        trim the tokens via {@link String#trim()}
-   * @param ignoreEmptyTokens omit empty tokens from the result array
-   *                          (only applies to tokens that are empty after trimming; StringTokenizer
-   *                          will not consider subsequent delimiters as token in the first place).
-   * @return an array of the tokens ({@code null} if the input {@code String}
-   * was {@code null})
+   * @param ignoreEmptyTokens omit empty tokens from the result array (only applies to tokens that are empty after
+   *                          trimming; StringTokenizer will not consider subsequent delimiters as token in the first
+   *                          place).
+   * @return an array of the tokens ({@code null} if the input {@code String} was {@code null})
    * @see StringTokenizer
    * @see String#trim()
    * @see #delimitedListToStringArray
    */
   public static String[] tokenizeToStringArray(
-    String str,
-    String delimiters,
-    boolean trimTokens,
-    boolean ignoreEmptyTokens
+      String str,
+      String delimiters,
+      boolean trimTokens,
+      boolean ignoreEmptyTokens
   ) {
     if (str == null) {
       return null;
@@ -124,5 +118,21 @@ public abstract class StringUtils {
       }
     }
     return toStringArray(tokens);
+  }
+
+
+  public static boolean isEmpty(String str) {
+    return str == null || str.isEmpty();
+  }
+
+  public static String uncapitalize(String str) {
+    if (str == null || str.isEmpty()) {
+      return str;
+    }
+    return Character.toLowerCase(str.charAt(0)) + str.substring(1);
+  }
+
+  public static boolean isNotBlank(String str) {
+    return str != null && !str.trim().isEmpty();
   }
 }

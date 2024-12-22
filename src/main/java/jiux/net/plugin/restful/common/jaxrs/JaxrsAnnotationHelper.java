@@ -11,8 +11,8 @@ import java.util.stream.Collectors;
 import jiux.net.plugin.restful.annotations.JaxrsHttpMethodAnnotation;
 import jiux.net.plugin.restful.annotations.JaxrsPathAnnotation;
 import jiux.net.plugin.restful.common.PsiAnnotationHelper;
+import jiux.net.plugin.restful.common.spring.StringUtils;
 import jiux.net.plugin.restful.method.RequestPath;
-import org.apache.commons.lang.StringUtils;
 
 public class JaxrsAnnotationHelper {
 

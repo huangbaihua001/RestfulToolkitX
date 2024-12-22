@@ -1,6 +1,11 @@
 package jiux.net.plugin.restful.common.spring;
 
-import com.intellij.psi.*;
+import com.intellij.psi.PsiAnnotation;
+import com.intellij.psi.PsiAnnotationMemberValue;
+import com.intellij.psi.PsiArrayInitializerMemberValue;
+import com.intellij.psi.PsiClass;
+import com.intellij.psi.PsiLiteralExpression;
+import com.intellij.psi.PsiMethod;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -9,7 +14,6 @@ import jiux.net.plugin.restful.annotations.SpringRequestMethodAnnotation;
 import jiux.net.plugin.restful.common.PsiAnnotationHelper;
 import jiux.net.plugin.restful.common.RestSupportedAnnotationHelper;
 import jiux.net.plugin.restful.method.RequestPath;
-import org.apache.commons.lang.StringUtils;
 
 public class RequestMappingAnnotationHelper implements RestSupportedAnnotationHelper {
 

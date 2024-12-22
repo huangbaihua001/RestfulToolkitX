@@ -6,8 +6,15 @@ import com.intellij.psi.search.FilenameIndex;
 import com.intellij.psi.search.GlobalSearchScope;
 import java.io.IOException;
 import java.io.StringReader;
-import java.util.*;
-import org.apache.commons.lang.StringUtils;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Properties;
+import jiux.net.plugin.restful.common.spring.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.yaml.snakeyaml.Yaml;
 
