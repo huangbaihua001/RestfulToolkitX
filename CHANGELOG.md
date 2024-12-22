@@ -3,6 +3,11 @@
 # RestfulToolkitX Changelog
 ## [Unreleased]
 
+## [2.1.10] - 2024-12-22
+### Updated
+- 兼容 2024.3+
+- Compatible with 2024.3+
+
 ## [2.1.9] - 2024-04-21
 ### Added
 - 兼容 2023.3 线程模型变更
