@@ -104,30 +104,40 @@ public final class RestServicesNavigator
   }
 
   public void initToolWindow() {
+
+
+
     final ToolWindowManagerEx manager = ToolWindowManagerEx.getInstanceEx(project);
-    myToolWindow = (ToolWindowEx) manager.getToolWindow(TOOL_WINDOW_ID);
-    if (myToolWindow != null) {
-      return;
-    }
 
-    initTree();
+    manager.invokeLater(() -> {
 
-    myToolWindow =
-      (ToolWindowEx) manager.registerToolWindow(
-        TOOL_WINDOW_ID,
-        false,
-        ToolWindowAnchor.RIGHT,
-        project,
-        true
-      );
-    myToolWindow.setIcon(ToolkitIcons.SERVICE);
+      myToolWindow = (ToolWindowEx) manager.getToolWindow(TOOL_WINDOW_ID);
+      if (myToolWindow != null) {
+        return;
+      }
 
-    final JPanel panel = new RestServicesNavigatorPanel(project, myTree);
-    final ContentFactory contentFactory = ServiceManager.getService(ContentFactory.class);
-    final Content content = contentFactory.createContent(panel, "", false);
-    ContentManager contentManager = myToolWindow.getContentManager();
-    contentManager.addContent(content);
-    contentManager.setSelectedContent(content, false);
+      initTree();
+
+      myToolWindow =
+          (ToolWindowEx) manager.registerToolWindow(
+              TOOL_WINDOW_ID,
+              false,
+              ToolWindowAnchor.RIGHT,
+              project,
+              true
+          );
+      myToolWindow.setIcon(ToolkitIcons.SERVICE);
+
+      final JPanel panel = new RestServicesNavigatorPanel(project, myTree);
+      final ContentFactory contentFactory = ServiceManager.getService(ContentFactory.class);
+      final Content content = contentFactory.createContent(panel, "", false);
+      ContentManager contentManager = myToolWindow.getContentManager();
+      contentManager.addContent(content);
+      contentManager.setSelectedContent(content, false);
+
+    });
+
+
   }
 
   public void scheduleStructureUpdate() {

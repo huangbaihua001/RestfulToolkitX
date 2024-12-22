@@ -2,10 +2,18 @@ package jiux.net.plugin.restful.common.resolver;
 
 import com.intellij.openapi.module.Module;
 import com.intellij.openapi.project.Project;
-import com.intellij.psi.*;
+import com.intellij.psi.PsiAnnotation;
+import com.intellij.psi.PsiClass;
+import com.intellij.psi.PsiElement;
+import com.intellij.psi.PsiMethod;
+import com.intellij.psi.PsiModifierList;
 import com.intellij.psi.impl.java.stubs.index.JavaAnnotationIndex;
 import com.intellij.psi.search.GlobalSearchScope;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+import java.util.Objects;
 import jiux.net.plugin.restful.annotations.PathMappingAnnotation;
 import jiux.net.plugin.restful.annotations.SpringControllerAnnotation;
 import jiux.net.plugin.restful.annotations.SpringRequestMethodAnnotation;
@@ -13,8 +21,17 @@ import jiux.net.plugin.restful.common.spring.RequestMappingAnnotationHelper;
 import jiux.net.plugin.restful.method.RequestPath;
 import jiux.net.plugin.restful.method.action.PropertiesHandler;
 import jiux.net.plugin.restful.navigation.action.RestServiceItem;
-import org.jetbrains.kotlin.idea.stubindex.KotlinAnnotationsIndex;
-import org.jetbrains.kotlin.psi.*;
+import org.jetbrains.kotlin.psi.KtAnnotationEntry;
+import org.jetbrains.kotlin.psi.KtCallExpression;
+import org.jetbrains.kotlin.psi.KtClass;
+import org.jetbrains.kotlin.psi.KtCollectionLiteralExpression;
+import org.jetbrains.kotlin.psi.KtDeclaration;
+import org.jetbrains.kotlin.psi.KtExpression;
+import org.jetbrains.kotlin.psi.KtModifierList;
+import org.jetbrains.kotlin.psi.KtNamedFunction;
+import org.jetbrains.kotlin.psi.KtValueArgument;
+import org.jetbrains.kotlin.psi.KtValueArgumentList;
+import org.jetbrains.kotlin.psi.KtValueArgumentName;
 
 public class SpringResolver extends BaseServiceResolver {
 
@@ -135,30 +152,34 @@ public class SpringResolver extends BaseServiceResolver {
         List<RestServiceItem> serviceItemList = getServiceItemList(psiClass);
         itemList.addAll(serviceItemList);
       }
+
       // kotlin:
-      Collection<KtAnnotationEntry> ktAnnotationEntries = KotlinAnnotationsIndex
-        .getInstance()
-        .get(controllerAnnotation.getShortName(), project, globalSearchScope);
-      for (KtAnnotationEntry ktAnnotationEntry : ktAnnotationEntries) {
-        KtClass ktClass = (KtClass) ktAnnotationEntry.getParent().getParent();
+//      Collection<KtAnnotationEntry> ktAnnotationEntries = KotlinAnnotationsIndex
+//        .getInstance()
+//        .get(controllerAnnotation.getShortName(), project, globalSearchScope);
+//      for (KtAnnotationEntry ktAnnotationEntry : ktAnnotationEntries) {
+//        KtClass ktClass = (KtClass) ktAnnotationEntry.getParent().getParent();
+//
+//        List<RequestPath> classRequestPaths = getRequestPaths(ktClass);
+//
+//        List<KtNamedFunction> ktNamedFunctions = getKtNamedFunctions(ktClass);
+//        for (KtNamedFunction fun : ktNamedFunctions) {
+//          List<RequestPath> requestPaths = getRequestPaths(fun);
+//
+//          for (RequestPath classRequestPath : classRequestPaths) {
+//            for (RequestPath requestPath : requestPaths) {
+//              requestPath.concat(classRequestPath);
+//              itemList.add(createRestServiceItem(fun, "", requestPath));
+//            }
+//          }
+//        }
+//      }
 
-        List<RequestPath> classRequestPaths = getRequestPaths(ktClass);
-
-        List<KtNamedFunction> ktNamedFunctions = getKtNamedFunctions(ktClass);
-        for (KtNamedFunction fun : ktNamedFunctions) {
-          List<RequestPath> requestPaths = getRequestPaths(fun);
-
-          for (RequestPath classRequestPath : classRequestPaths) {
-            for (RequestPath requestPath : requestPaths) {
-              requestPath.concat(classRequestPath);
-              itemList.add(createRestServiceItem(fun, "", requestPath));
-            }
-          }
-        }
-      }
     }
     return itemList;
   }
+
+
 
   protected List<RestServiceItem> getServiceItemList(PsiClass psiClass) {
     PsiMethod[] psiMethods = psiClass.getMethods();

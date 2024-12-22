@@ -18,7 +18,9 @@ public class ProjectOpenCloseListener implements ProjectManagerListener {
     RestServicesNavigator restServicesNavigator = RestServicesNavigator.getInstance(
       project
     );
+
     restServicesNavigator.listenForProjectsChanges();
+
     ToolkitUtil.runWhenInitialized(
       project,
       () -> {
